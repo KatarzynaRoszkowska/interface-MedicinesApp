@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">med</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="moja_apteka">MOJA APTEKA</string>
+    <string name="informacje_o_u_ytkowniku">Informacje o użytkowniku</string>
+    <string name="o_aplikacji">O aplikacji</string>
+    <string name="wersja_aplikacji_1_0">Wersja aplikacji: 1.0</string>
+    <string name="autorzy">Autorzy: \tRoszkowska Katarzyna \n\t\t\t\t\t\tZiółkowski Maciej</string>
+    <string name="infoAboutApp">\nAplikacja \'MedicinesApp\' stworzona w ramach projektu realizowanego z przedmiotu Programowaine Aplikacji Mobilnych.</string>
+</resources>
