@@ -1,10 +1,10 @@
 package pl.roszkowska.med;
 
+import android.content.Context;
 import android.content.Intent;
-import android.nfc.cardemulation.CardEmulation;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,13 +14,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private LoginResponseDto loginResponseDto;
+    private Retrofit retrofit;
+    private TokenCredentials token;
+    private LoginService service;
     private CardView scanBtn;
     private TextView contentTxt;
     MenuItem aboutUser;
@@ -44,11 +55,11 @@ public class MainActivity extends AppCompatActivity
 
         //instantiate UI items
         scanBtn = (CardView) findViewById(R.id.scan);
-        contentTxt = (TextView)findViewById(R.id.scan_content);
-        aboutUser= (MenuItem)findViewById(R.id.aboutUser);
+        contentTxt = (TextView) findViewById(R.id.scan_content);
+        aboutUser = (MenuItem) findViewById(R.id.aboutUser);
 
         //listen for clicks
-       scanBtn.setOnClickListener(new View.OnClickListener() {
+        scanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //instantiate ZXing integration class
@@ -59,7 +70,99 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.1.32:8080")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        service = retrofit.create(LoginService.class);
+
+        authenticateUser();
     }
+
+    private void authenticateUser() {
+        LoginResponseDto loginResponseDto = new LoginResponseDto();
+        loginResponseDto.userName = "admin";
+        loginResponseDto.password = "admin";
+
+        Call<ResponseAuthentication> userCredentials = service.authenticate(loginResponseDto);
+        try {
+            userCredentials.enqueue(new Callback<ResponseAuthentication>() {
+                @Override
+                public void onResponse(Call<ResponseAuthentication> call, Response<ResponseAuthentication> response) {
+                    if(response.isSuccessful()) {
+                    Log.d("EA", "Success: " + response.body().toString());
+
+
+                        Context context = getApplicationContext();
+                        CharSequence text = "Login Successful!";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+
+                        String responseHeaders = response.headers().get("Authorization");
+                        token = new TokenCredentials();
+                        token.tokenID = responseHeaders;
+
+                        Log.d("EA", token.tokenID);
+
+                        getProducers();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseAuthentication> call, Throwable t) {
+                    Context context = getApplicationContext();
+                    CharSequence text = "FAIL :(";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+            });
+        } catch (Exception exception) {
+            Log.e("EA", "Exception: " + exception.toString());
+        }
+    }
+
+    private void getProducers() {
+        Call<List<Producers>> producers = service.getProducers(token.tokenID);
+
+        try {
+    producers.enqueue(new Callback<List<Producers>>() {
+        @Override
+        public void onResponse(Call<List<Producers>> call, Response<List<Producers>> response) {
+            if(response.isSuccessful()) {
+                Log.d("EA", "Success: " + response.body().toString());
+            }
+
+            Context context = getApplicationContext();
+            CharSequence text = "Udalo sie";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+
+        @Override
+        public void onFailure(Call<List<Producers>> call, Throwable t) {
+            Context context = getApplicationContext();
+            CharSequence text = "NIE Udalo sie";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+    });
+        } catch (Exception exception) {
+            Log.e("EA","Failed: " + token.toString());
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -88,8 +191,8 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         //if (id == R.id.) {
 
-          //  return false;
-       // }
+        //  return false;
+        // }
 
         return super.onOptionsItemSelected(item);
     }
@@ -123,20 +226,17 @@ public class MainActivity extends AppCompatActivity
             //pobieramy wynik skanowania
             String scanContent = scanningResult.getContents();
             //pobieramy format kodu skanowania
-           // String scanFormat = scanningResult.getFormatName();
+            // String scanFormat = scanningResult.getFormatName();
             //wyświetlamy na ekranie aplikacji
             //formatTxt.setText("FORMAT: "+scanFormat);
-            contentTxt.setText("KOD LEKU: "+scanContent);
-        }
-        else{
+            contentTxt.setText("KOD LEKU: " + scanContent);
+        } else {
             //złe dane zostały pobrane z ZXing
             Toast toast = Toast.makeText(getApplicationContext(),
                     "No scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
-
-
 
 
 }
