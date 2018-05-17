@@ -3,6 +3,7 @@ package pl.roszkowska.med;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     private Retrofit retrofit;
     private TokenCredentials token;
     private LoginService service;
+    private Producers producers;
     private CardView scanBtn;
     private TextView contentTxt;
     MenuItem aboutUser;
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.32:8080")
+                .baseUrl("http://192.168.0.122:8080") // Adres serwera
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -84,18 +86,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void authenticateUser() {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         LoginResponseDto loginResponseDto = new LoginResponseDto();
-        loginResponseDto.userName = "admin";
+        loginResponseDto.rememberMe = true;
+        loginResponseDto.username = "admin";
         loginResponseDto.password = "admin";
 
         Call<ResponseAuthentication> userCredentials = service.authenticate(loginResponseDto);
         try {
+//            userCredentials.execute();
             userCredentials.enqueue(new Callback<ResponseAuthentication>() {
                 @Override
                 public void onResponse(Call<ResponseAuthentication> call, Response<ResponseAuthentication> response) {
                     if(response.isSuccessful()) {
-                    Log.d("EA", "Success: " + response.body().toString());
-
+                        Log.d("EA", "Success: " + response.body().toString());
+//                    }
 
                         Context context = getApplicationContext();
                         CharSequence text = "Login Successful!";
@@ -130,7 +137,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getProducers() {
-        Call<List<Producers>> producers = service.getProducers(token.tokenID);
+        final Call<List<Producers>> producers = service.getProducers(token.tokenID);
 
         try {
     producers.enqueue(new Callback<List<Producers>>() {
@@ -138,14 +145,20 @@ public class MainActivity extends AppCompatActivity
         public void onResponse(Call<List<Producers>> call, Response<List<Producers>> response) {
             if(response.isSuccessful()) {
                 Log.d("EA", "Success: " + response.body().toString());
+
+                Producers producers1 = response.body().get(0);
+                Log.d("EA", producers1.producerName);
+                Log.d("EA", producers1.country);
+                Log.d("EA", producers1.town);
+                Log.d("EA", producers1.address);
+
+                Context context = getApplicationContext();
+                CharSequence text = "Udalo sie";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
-
-            Context context = getApplicationContext();
-            CharSequence text = "Udalo sie";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
         }
 
         @Override

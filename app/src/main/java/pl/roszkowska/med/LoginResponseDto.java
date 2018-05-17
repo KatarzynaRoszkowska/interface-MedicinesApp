@@ -1,6 +1,8 @@
 package pl.roszkowska.med;
 
 public class LoginResponseDto {
-    String userName;
+    String username;
     String password;
+    Boolean rememberMe;
+
 }
