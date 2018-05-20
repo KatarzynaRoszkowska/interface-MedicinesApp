@@ -35,9 +35,8 @@ public class MainActivity extends AppCompatActivity
     private LoginService service;
     private Producers producers;
     private CardView scanBtn;
-    private TextView contentTxt;
     MenuItem aboutUser;
-
+    private CardView myPharm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +55,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //instantiate UI items
-        scanBtn = (CardView) findViewById(R.id.scan);
-        contentTxt = (TextView) findViewById(R.id.scan_content);
-        aboutUser = (MenuItem) findViewById(R.id.aboutUser);
+        scanBtn = findViewById(R.id.scan);
+        aboutUser = findViewById(R.id.aboutUser);
+        myPharm = findViewById(R.id.myPharmacy1);
 
         //listen for clicks
         scanBtn.setOnClickListener(new View.OnClickListener() {
@@ -72,8 +71,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        myPharm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MyPharmacy.class);
+                startActivity(intent);
+            }
+        });
 
         retrofit = new Retrofit.Builder()
                 .baseUrl("http://172.20.10.2:8080") // Adres serwera
@@ -232,17 +236,17 @@ public class MainActivity extends AppCompatActivity
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
         //pobranie wyniku za pomocą klasy IntentResult
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         //sprawdzenie czy mamy poprawny wynik
         if (scanningResult != null) {
             //pobieramy wynik skanowania
             String scanContent = scanningResult.getContents();
-            //pobieramy format kodu skanowania
-            // String scanFormat = scanningResult.getFormatName();
-            //wyświetlamy na ekranie aplikacji
-            //formatTxt.setText("FORMAT: "+scanFormat);
-            contentTxt.setText("KOD LEKU: " + scanContent);
+            //nowa aktywnosc: ScanTheCode + przekazanie parametru kody EAN
+            Intent i = new Intent(MainActivity.this, ScanTheCode.class);
+            i.putExtra("ean",scanContent);
+            startActivity(i);
         } else {
             //złe dane zostały pobrane z ZXing
             Toast toast = Toast.makeText(getApplicationContext(),

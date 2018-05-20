@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pl.roszkowska.med">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -9,8 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".StartActivity">
+        <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,11 +22,17 @@
             android:label="Informacje o użytkowniku" />
         <activity
             android:name=".AppInformationActivity"
-            android:label="Informacje o aplikacji"></activity>
+            android:label="Informacje o aplikacji" />
+        <activity
+            android:name=".MainActivity"
+            android:label="Strona główna"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ScanTheCode"
+            android:label="Informacje o leku" />
 
-        <activity android:name=".MainActivity"
-            android:label="main"
-            android:theme="@style/AppTheme.NoActionBar">></activity>
+        <activity android:name=".MyPharmacy"
+            android:label="Moje leki w apteczce"/>
     </application>
 
 </manifest>
