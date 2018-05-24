@@ -15,11 +15,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
+import pl.roszkowska.med.api.myPharmacy.MyPharmacy;
+import pl.roszkowska.med.api.producers.Producers;
+import pl.roszkowska.med.api.service.MedicinesService;
+import pl.roszkowska.med.api.service.ResponseAuthentication;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,11 +35,15 @@ public class MainActivity extends AppCompatActivity
     private LoginResponseDto loginResponseDto;
     private Retrofit retrofit;
     private TokenCredentials token;
-    private LoginService service;
+    private MedicinesService service;
     private Producers producers;
     private CardView scanBtn;
     MenuItem aboutUser;
     private CardView myPharm;
+
+    public MedicinesService getService() {
+        return service;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,106 +86,105 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.20.10.2:8080") // Adres serwera
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        service = retrofit.create(LoginService.class);
-
-        authenticateUser();
+//        retrofit = new Retrofit.Builder()
+//                .baseUrl("http://192.168.0.122:8080") // Adres serwera
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        service = retrofit.create(MedicinesService.class);
+//
+//        authenticateUser();
     }
 
-    private void authenticateUser() {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        LoginResponseDto loginResponseDto = new LoginResponseDto();
-        loginResponseDto.rememberMe = true;
-        loginResponseDto.username = "admin";
-        loginResponseDto.password = "admin";
-
-        Call<ResponseAuthentication> userCredentials = service.authenticate(loginResponseDto);
-        try {
-//            userCredentials.execute();
-            userCredentials.enqueue(new Callback<ResponseAuthentication>() {
-                @Override
-                public void onResponse(Call<ResponseAuthentication> call, Response<ResponseAuthentication> response) {
-                    if(response.isSuccessful()) {
-                        Log.d("EA", "Success: " + response.body().toString());
+//    private void authenticateUser() {
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+//
+//        LoginResponseDto loginResponseDto = new LoginResponseDto();
+//        loginResponseDto.rememberMe = true;
+//        loginResponseDto.username = "admin";
+//        loginResponseDto.password = "admin";
+//
+//        Call<ResponseAuthentication> userCredentials = service.authenticate(loginResponseDto);
+//        try {
+////            userCredentials.execute();
+//            userCredentials.enqueue(new Callback<ResponseAuthentication>() {
+//                @Override
+//                public void onResponse(Call<ResponseAuthentication> call, Response<ResponseAuthentication> response) {
+//                    if(response.isSuccessful()) {
+//                        Log.d("EA", "Success: " + response.body().toString());
+////                    }
+//
+//                        Context context = getApplicationContext();
+//                        CharSequence text = "Login Successful!";
+//                        int duration = Toast.LENGTH_SHORT;
+//
+//                        Toast toast = Toast.makeText(context, text, duration);
+//                        toast.show();
+//
+//                        String responseHeaders = response.headers().get("Authorization");
+//                        token = new TokenCredentials();
+//                        token.tokenID = responseHeaders;
+//
+//                        Log.d("EA", token.tokenID);
+//
 //                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseAuthentication> call, Throwable t) {
+//                    Context context = getApplicationContext();
+//                    CharSequence text = "FAIL :(";
+//                    int duration = Toast.LENGTH_SHORT;
+//
+//                    Toast toast = Toast.makeText(context, text, duration);
+//                    toast.show();
+//                }
+//            });
+//        } catch (Exception exception) {
+//            Log.e("EA", "Exception: " + exception.toString());
+//        }
+//    }
 
-                        Context context = getApplicationContext();
-                        CharSequence text = "Login Successful!";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-
-                        String responseHeaders = response.headers().get("Authorization");
-                        token = new TokenCredentials();
-                        token.tokenID = responseHeaders;
-
-                        Log.d("EA", token.tokenID);
-
-                        getProducers();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseAuthentication> call, Throwable t) {
-                    Context context = getApplicationContext();
-                    CharSequence text = "FAIL :(";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                }
-            });
-        } catch (Exception exception) {
-            Log.e("EA", "Exception: " + exception.toString());
-        }
-    }
-
-    private void getProducers() {
-        final Call<List<Producers>> producers = service.getProducers(token.tokenID);
-
-        try {
-    producers.enqueue(new Callback<List<Producers>>() {
-        @Override
-        public void onResponse(Call<List<Producers>> call, Response<List<Producers>> response) {
-            if(response.isSuccessful()) {
-                Log.d("EA", "Success: " + response.body().toString());
-
-                Producers producers1 = response.body().get(0);
-                Log.d("EA", producers1.producerName);
-                Log.d("EA", producers1.country);
-                Log.d("EA", producers1.town);
-                Log.d("EA", producers1.address);
-
-                Context context = getApplicationContext();
-                CharSequence text = "Udalo sie";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
-        }
-
-        @Override
-        public void onFailure(Call<List<Producers>> call, Throwable t) {
-            Context context = getApplicationContext();
-            CharSequence text = "NIE Udalo sie";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        }
-    });
-        } catch (Exception exception) {
-            Log.e("EA","Failed: " + token.toString());
-        }
-    }
+//    private void getProducers() {
+//        final Call<List<Producers>> producers = service.getProducers(token.tokenID);
+//
+//        try {
+//    producers.enqueue(new Callback<List<Producers>>() {
+//        @Override
+//        public void onResponse(Call<List<Producers>> call, Response<List<Producers>> response) {
+//            if(response.isSuccessful()) {
+//                Log.d("EA", "Success: " + response.body().toString());
+//
+//                Producers producers1 = response.body().get(0);
+//                Log.d("EA", producers1.producerName);
+//                Log.d("EA", producers1.country);
+//                Log.d("EA", producers1.town);
+//                Log.d("EA", producers1.address);
+//
+//                Context context = getApplicationContext();
+//                CharSequence text = "Udalo sie";
+//                int duration = Toast.LENGTH_SHORT;
+//
+//                Toast toast = Toast.makeText(context, text, duration);
+//                toast.show();
+//            }
+//        }
+//
+//        @Override
+//        public void onFailure(Call<List<Producers>> call, Throwable t) {
+//            Context context = getApplicationContext();
+//            CharSequence text = "NIE Udalo sie";
+//            int duration = Toast.LENGTH_SHORT;
+//
+//            Toast toast = Toast.makeText(context, text, duration);
+//            toast.show();
+//        }
+//    });
+//        } catch (Exception exception) {
+//            Log.e("EA","Failed: " + token.toString());
+//        }
+//    }
 
 
     @Override
