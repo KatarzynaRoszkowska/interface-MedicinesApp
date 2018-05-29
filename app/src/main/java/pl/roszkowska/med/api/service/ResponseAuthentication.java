@@ -1,6 +1,6 @@
-package pl.roszkowska.med;
+package pl.roszkowska.med.api.service;
 
-public class TokenCredentials {
+public class ResponseAuthentication {
     String tokenID;
 
     public String getTokenID() {

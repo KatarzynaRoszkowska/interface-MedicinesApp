@@ -15,11 +15,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
+import pl.roszkowska.med.api.myPharmacy.MyPharmacy;
+import pl.roszkowska.med.api.producers.Producers;
+import pl.roszkowska.med.api.service.MedicinesService;
+import pl.roszkowska.med.api.service.ResponseAuthentication;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,12 +35,15 @@ public class MainActivity extends AppCompatActivity
     private LoginResponseDto loginResponseDto;
     private Retrofit retrofit;
     private TokenCredentials token;
-    private LoginService service;
+    private MedicinesService service;
     private Producers producers;
     private CardView scanBtn;
-    private TextView contentTxt;
     MenuItem aboutUser;
+    private CardView myPharm;
 
+    public MedicinesService getService() {
+        return service;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +62,9 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //instantiate UI items
-        scanBtn = (CardView) findViewById(R.id.scan);
-        contentTxt = (TextView) findViewById(R.id.scan_content);
-        aboutUser = (MenuItem) findViewById(R.id.aboutUser);
+        scanBtn = findViewById(R.id.scan);
+        aboutUser = findViewById(R.id.aboutUser);
+        myPharm = findViewById(R.id.myPharmacy1);
 
         //listen for clicks
         scanBtn.setOnClickListener(new View.OnClickListener() {
@@ -72,109 +78,113 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.20.10.2:8080") // Adres serwera
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        service = retrofit.create(LoginService.class);
-
-        authenticateUser();
-    }
-
-    private void authenticateUser() {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        LoginResponseDto loginResponseDto = new LoginResponseDto();
-        loginResponseDto.rememberMe = true;
-        loginResponseDto.username = "admin";
-        loginResponseDto.password = "admin";
-
-        Call<ResponseAuthentication> userCredentials = service.authenticate(loginResponseDto);
-        try {
-//            userCredentials.execute();
-            userCredentials.enqueue(new Callback<ResponseAuthentication>() {
-                @Override
-                public void onResponse(Call<ResponseAuthentication> call, Response<ResponseAuthentication> response) {
-                    if(response.isSuccessful()) {
-                        Log.d("EA", "Success: " + response.body().toString());
-//                    }
-
-                        Context context = getApplicationContext();
-                        CharSequence text = "Login Successful!";
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
-
-                        String responseHeaders = response.headers().get("Authorization");
-                        token = new TokenCredentials();
-                        token.tokenID = responseHeaders;
-
-                        Log.d("EA", token.tokenID);
-
-                        getProducers();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseAuthentication> call, Throwable t) {
-                    Context context = getApplicationContext();
-                    CharSequence text = "FAIL :(";
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                }
-            });
-        } catch (Exception exception) {
-            Log.e("EA", "Exception: " + exception.toString());
-        }
-    }
-
-    private void getProducers() {
-        final Call<List<Producers>> producers = service.getProducers(token.tokenID);
-
-        try {
-    producers.enqueue(new Callback<List<Producers>>() {
-        @Override
-        public void onResponse(Call<List<Producers>> call, Response<List<Producers>> response) {
-            if(response.isSuccessful()) {
-                Log.d("EA", "Success: " + response.body().toString());
-
-                Producers producers1 = response.body().get(0);
-                Log.d("EA", producers1.producerName);
-                Log.d("EA", producers1.country);
-                Log.d("EA", producers1.town);
-                Log.d("EA", producers1.address);
-
-                Context context = getApplicationContext();
-                CharSequence text = "Udalo sie";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+        myPharm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MyPharmacy.class);
+                startActivity(intent);
             }
-        }
+        });
 
-        @Override
-        public void onFailure(Call<List<Producers>> call, Throwable t) {
-            Context context = getApplicationContext();
-            CharSequence text = "NIE Udalo sie";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        }
-    });
-        } catch (Exception exception) {
-            Log.e("EA","Failed: " + token.toString());
-        }
+//        retrofit = new Retrofit.Builder()
+//                .baseUrl("http://192.168.0.122:8080") // Adres serwera
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        service = retrofit.create(MedicinesService.class);
+//
+//        authenticateUser();
     }
+
+//    private void authenticateUser() {
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+//
+//        LoginResponseDto loginResponseDto = new LoginResponseDto();
+//        loginResponseDto.rememberMe = true;
+//        loginResponseDto.username = "admin";
+//        loginResponseDto.password = "admin";
+//
+//        Call<ResponseAuthentication> userCredentials = service.authenticate(loginResponseDto);
+//        try {
+////            userCredentials.execute();
+//            userCredentials.enqueue(new Callback<ResponseAuthentication>() {
+//                @Override
+//                public void onResponse(Call<ResponseAuthentication> call, Response<ResponseAuthentication> response) {
+//                    if(response.isSuccessful()) {
+//                        Log.d("EA", "Success: " + response.body().toString());
+////                    }
+//
+//                        Context context = getApplicationContext();
+//                        CharSequence text = "Login Successful!";
+//                        int duration = Toast.LENGTH_SHORT;
+//
+//                        Toast toast = Toast.makeText(context, text, duration);
+//                        toast.show();
+//
+//                        String responseHeaders = response.headers().get("Authorization");
+//                        token = new TokenCredentials();
+//                        token.tokenID = responseHeaders;
+//
+//                        Log.d("EA", token.tokenID);
+//
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseAuthentication> call, Throwable t) {
+//                    Context context = getApplicationContext();
+//                    CharSequence text = "FAIL :(";
+//                    int duration = Toast.LENGTH_SHORT;
+//
+//                    Toast toast = Toast.makeText(context, text, duration);
+//                    toast.show();
+//                }
+//            });
+//        } catch (Exception exception) {
+//            Log.e("EA", "Exception: " + exception.toString());
+//        }
+//    }
+
+//    private void getProducers() {
+//        final Call<List<Producers>> producers = service.getProducers(token.tokenID);
+//
+//        try {
+//    producers.enqueue(new Callback<List<Producers>>() {
+//        @Override
+//        public void onResponse(Call<List<Producers>> call, Response<List<Producers>> response) {
+//            if(response.isSuccessful()) {
+//                Log.d("EA", "Success: " + response.body().toString());
+//
+//                Producers producers1 = response.body().get(0);
+//                Log.d("EA", producers1.producerName);
+//                Log.d("EA", producers1.country);
+//                Log.d("EA", producers1.town);
+//                Log.d("EA", producers1.address);
+//
+//                Context context = getApplicationContext();
+//                CharSequence text = "Udalo sie";
+//                int duration = Toast.LENGTH_SHORT;
+//
+//                Toast toast = Toast.makeText(context, text, duration);
+//                toast.show();
+//            }
+//        }
+//
+//        @Override
+//        public void onFailure(Call<List<Producers>> call, Throwable t) {
+//            Context context = getApplicationContext();
+//            CharSequence text = "NIE Udalo sie";
+//            int duration = Toast.LENGTH_SHORT;
+//
+//            Toast toast = Toast.makeText(context, text, duration);
+//            toast.show();
+//        }
+//    });
+//        } catch (Exception exception) {
+//            Log.e("EA","Failed: " + token.toString());
+//        }
+//    }
 
 
     @Override
@@ -232,17 +242,17 @@ public class MainActivity extends AppCompatActivity
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
         //pobranie wyniku za pomocą klasy IntentResult
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         //sprawdzenie czy mamy poprawny wynik
         if (scanningResult != null) {
             //pobieramy wynik skanowania
             String scanContent = scanningResult.getContents();
-            //pobieramy format kodu skanowania
-            // String scanFormat = scanningResult.getFormatName();
-            //wyświetlamy na ekranie aplikacji
-            //formatTxt.setText("FORMAT: "+scanFormat);
-            contentTxt.setText("KOD LEKU: " + scanContent);
+            //nowa aktywnosc: ScanTheCode + przekazanie parametru kody EAN
+            Intent i = new Intent(MainActivity.this, ScanTheCode.class);
+            i.putExtra("ean",scanContent);
+            startActivity(i);
         } else {
             //złe dane zostały pobrane z ZXing
             Toast toast = Toast.makeText(getApplicationContext(),
