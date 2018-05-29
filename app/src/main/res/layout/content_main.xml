@@ -102,13 +102,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        >
         <android.support.v7.widget.CardView
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:layout_width="340dp"
             android:layout_height="150dp"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            android:id="@+id/listOfMedicines">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -120,12 +122,13 @@
                     android:background="@drawable/cerclebackgroundgreen"
                     android:src="@drawable/ic_speaker_notes_black_24dp"
                     android:padding="10dp"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
                     android:layout_margin="10dp"
-                    android:text="Zaplanuj"/>
+                    android:text="Lista leków"
+                    android:textStyle="bold" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

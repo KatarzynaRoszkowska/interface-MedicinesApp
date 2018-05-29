@@ -1,7 +1,7 @@
 package pl.roszkowska.med.api.medicines;
 
 public class Medicines {
-    String id;
+            String id;
             String medicinesName;
             String composition;
             String formOfTheDrag;
@@ -18,7 +18,12 @@ public class Medicines {
             String ean;
             String serialNumber;
 
-
+    public Medicines(String medicinesName, String speciality, String composition, String formOfTheDrag) {
+        this.medicinesName = medicinesName;
+        this.speciality = speciality;
+        this.composition = composition;
+        this.formOfTheDrag = formOfTheDrag;
+    }
 
     public String getId() {
         return id;

@@ -34,6 +34,9 @@
 
         <activity android:name=".api.myPharmacy.MyPharmacy"
             android:label="Moje leki w apteczce"/>
+
+        <activity android:name=".api.medicines.MedicinesActivity"
+            android:label="Baza leków"/>
     </application>
 
 </manifest>

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import pl.roszkowska.med.api.Scanner.ScanTheCode;
+import pl.roszkowska.med.api.medicines.MedicinesActivity;
 import pl.roszkowska.med.api.myPharmacy.MyPharmacy;
 import pl.roszkowska.med.api.producers.Producers;
 import pl.roszkowska.med.api.service.MedicinesService;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity
     private CardView scanBtn;
     MenuItem aboutUser;
     private CardView myPharm;
+    private CardView medicines;
 
     public MedicinesService getService() {
         return service;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity
         scanBtn = findViewById(R.id.scan);
         aboutUser = findViewById(R.id.aboutUser);
         myPharm = findViewById(R.id.myPharmacy1);
+        medicines = findViewById(R.id.listOfMedicines);
 
         //listen for clicks
         scanBtn.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +76,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MyPharmacy.class);
+                startActivity(intent);
+            }
+        });
+
+        medicines.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MedicinesActivity.class);
                 startActivity(intent);
             }
         });
