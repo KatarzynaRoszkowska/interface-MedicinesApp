@@ -1,6 +1,6 @@
 package pl.roszkowska.med.api.myPharmacy;
 
-import java.util.Date;
+import pl.roszkowska.med.api.medicines.Medicines;
 
 public class MyPharmacyDB {
 
@@ -8,6 +8,11 @@ public class MyPharmacyDB {
     String isTaken;
     String howMany;
     String expirationData;
+    Medicines medicines;
+
+    public Medicines getMedicines() {
+        return medicines;
+    }
 
     public String getId() {
         return id;

@@ -1,6 +1,6 @@
 package pl.roszkowska.med.api.medicines;
 
-public class medicinesDB {
+public class Medicines {
     String id;
             String medicinesName;
             String composition;
@@ -150,7 +150,7 @@ public class medicinesDB {
 
     @Override
     public String toString() {
-        return "medicinesDB{" +
+        return "Medicines{" +
                 "id='" + id + '\'' +
                 ", medicinesName='" + medicinesName + '\'' +
                 ", composition='" + composition + '\'' +

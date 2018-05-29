@@ -38,7 +38,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<MyPharmacyDBAdapte
         MyPharmacyDB myPharmacyDB = myPharmacyDBList.get(position);
 
         //TODO wyswietlnie nazwy leku zamiast id
-        holder.name.setText(myPharmacyDB.getId());
+        holder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
         holder.validate.setText(myPharmacyDB.getExpirationData());
     }
 
