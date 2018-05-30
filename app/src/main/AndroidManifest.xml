@@ -29,7 +29,7 @@
             android:label="Strona główna"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ScanTheCode"
+            android:name=".api.Scanner.ScanTheCode"
             android:label="Informacje o leku" />
 
         <activity android:name=".api.myPharmacy.MyPharmacy"
