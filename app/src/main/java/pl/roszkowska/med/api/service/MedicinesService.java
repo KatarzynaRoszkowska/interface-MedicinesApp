@@ -34,6 +34,6 @@ public interface MedicinesService {
 
     @Headers({"Accept: application/json",
             "Content-Type: application/json"})
-    @GET("/api/medicines/{ean}")
+    @GET("/api/medicines/ean/{ean}")
     Call<Medicines> getMedicinesEan(@Header("Authorization") String authorization, @Path("ean") String ean);
 }

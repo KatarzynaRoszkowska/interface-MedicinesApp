@@ -50,7 +50,7 @@ public class MyMedicinesApplication extends Application {
         super.onCreate();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.20.10.3:8080") // Adres serwera
+                .baseUrl("http://172.20.10.2:8080") // Adres serwera
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
