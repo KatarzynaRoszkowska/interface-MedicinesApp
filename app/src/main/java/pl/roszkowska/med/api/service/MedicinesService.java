@@ -12,6 +12,8 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface MedicinesService {
     @Headers({"Accept: application/json",
@@ -29,4 +31,9 @@ public interface MedicinesService {
             "Content-Type: application/json"})
     @GET("/api/medicines")
     Call<List<Medicines>> getMedicines(@Header("Authorization") String authorization);
+
+    @Headers({"Accept: application/json",
+            "Content-Type: application/json"})
+    @GET("/api/medicines/ean/{ean}")
+    Call<Medicines> getMedicinesEan(@Header("Authorization") String authorization, @Path("ean") String ean);
 }

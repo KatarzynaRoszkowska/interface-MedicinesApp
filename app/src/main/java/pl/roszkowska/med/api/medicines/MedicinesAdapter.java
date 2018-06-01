@@ -14,6 +14,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
 
     private Context contex;
     private List<Medicines> medicinesList;
+    private Medicines medicines;
 
     public MedicinesAdapter(Context contex, List<Medicines> medicinesList) {
         this.contex = contex;
@@ -32,14 +33,13 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
 
     @Override
     public void onBindViewHolder(@NonNull MedicinesViewHolder holder, int position) {
-        Medicines medicines = medicinesList.get(position);
+        medicines = medicinesList.get(position);
 
         //TODO Maciek
         holder.medicinesName.setText(medicines.getMedicinesName());
         holder.speciality.setText(medicines.getSpeciality());
         holder.composition.setText(medicines.getComposition());
         holder.formOfTheDrag.setText(medicines.getFormOfTheDrag());
-
     }
 
     @Override
@@ -48,7 +48,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
     }
 
     class MedicinesViewHolder extends RecyclerView.ViewHolder{
-        TextView medicinesName, speciality, composition, formOfTheDrag;
+        TextView medicinesName, speciality, composition, formOfTheDrag, ean;
 
         public MedicinesViewHolder(View itemView) {
             super(itemView);

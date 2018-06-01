@@ -25,6 +25,10 @@ public class Medicines {
         this.formOfTheDrag = formOfTheDrag;
     }
 
+    public Medicines() {
+
+    }
+
     public String getId() {
         return id;
     }

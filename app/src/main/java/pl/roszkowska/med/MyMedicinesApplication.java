@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import pl.roszkowska.med.api.medicines.Medicines;
 import pl.roszkowska.med.api.myPharmacy.MyPharmacyDB;
 import pl.roszkowska.med.api.service.MedicinesService;
 import pl.roszkowska.med.api.service.ResponseAuthentication;
@@ -20,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyMedicinesApplication extends Application {
     MedicinesService medicinesService;
     TokenCredentials token;
+    Medicines medicines;
     ResponseAuthentication responseAuthentication;
     private MyMedicinesApplication myMedicinesApplication;
 
@@ -35,6 +37,10 @@ public class MyMedicinesApplication extends Application {
         return token;
     }
 
+    public Medicines getMedicines() {
+        return medicines;
+    }
+
     public MyMedicinesApplication() {
         onCreate();
     }
@@ -44,7 +50,7 @@ public class MyMedicinesApplication extends Application {
         super.onCreate();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.20.10.3:8080") // Adres serwera
+                .baseUrl("http://172.20.10.2:8080") // Adres serwera
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
