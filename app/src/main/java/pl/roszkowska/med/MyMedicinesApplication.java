@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import pl.roszkowska.med.api.medicines.Medicines;
 import pl.roszkowska.med.api.myPharmacy.MyPharmacyDB;
 import pl.roszkowska.med.api.service.MedicinesService;
 import pl.roszkowska.med.api.service.ResponseAuthentication;
@@ -20,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MyMedicinesApplication extends Application {
     MedicinesService medicinesService;
     TokenCredentials token;
+    Medicines medicines;
     ResponseAuthentication responseAuthentication;
     private MyMedicinesApplication myMedicinesApplication;
 
@@ -33,6 +35,10 @@ public class MyMedicinesApplication extends Application {
 
     public TokenCredentials getToken() {
         return token;
+    }
+
+    public Medicines getMedicines() {
+        return medicines;
     }
 
     public MyMedicinesApplication() {
