@@ -35,7 +35,12 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
     public void onBindViewHolder(@NonNull MedicinesViewHolder holder, int position) {
         medicines = medicinesList.get(position);
 
-        //TODO Maciek
+
+        /*holder.medicinesName.setText(medicines.getMedicinesName());
+        holder.speciality.setText(medicines.getSpeciality());
+        holder.composition.setText(medicines.getComposition());
+        holder.formOfTheDrag.setText(medicines.getFormOfTheDrag());*/
+
         holder.medicinesName.setText(medicines.getMedicinesName());
         holder.speciality.setText(medicines.getSpeciality());
         holder.composition.setText(medicines.getComposition());
@@ -44,6 +49,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
 
     @Override
     public int getItemCount() {
+
         return medicinesList.size();
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class MedicinesActivity extends AppCompatActivity {
     private MedicinesService medicinesService;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,13 +36,41 @@ public class MedicinesActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        medicinesList.add(new Medicines("nana1","na","nanana","nanan"));
+        medicinesList.add(new Medicines("nana2","na","nanana","nanan"));
+        medicinesList.add(new Medicines("nana3","na","nanana","nanan"));
+        medicinesList.add(new Medicines("nana4","na","nanana","nanan"));
+        medicinesList.add(new Medicines("nana5","na","nanana","nanan"));
+        medicinesList.add(new Medicines("nana6","na","nanana","nanan"));
+
         medicinesAdapter = new MedicinesAdapter(this,medicinesList);
         recyclerView.setAdapter(medicinesAdapter);
 
-        downloadMedicines();
+
+        ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                medicinesAdapter.notifyItemRemoved(position);
+                medicinesList.remove(position);
+                //todo trzeba wziac ten obiekt  i przeniesc do mojej apteki
+                //todo w tej klasie zakomentowalam twoja metode download wiec to odkomunetuj i zakomentuj medicinesList.add...
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(item);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+
+        //downloadMedicines();
     }
 
-    private void downloadMedicines() {
+    /*private void downloadMedicines() {
         myMedicinesApplication = (MyMedicinesApplication)getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
 
@@ -62,5 +92,5 @@ public class MedicinesActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }*/
 }
