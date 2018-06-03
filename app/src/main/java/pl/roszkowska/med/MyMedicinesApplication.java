@@ -50,7 +50,7 @@ public class MyMedicinesApplication extends Application {
         super.onCreate();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.20.10.2:8080") // Adres serwera
+                .baseUrl("http://192.168.0.122:8080") // Adres serwera
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -114,27 +114,27 @@ public class MyMedicinesApplication extends Application {
         }
     }
 
-    private void downloadMyMedicines() {
-        Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(responseAuthentication.getTokenID());
-
-        repo.enqueue(new Callback<List<MyPharmacyDB>>() {
-            @Override
-            public void onResponse(Call<List<MyPharmacyDB>> call, Response<List<MyPharmacyDB>> response) {
-                if(response.isSuccessful()) {
-//                    myPharmacyDBAdapter.setMyPharmacyDBList(response.body());
-                    for(int i=0; i<response.body().size();i++) {
-//                        MyPharmacyDB myPharmacyDB = response.body().get(i);
-                        Log.d("TAG", response.body().get(i).toString());
-//                        Log.d("TAG", myPharmacyDB.toString());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<MyPharmacyDB>> call, Throwable t) {
-                Log.d("ERROR", t.toString());
-            }
-        });
-    }
+//    private void downloadMyMedicines() {
+//        Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(responseAuthentication.getTokenID());
+//
+//        repo.enqueue(new Callback<List<MyPharmacyDB>>() {
+//            @Override
+//            public void onResponse(Call<List<MyPharmacyDB>> call, Response<List<MyPharmacyDB>> response) {
+//                if(response.isSuccessful()) {
+////                    myPharmacyDBAdapter.setMyPharmacyDBList(response.body());
+//                    for(int i=0; i<response.body().size();i++) {
+////                        MyPharmacyDB myPharmacyDB = response.body().get(i);
+//                        Log.d("TAG", response.body().get(i).toString());
+////                        Log.d("TAG", myPharmacyDB.toString());
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<MyPharmacyDB>> call, Throwable t) {
+//                Log.d("ERROR", t.toString());
+//            }
+//        });
+//    }
 
 }

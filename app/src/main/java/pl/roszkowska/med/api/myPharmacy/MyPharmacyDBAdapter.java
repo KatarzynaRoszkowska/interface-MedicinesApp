@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.roszkowska.med.R;
@@ -66,5 +67,9 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<MyPharmacyDBAdapte
 
         // odśwież RecyclerView
         notifyDataSetChanged();
+    }
+
+    public List<MyPharmacyDB> getMyPharmacyDBList() {
+        return myPharmacyDBList;
     }
 }
