@@ -56,15 +56,17 @@ public class MyPharmacy extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 final int position = viewHolder.getAdapterPosition();
+                myPharmacyDBAdapter.notifyItemRemoved(position);
+                myPharmacyDBAdapter.notifyDataSetChanged();
                 Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), Integer.parseInt(idList.get(position)));
 
                 delete.enqueue(new Callback<MyPharmacyDB>() {
                     @Override
                     public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
                         if (response.isSuccessful()) {
-                            myPharmacyDBAdapter.notifyItemRemoved(position);
-                            myPharmacyDBAdapter.notifyDataSetChanged();
-                            recyclerView.invalidate();
+//                            myPharmacyDBAdapter.notifyItemRemoved(position);
+//                            myPharmacyDBAdapter.notifyDataSetChanged();
+//                            recyclerView.invalidate();
                             Log.d("DELETE", "Usunieto lek");
                         }
                     }
