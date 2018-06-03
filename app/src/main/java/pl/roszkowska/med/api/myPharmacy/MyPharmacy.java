@@ -40,11 +40,20 @@ public class MyPharmacy extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+       /* myPharmacyDBList.add(new MyPharmacyDB("Apap"));
+        myPharmacyDBList.add(new MyPharmacyDB("Apap2"));
+        myPharmacyDBList.add(new MyPharmacyDB("Apap3"));
+        myPharmacyDBList.add(new MyPharmacyDB("Apap4"));*/
+
 
         myPharmacyDBAdapter = new MyPharmacyDBAdapter(this,myPharmacyDBList);
         recyclerView.setAdapter(myPharmacyDBAdapter);
 
         downloadMyMedicines();
+    }
+
+    public String getMedicinesName(String name){
+        return name;
     }
 
     private void downloadMyMedicines() {

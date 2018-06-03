@@ -39,6 +39,8 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<MyPharmacyDBAdapte
 
         holder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
         holder.validate.setText(myPharmacyDB.getExpirationData());
+        //holder.name.setText(myPharmacyDB.getNazwaLeku());
+
     }
 
     @Override

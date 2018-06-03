@@ -12,6 +12,8 @@ import java.util.List;
 
 import pl.roszkowska.med.MyMedicinesApplication;
 import pl.roszkowska.med.R;
+import pl.roszkowska.med.api.myPharmacy.MyPharmacyDB;
+import pl.roszkowska.med.api.myPharmacy.MyPharmacyDBAdapter;
 import pl.roszkowska.med.api.service.MedicinesService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,8 +21,10 @@ import retrofit2.Response;
 
 public class MedicinesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
+    MyPharmacyDBAdapter myPharmacyDBAdapter;
     MedicinesAdapter medicinesAdapter;
     List<Medicines> medicinesList;
+    List<MyPharmacyDB> myPharmacyDBList;
     private MyMedicinesApplication myMedicinesApplication;
     private MedicinesService medicinesService;
 
@@ -36,12 +40,12 @@ public class MedicinesActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        medicinesList.add(new Medicines("nana1","na","nanana","nanan"));
-        medicinesList.add(new Medicines("nana2","na","nanana","nanan"));
-        medicinesList.add(new Medicines("nana3","na","nanana","nanan"));
-        medicinesList.add(new Medicines("nana4","na","nanana","nanan"));
-        medicinesList.add(new Medicines("nana5","na","nanana","nanan"));
-        medicinesList.add(new Medicines("nana6","na","nanana","nanan"));
+       /* medicinesList.add(new Medicines("Apap","na","nanana","nanan"));
+        medicinesList.add(new Medicines("Etopiryna","na","nanana","nanan"));
+        medicinesList.add(new Medicines("Gripex","na","nanana","nanan"));
+        medicinesList.add(new Medicines("NeomagFORTE","na","nanana","nanan"));
+        medicinesList.add(new Medicines("Witamina C","na","nanana","nanan"));
+        medicinesList.add(new Medicines("lekX","na","nanana","nanan"));*/
 
         medicinesAdapter = new MedicinesAdapter(this,medicinesList);
         recyclerView.setAdapter(medicinesAdapter);
@@ -57,9 +61,15 @@ public class MedicinesActivity extends AppCompatActivity {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 medicinesAdapter.notifyItemRemoved(position);
-                medicinesList.remove(position);
-                //todo trzeba wziac ten obiekt  i przeniesc do mojej apteki
-                //todo w tej klasie zakomentowalam twoja metode download wiec to odkomunetuj i zakomentuj medicinesList.add...
+                //medicinesList.remove(position);
+                medicinesList.get(position).getMedicinesName();
+               // myPharmacyDBList.add(new MyPharmacyDB(medicinesList.get(position).getMedicinesName()));
+                //myPharmacyDBAdapter = new MyPharmacyDBAdapter(this,myPharmacyDBList);
+
+                //todo Maciek W tej metodzie swipe pobiera się konretną nazwę leku i teraz
+                //wypadało by zapisac ja do tabeli MyPharamcy i tyle, ja chcialam na liscie zrobic, ale tu nie mozna adaptera wywolac innego,
+                //wiec postaraj sie wlasnie tutaj tylko na podstawie pobranej danej zapisac to bazy dnych MyPharamacy
+
             }
         };
 
@@ -67,10 +77,10 @@ public class MedicinesActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
-        //downloadMedicines();
+        downloadMedicines();
     }
 
-    /*private void downloadMedicines() {
+    private void downloadMedicines() {
         myMedicinesApplication = (MyMedicinesApplication)getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
 
@@ -92,5 +102,5 @@ public class MedicinesActivity extends AppCompatActivity {
             }
         });
 
-    }*/
+    }
 }

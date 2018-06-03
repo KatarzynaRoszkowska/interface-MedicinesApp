@@ -9,10 +9,19 @@ public class MyPharmacyDB {
     String howMany;
     String expirationData;
     Medicines medicines;
+   // String nazwaLeku;
+
+    /*public MyPharmacyDB(String nazwaLeku) {
+        this.nazwaLeku = nazwaLeku;
+    }*/
 
     public Medicines getMedicines() {
         return medicines;
     }
+
+    /*public String getNazwaLeku() {
+        return nazwaLeku;
+    }*/
 
     public String getId() {
         return id;
