@@ -52,8 +52,6 @@ public interface MedicinesService {
     @POST("/api/my-pharmacies")
 //    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Body Medicines medicines);
 
-    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization,
-                                    @Body Medicines medicines);
-
+    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Body MyPharmacyDB myPharmacyDB);
 //    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Field("id") String id);
 }

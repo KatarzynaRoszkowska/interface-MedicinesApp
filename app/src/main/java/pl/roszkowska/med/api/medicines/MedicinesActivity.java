@@ -47,13 +47,6 @@ public class MedicinesActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-       /* medicinesList.add(new Medicines("Apap","na","nanana","nanan"));
-        medicinesList.add(new Medicines("Etopiryna","na","nanana","nanan"));
-        medicinesList.add(new Medicines("Gripex","na","nanana","nanan"));
-        medicinesList.add(new Medicines("NeomagFORTE","na","nanana","nanan"));
-        medicinesList.add(new Medicines("Witamina C","na","nanana","nanan"));
-        medicinesList.add(new Medicines("lekX","na","nanana","nanan"));*/
-
         medicinesAdapter = new MedicinesAdapter(this, medicinesList);
         recyclerView.setAdapter(medicinesAdapter);
 
@@ -67,25 +60,19 @@ public class MedicinesActivity extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-//                medicinesList.get(position).getMedicinesName();
-                // myPharmacyDBList.add(new MyPharmacyDB(medicinesList.get(position).getMedicinesName()));
-//                myPharmacyDBAdapter = new MyPharmacyDBAdapter(this,myPharmacyDBList);
-
-                //todo Maciek W tej metodzie swipe pobiera się konretną nazwę leku i teraz
-                //wypadało by zapisac ja do tabeli MyPharamcy i tyle, ja chcialam na liscie zrobic, ale tu nie mozna adaptera wywolac innego,
-                //wiec postaraj sie wlasnie tutaj tylko na podstawie pobranej danej zapisac to bazy dnych MyPharamacy
                 myMedicinesApplication = (MyMedicinesApplication) getApplication();
                 medicinesService = myMedicinesApplication.getMedicinesService();
 
                 idMed = idList.get(position);
                 Call<Medicines> repo = medicinesService.getMedicinesById(myMedicinesApplication.getToken().getTokenID(), idMed);
-
                 repo.enqueue(new Callback<Medicines>() {
                     @Override
                     public void onResponse(Call<Medicines> call, Response<Medicines> response) {
                         if(response.isSuccessful()) {
                             Log.d("TAG", "Udalo sie");
                         }
+                        //TODO KASIA
+                        /* Trzeba zrobic recycleView zeby sie nie kasował widok leku po przesunieciu*/
                         medicines = response.body();
                         insertMedi();
                     }
@@ -137,13 +124,8 @@ public class MedicinesActivity extends AppCompatActivity {
     private void insertMedi() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
-
-        /*To powoduje usunięcie danych o lekach, ale zostalo dodane po to aby sprawdzic poprawnosc metody addMedicines. Dodawany jest pusty wpis (posiada tylko ID myPharmacy)
-        Jeśli medicines posiada dane to występuje błąd "BadRequestAlertException: A new myPharmacy cannot already have an ID"
-         */
-        medicines = new Medicines();
-
-        Call<MyPharmacyDB> addMed = medicinesService.addMedicines(myMedicinesApplication.getToken().getTokenID(), medicines);
+        myPharmacyDB = new MyPharmacyDB("","","",medicines);
+        Call<MyPharmacyDB> addMed = medicinesService.addMedicines(myMedicinesApplication.getToken().getTokenID(), myPharmacyDB);
         addMed.enqueue(new Callback<MyPharmacyDB>() {
             @Override
             public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {

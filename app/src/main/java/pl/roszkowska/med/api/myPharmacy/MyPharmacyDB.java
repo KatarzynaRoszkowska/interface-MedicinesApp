@@ -4,30 +4,22 @@ import pl.roszkowska.med.api.medicines.Medicines;
 
 public class MyPharmacyDB {
 
-    String id;
+    Long id;
     String isTaken;
     String howMany;
     String expirationData;
     Medicines medicines;
-   // String nazwaLeku;
-
-    /*public MyPharmacyDB(String nazwaLeku) {
-        this.nazwaLeku = nazwaLeku;
-    }*/
 
     public Medicines getMedicines() {
         return medicines;
     }
 
-    /*public String getNazwaLeku() {
-        return nazwaLeku;
-    }*/
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -63,5 +55,12 @@ public class MyPharmacyDB {
                 ", howMany='" + howMany + '\'' +
                 ", expirationData='" + expirationData + '\'' +
                 '}';
+    }
+
+    public MyPharmacyDB(String isTaken, String howMany, String expirationData, Medicines medicines) {
+        this.isTaken = isTaken;
+        this.howMany = howMany;
+        this.expirationData = expirationData;
+        this.medicines = medicines;
     }
 }

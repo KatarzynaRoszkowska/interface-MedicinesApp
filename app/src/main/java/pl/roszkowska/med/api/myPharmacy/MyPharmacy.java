@@ -27,6 +27,7 @@ public class MyPharmacy extends AppCompatActivity {
     private MedicinesService medicinesService;
     private TokenCredentials token;
     private MyMedicinesApplication myMedicinesApplication;
+    private MyPharmacyDB myPharmacyDB;
 
 
     @Override
@@ -60,7 +61,7 @@ public class MyPharmacy extends AppCompatActivity {
         myMedicinesApplication= (MyMedicinesApplication)getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
 
-        Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(myMedicinesApplication.getToken().getTokenID());
+        final Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(myMedicinesApplication.getToken().getTokenID());
 
         repo.enqueue(new Callback<List<MyPharmacyDB>>() {
             @Override
@@ -68,6 +69,7 @@ public class MyPharmacy extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     for(int i=0; i<response.body().size();i++) {
                         Log.d("TAG", response.body().get(i).toString());
+                        myPharmacyDB = response.body().get(i);
                     }
                     myPharmacyDBAdapter.setMyPharmacyDBList(response.body());
                 }
