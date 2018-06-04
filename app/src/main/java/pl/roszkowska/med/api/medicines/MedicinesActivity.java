@@ -25,8 +25,13 @@ public class MedicinesActivity extends AppCompatActivity {
     MedicinesAdapter medicinesAdapter;
     List<Medicines> medicinesList;
     List<MyPharmacyDB> myPharmacyDBList;
+    private List<String> nameList;
+    private List<String> idList;
     private MyMedicinesApplication myMedicinesApplication;
     private MedicinesService medicinesService;
+    private Medicines medicines;
+    private MyPharmacyDB myPharmacyDB;
+    String idMed;
 
 
 
@@ -36,6 +41,8 @@ public class MedicinesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_medicines);
 
         medicinesList = new ArrayList<>();
+        idList = new ArrayList<>();
+        nameList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewListOfMedicines);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -47,7 +54,7 @@ public class MedicinesActivity extends AppCompatActivity {
         medicinesList.add(new Medicines("Witamina C","na","nanana","nanan"));
         medicinesList.add(new Medicines("lekX","na","nanana","nanan"));*/
 
-        medicinesAdapter = new MedicinesAdapter(this,medicinesList);
+        medicinesAdapter = new MedicinesAdapter(this, medicinesList);
         recyclerView.setAdapter(medicinesAdapter);
 
 
@@ -60,11 +67,9 @@ public class MedicinesActivity extends AppCompatActivity {
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                medicinesAdapter.notifyItemRemoved(position);
-                //medicinesList.remove(position);
 //                medicinesList.get(position).getMedicinesName();
-               // myPharmacyDBList.add(new MyPharmacyDB(medicinesList.get(position).getMedicinesName()));
-                //myPharmacyDBAdapter = new MyPharmacyDBAdapter(this,myPharmacyDBList);
+                // myPharmacyDBList.add(new MyPharmacyDB(medicinesList.get(position).getMedicinesName()));
+//                myPharmacyDBAdapter = new MyPharmacyDBAdapter(this,myPharmacyDBList);
 
                 //todo Maciek W tej metodzie swipe pobiera się konretną nazwę leku i teraz
                 //wypadało by zapisac ja do tabeli MyPharamcy i tyle, ja chcialam na liscie zrobic, ale tu nie mozna adaptera wywolac innego,
@@ -72,22 +77,27 @@ public class MedicinesActivity extends AppCompatActivity {
                 myMedicinesApplication = (MyMedicinesApplication) getApplication();
                 medicinesService = myMedicinesApplication.getMedicinesService();
 
-                Call<MyPharmacyDB> addMed = medicinesService.addMedicines(myMedicinesApplication.getToken().getTokenID(), );
+                idMed = idList.get(position);
+                Call<Medicines> repo = medicinesService.getMedicinesById(myMedicinesApplication.getToken().getTokenID(), idMed);
 
-                addMed.enqueue(new Callback<MyPharmacyDB>() {
+                repo.enqueue(new Callback<Medicines>() {
                     @Override
-                    public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
+                    public void onResponse(Call<Medicines> call, Response<Medicines> response) {
                         if(response.isSuccessful()) {
-                            Log.d("ADD", "Dodano lek do mojej apteki");
+                            Log.d("TAG", "Udalo sie");
                         }
+                        medicines = response.body();
+                        insertMedi();
                     }
 
                     @Override
-                    public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
-                        Log.d("ERROR", "Nie Dodano leku do mojej apteki");
+                    public void onFailure(Call<Medicines> call, Throwable t) {
+                        Log.d("TAG", "Nie udalo sie");
 
                     }
                 });
+
+
             }
         };
 
@@ -99,7 +109,7 @@ public class MedicinesActivity extends AppCompatActivity {
     }
 
     private void downloadMedicines() {
-        myMedicinesApplication = (MyMedicinesApplication)getApplication();
+        myMedicinesApplication = (MyMedicinesApplication) getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
 
         Call<List<Medicines>> repo = medicinesService.getMedicines(myMedicinesApplication.getToken().getTokenID());
@@ -107,8 +117,10 @@ public class MedicinesActivity extends AppCompatActivity {
         repo.enqueue(new Callback<List<Medicines>>() {
             @Override
             public void onResponse(Call<List<Medicines>> call, Response<List<Medicines>> response) {
-                for(int i=0; i<response.body().size();i++) {
+                for (int i = 0; i < response.body().size(); i++) {
                     Log.d("TAG", response.body().get(i).toString());
+                    idList.add(response.body().get(i).getId().toString());
+                    nameList.add(response.body().get(i).getMedicinesName().toString());
                 }
                 medicinesAdapter.setMedicinesList(response.body());
 
@@ -120,5 +132,31 @@ public class MedicinesActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void insertMedi() {
+        myMedicinesApplication = (MyMedicinesApplication) getApplication();
+        medicinesService = myMedicinesApplication.getMedicinesService();
+
+        /*To powoduje usunięcie danych o lekach, ale zostalo dodane po to aby sprawdzic poprawnosc metody addMedicines. Dodawany jest pusty wpis (posiada tylko ID myPharmacy)
+        Jeśli medicines posiada dane to występuje błąd "BadRequestAlertException: A new myPharmacy cannot already have an ID"
+         */
+        medicines = new Medicines();
+
+        Call<MyPharmacyDB> addMed = medicinesService.addMedicines(myMedicinesApplication.getToken().getTokenID(), "null","0", "false", medicines);
+        addMed.enqueue(new Callback<MyPharmacyDB>() {
+            @Override
+            public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
+                if (response.isSuccessful()) {
+                    Log.d("ADD", "Dodano lek do mojej apteki");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
+                Log.d("ERROR", "Nie Dodano leku do mojej apteki");
+
+            }
+        });
     }
 }

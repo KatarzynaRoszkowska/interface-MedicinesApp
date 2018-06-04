@@ -1,14 +1,18 @@
 package pl.roszkowska.med.api.service;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 import pl.roszkowska.med.LoginResponseDto;
 import pl.roszkowska.med.api.medicines.Medicines;
+import pl.roszkowska.med.api.myPharmacy.MyPharmacy;
 import pl.roszkowska.med.api.myPharmacy.MyPharmacyDB;
 //import pl.roszkowska.med.api.producers.Producers;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -27,6 +31,10 @@ public interface MedicinesService {
     @GET("/api/my-pharmacies")
     Call<List<MyPharmacyDB>> getMyPharmacy(@Header("Authorization") String authorization);
 
+    @Headers({"Accept: application/json",
+            "Content-Type: application/json"})
+    @GET("/api/medicines/{id}")
+    Call<Medicines> getMedicinesById(@Header("Authorization") String authorization, @Path("id") String id);
 
     @Headers({"Accept: application/json",
             "Content-Type: application/json"})
@@ -40,6 +48,15 @@ public interface MedicinesService {
 
     @Headers({"Accept: application/json",
             "Content-Type: application/json"})
+//    @FormUrlEncoded
     @POST("/api/my-pharmacies")
-    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Field("medicinesName") String name);
+//    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Body Medicines medicines);
+
+    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization,
+                                    @Query("expirationData") String expirationData,
+                                    @Query("howMany") String howMany,
+                                    @Query("isTaken") String isTaken,
+                                    @Body Medicines medicines);
+
+//    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Field("id") String id);
 }

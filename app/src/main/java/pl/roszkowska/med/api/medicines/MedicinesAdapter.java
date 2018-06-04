@@ -66,4 +66,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
         notifyDataSetChanged();
     }
 
+    public List<Medicines> getMedicinesList() {
+        return medicinesList;
+    }
 }
