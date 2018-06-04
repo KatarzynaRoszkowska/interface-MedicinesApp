@@ -129,7 +129,7 @@ public class MedicinesActivity extends AppCompatActivity {
 
 
             }
-        };*/
+        };
 
         //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(item);
         //itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -182,6 +182,6 @@ public class MedicinesActivity extends AppCompatActivity {
                 Log.d("ERROR", "Nie Dodano leku do mojej apteki");
 
             }
-        });
+        });*/
     }
 }
