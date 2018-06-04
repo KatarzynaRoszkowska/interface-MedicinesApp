@@ -48,14 +48,14 @@ public interface MedicinesService {
 
     @Headers({"Accept: application/json",
             "Content-Type: application/json"})
-//    @FormUrlEncoded
+    @FormUrlEncoded
     @POST("/api/my-pharmacies")
 //    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Body Medicines medicines);
 
     Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization,
-                                    @Query("expirationData") String expirationData,
-                                    @Query("howMany") String howMany,
-                                    @Query("isTaken") String isTaken,
+                                    @Field("expirationData") String expirationData,
+                                    @Field("howMany") String howMany,
+                                    @Field("isTaken") String isTaken,
                                     @Body Medicines medicines);
 
 //    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Field("id") String id);
