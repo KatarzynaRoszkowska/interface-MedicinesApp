@@ -51,7 +51,7 @@ public class MedicinesActivity extends AppCompatActivity {
         recyclerView.setAdapter(medicinesAdapter);
 
 
-        ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -62,14 +62,32 @@ public class MedicinesActivity extends AppCompatActivity {
                 int position = viewHolder.getAdapterPosition();
                 medicinesAdapter.notifyItemRemoved(position);
                 //medicinesList.remove(position);
-                medicinesList.get(position).getMedicinesName();
+//                medicinesList.get(position).getMedicinesName();
                // myPharmacyDBList.add(new MyPharmacyDB(medicinesList.get(position).getMedicinesName()));
                 //myPharmacyDBAdapter = new MyPharmacyDBAdapter(this,myPharmacyDBList);
 
                 //todo Maciek W tej metodzie swipe pobiera się konretną nazwę leku i teraz
                 //wypadało by zapisac ja do tabeli MyPharamcy i tyle, ja chcialam na liscie zrobic, ale tu nie mozna adaptera wywolac innego,
                 //wiec postaraj sie wlasnie tutaj tylko na podstawie pobranej danej zapisac to bazy dnych MyPharamacy
+                myMedicinesApplication = (MyMedicinesApplication) getApplication();
+                medicinesService = myMedicinesApplication.getMedicinesService();
 
+                Call<MyPharmacyDB> addMed = medicinesService.addMedicines(myMedicinesApplication.getToken().getTokenID(), );
+
+                addMed.enqueue(new Callback<MyPharmacyDB>() {
+                    @Override
+                    public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
+                        if(response.isSuccessful()) {
+                            Log.d("ADD", "Dodano lek do mojej apteki");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
+                        Log.d("ERROR", "Nie Dodano leku do mojej apteki");
+
+                    }
+                });
             }
         };
 

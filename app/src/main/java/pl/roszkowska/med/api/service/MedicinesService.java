@@ -8,6 +8,7 @@ import pl.roszkowska.med.api.myPharmacy.MyPharmacyDB;
 //import pl.roszkowska.med.api.producers.Producers;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -36,4 +37,9 @@ public interface MedicinesService {
             "Content-Type: application/json"})
     @GET("/api/medicines/ean/{ean}")
     Call<Medicines> getMedicinesEan(@Header("Authorization") String authorization, @Path("ean") String ean);
+
+    @Headers({"Accept: application/json",
+            "Content-Type: application/json"})
+    @POST("/api/my-pharmacies")
+    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Field("medicinesName") String name);
 }
