@@ -14,11 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import pl.roszkowska.med.api.appInformation.AppInformationActivity;
 import pl.roszkowska.med.api.Scanner.ScanTheCode;
 import pl.roszkowska.med.api.medicines.MedicinesActivity;
 import pl.roszkowska.med.api.myPharmacy.MyPharmacy;
 import pl.roszkowska.med.api.producers.Producers;
 import pl.roszkowska.med.api.service.MedicinesService;
+import pl.roszkowska.med.api.userInformation.UserInformationActivity;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity

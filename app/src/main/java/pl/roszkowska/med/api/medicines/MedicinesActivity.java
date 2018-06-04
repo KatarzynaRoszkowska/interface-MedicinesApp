@@ -92,9 +92,9 @@ public class MedicinesActivity extends AppCompatActivity {
             }
         });
 
+/*
 
-
-        /*ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -131,8 +131,8 @@ public class MedicinesActivity extends AppCompatActivity {
             }
         };
 
-        //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(item);
-        //itemTouchHelper.attachToRecyclerView(recyclerView);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(item);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
         //downloadMedicines();
