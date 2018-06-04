@@ -25,6 +25,9 @@
             android:name=".UserInformationActivity"
             android:label="Informacje o użytkowniku" />
         <activity
+            android:name=".api.medicines.ShowDetailsMedicinesActivity"
+            android:label="Informacje o leku" />
+        <activity
             android:name=".AppInformationActivity"
             android:label="Informacje o aplikacji" />
         <activity

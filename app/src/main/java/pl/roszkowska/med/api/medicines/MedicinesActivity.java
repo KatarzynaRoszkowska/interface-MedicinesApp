@@ -1,5 +1,6 @@
 package pl.roszkowska.med.api.medicines;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +22,6 @@ import retrofit2.Response;
 
 public class MedicinesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    MyPharmacyDBAdapter myPharmacyDBAdapter;
     MedicinesAdapter medicinesAdapter;
     List<Medicines> medicinesList;
     List<MyPharmacyDB> myPharmacyDBList;
@@ -47,11 +47,54 @@ public class MedicinesActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        medicinesList.add(new Medicines("lekA","lnanana","diasdga","caisugc"));
+        medicinesList.add(new Medicines("lekB","lnanana","diasdga","caisugc"));
+        medicinesList.add(new Medicines("lekC","lnanana","diasdga","caisugc"));
+        medicinesList.add(new Medicines("lekD","lnanana","diasdga","caisugc"));
+        medicinesList.add(new Medicines("lekE","lnanana","diasdga","caisugc"));
+        medicinesList.add(new Medicines("lekF","lnanana","diasdga","caisugc"));
+
         medicinesAdapter = new MedicinesAdapter(this, medicinesList);
         recyclerView.setAdapter(medicinesAdapter);
 
+        medicinesAdapter.setOnItemClickListener(new MedicinesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                String medicinesName = medicinesList.get(position).getMedicinesName();
+                String composition = medicinesList.get(position).getComposition();
+                String formOfTheDrag = medicinesList.get(position).getFormOfTheDrag();
+                String category = medicinesList.get(position).getCategory();
+                String speciality = medicinesList.get(position).getSpeciality();
+                String activity = medicinesList.get(position).getActivity();
+                String indications = medicinesList.get(position).getIndications();
+                String wayOfGiving = medicinesList.get(position).getWayOfGiving();
+                String possibleSideEffect = medicinesList.get(position).getPossibleSideEffect();
+                String dose = medicinesList.get(position).getDose();
+                String IsPrescription = medicinesList.get(position).getIsPrescription();
 
-        ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                medicinesAdapter.notifyItemChanged(position);
+
+                Intent showDetailsMedicinesIntent = new Intent(MedicinesActivity.this,ShowDetailsMedicinesActivity.class);
+
+                showDetailsMedicinesIntent.putExtra("medicinesName",medicinesName);
+                showDetailsMedicinesIntent.putExtra("composition",composition);
+                showDetailsMedicinesIntent.putExtra("formOfTheDrag",formOfTheDrag);
+                showDetailsMedicinesIntent.putExtra("category",category);
+                showDetailsMedicinesIntent.putExtra("speciality",speciality);
+                showDetailsMedicinesIntent.putExtra("activity",activity);
+                showDetailsMedicinesIntent.putExtra("indications",indications);
+                showDetailsMedicinesIntent.putExtra("wayOfGiving",wayOfGiving);
+                showDetailsMedicinesIntent.putExtra("possibleSideEffect",possibleSideEffect);
+                showDetailsMedicinesIntent.putExtra("dose",dose);
+                showDetailsMedicinesIntent.putExtra("IsPrescription",IsPrescription);
+
+                startActivity(showDetailsMedicinesIntent);
+            }
+        });
+
+
+
+        /*ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -72,7 +115,7 @@ public class MedicinesActivity extends AppCompatActivity {
                             Log.d("TAG", "Udalo sie");
                         }
                         //TODO KASIA
-                        /* Trzeba zrobic recycleView zeby sie nie kasował widok leku po przesunieciu*/
+                        // Trzeba zrobic recycleView zeby sie nie kasował widok leku po przesunieciu
                         medicines = response.body();
                         insertMedi();
                     }
@@ -86,13 +129,13 @@ public class MedicinesActivity extends AppCompatActivity {
 
 
             }
-        };
+        };*/
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(item);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(item);
+        //itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
-        downloadMedicines();
+        //downloadMedicines();
     }
 
     private void downloadMedicines() {

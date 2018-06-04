@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 import java.util.List;
 import pl.roszkowska.med.R;
@@ -15,6 +16,17 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
     private Context contex;
     private List<Medicines> medicinesList;
     private Medicines medicines;
+
+    public OnItemClickListener mListener;
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listner)
+    {
+        mListener = listner;
+    }
 
     public MedicinesAdapter(Context contex, List<Medicines> medicinesList) {
         this.contex = contex;
@@ -26,7 +38,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
     public MedicinesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(contex);
         View view = layoutInflater.inflate(R.layout.activity_medicines_list,null);
-        MedicinesViewHolder holder = new MedicinesViewHolder(view);
+        MedicinesViewHolder holder = new MedicinesViewHolder(view, mListener);
 
         return holder;
     }
@@ -39,6 +51,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
         holder.speciality.setText(medicines.getSpeciality());
         holder.composition.setText(medicines.getComposition());
         holder.formOfTheDrag.setText(medicines.getFormOfTheDrag());
+
     }
 
     @Override
@@ -50,12 +63,26 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
     class MedicinesViewHolder extends RecyclerView.ViewHolder{
         TextView medicinesName, speciality, composition, formOfTheDrag, ean;
 
-        public MedicinesViewHolder(View itemView) {
+        public MedicinesViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             medicinesName = itemView.findViewById(R.id.nameListOfMedicines);
             speciality = itemView.findViewById(R.id.specialityListOfMedicines);
             composition = itemView.findViewById(R.id.compositionListOfMedicines);
             formOfTheDrag = itemView.findViewById(R.id.formOfTheDragListOfMedicines);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+
+
+                }
+            });
         }
     }
 
