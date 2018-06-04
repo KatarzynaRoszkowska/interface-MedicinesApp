@@ -143,7 +143,7 @@ public class MedicinesActivity extends AppCompatActivity {
          */
         medicines = new Medicines();
 
-        Call<MyPharmacyDB> addMed = medicinesService.addMedicines(myMedicinesApplication.getToken().getTokenID(), "null","0", "false", medicines);
+        Call<MyPharmacyDB> addMed = medicinesService.addMedicines(myMedicinesApplication.getToken().getTokenID(), medicines);
         addMed.enqueue(new Callback<MyPharmacyDB>() {
             @Override
             public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {

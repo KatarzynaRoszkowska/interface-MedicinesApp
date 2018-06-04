@@ -16,6 +16,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -48,14 +49,10 @@ public interface MedicinesService {
 
     @Headers({"Accept: application/json",
             "Content-Type: application/json"})
-    @FormUrlEncoded
     @POST("/api/my-pharmacies")
 //    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Body Medicines medicines);
 
     Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization,
-                                    @Field("expirationData") String expirationData,
-                                    @Field("howMany") String howMany,
-                                    @Field("isTaken") String isTaken,
                                     @Body Medicines medicines);
 
 //    Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Field("id") String id);
