@@ -34,7 +34,7 @@ public class ShowDetailsMedicinesActivity extends AppCompatActivity {
         detailsComposition.setText("Skład: "+ getIntent().getExtras().getString("composition"));
         detailsFormOfTheDrag.setText("Formuła: "+ getIntent().getExtras().getString("formOfTheDrag"));
         detailsCategory.setText("Kategoria: "+ getIntent().getExtras().getString("category"));
-        detailsSpeciality.setText("Przeznaczenie" + getIntent().getExtras().getString("speciality"));
+        detailsSpeciality.setText("Przeznaczenie: " + getIntent().getExtras().getString("speciality"));
         detailsActivity.setText("Działanie: "+ getIntent().getExtras().getString("activity"));
         detailsIndications.setText("Wskazania: "+ getIntent().getExtras().getString("indications"));
         detailsWayOfGiving.setText("Sposób zażywania: "+ getIntent().getExtras().getString("wayOfGiving"));

@@ -24,7 +24,6 @@ public class MedicinesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     MedicinesAdapter medicinesAdapter;
     List<Medicines> medicinesList;
-    List<MyPharmacyDB> myPharmacyDBList;
     private List<String> nameList;
     private List<String> idList;
     private MyMedicinesApplication myMedicinesApplication;
@@ -47,13 +46,13 @@ public class MedicinesActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        medicinesList.add(new Medicines("lekA","lnanana","diasdga","caisugc"));
-//        medicinesList.add(new Medicines("lekB","lnanana","diasdga","caisugc"));
-//        medicinesList.add(new Medicines("lekC","lnanana","diasdga","caisugc"));
-//        medicinesList.add(new Medicines("lekD","lnanana","diasdga","caisugc"));
-//        medicinesList.add(new Medicines("lekE","lnanana","diasdga","caisugc"));
-//        medicinesList.add(new Medicines("lekF","lnanana","diasdga","caisugc"));
-
+        /*medicinesList.add(new Medicines("lekA","lnanffffffffvfevwfsvfsvsgrtgrtegrtgrana","ddddddeddedede  erewger ger g er gwr eg ew rgewr ge rwg e rg ew rg r g e g ew g ewrgiasdgadedede  erewger ger g er gwr eg ew rgewr ge rwg e rg ew rg r g e g ew g ewrgiasdgaede  erewger ger g er gwr eg ew rgewr ge rwg e rg ew rg r g e g ew g ewrgiasdga","caisugc"));
+        medicinesList.add(new Medicines("lekB","lnanana","diasdga","caisugc"));
+        medicinesList.add(new Medicines("lekC","lnaciucbiweubviwueviuweuwevc  wwbeubweuciweuc bwubcuiweviuewbviwe buiewbcuiweb cweibcuiewnana","diasdga","caisugc"));
+        medicinesList.add(new Medicines("lekD","lnanana","diasdcjsqbciqbfiuqgfiuegdiugeiugwuiefgiwuf qwbfiw f hw fuiwf we fuwe uiw ega","caiscauu wsgcuywgwvcusvcuqwguygwduqdqugc"));
+        medicinesList.add(new Medicines("lekE","lnanana","diasdga","caisugc"));
+        medicinesList.add(new Medicines("lekF","lnanana","diasdcibwieuvcwivciwevci cbwuebuiwbviuwe bcuwebciuwebc ga","caisugc"));
+*/
         medicinesAdapter = new MedicinesAdapter(this, medicinesList);
         recyclerView.setAdapter(medicinesAdapter);
 
