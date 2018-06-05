@@ -104,10 +104,9 @@ public class MedicinesActivity extends AppCompatActivity {
                         if(response.isSuccessful()) {
                             Log.d("TAG", "Udalo sie");
                         }
-                        //TODO KASIA
-                        // Trzeba zrobic recycleView zeby sie nie kasował widok leku po przesunieciu
                         medicines = response.body();
                         insertMedi();
+                        downloadMedicines();
                     }
 
                     @Override
