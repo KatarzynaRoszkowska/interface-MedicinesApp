@@ -70,6 +70,7 @@ public class MyPharmacy extends AppCompatActivity {
                             myPharmacyDBAdapter.notifyItemRemoved(position);
                             myPharmacyDBAdapter.notifyDataSetChanged();
                             downloadMyMedicines();
+
                         }
                     }
 
