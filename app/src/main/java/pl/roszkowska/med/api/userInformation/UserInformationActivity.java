@@ -16,6 +16,7 @@ public class UserInformationActivity extends AppCompatActivity {
     Button userInfo;
     TextView userName, userMedicinesINFO, userContactINFO, userAllergieINFO, userEMailINFO;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,13 +29,15 @@ public class UserInformationActivity extends AppCompatActivity {
         userAllergieINFO = findViewById(R.id.userAllergieINFO);
         userEMailINFO = findViewById(R.id.userEMailINFO);
 
+
         SharedPreferences sp = getSharedPreferences("dane", Context.MODE_PRIVATE);
 
         userName.setText(String.format("%s", sp.getString(SetUserInfoActivity.NAME_PREFS, "Nieznany")));
         userMedicinesINFO.setText(String.format("%s", sp.getString(SetUserInfoActivity.USER_MEDICINES, "Nieznany")));
-      //  userContactINFO.setText(String.format("%s", sp.getString(SetUserInfoActivity.U, "Nieznany")));
         userAllergieINFO.setText(String.format("%s", sp.getString(SetUserInfoActivity.USER_ALERGIE, "Nieznany")));
         userEMailINFO.setText(String.format("%s", sp.getString(SetUserInfoActivity.USER_EMAIL, "Nieznany")));
+
+
 
 
        userInfo.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,8 @@
 package pl.roszkowska.med;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import pl.roszkowska.med.api.appInformation.AppInformationActivity;
@@ -20,6 +23,7 @@ import pl.roszkowska.med.api.medicines.MedicinesActivity;
 import pl.roszkowska.med.api.myPharmacy.MyPharmacy;
 import pl.roszkowska.med.api.producers.Producers;
 import pl.roszkowska.med.api.service.MedicinesService;
+import pl.roszkowska.med.api.userInformation.SetUserInfoActivity;
 import pl.roszkowska.med.api.userInformation.UserInformationActivity;
 import retrofit2.Retrofit;
 
@@ -35,6 +39,8 @@ public class MainActivity extends AppCompatActivity
     MenuItem aboutUser;
     private CardView myPharm;
     private CardView medicines;
+    TextView email, name;
+
 
     public MedicinesService getService() {
         return service;
@@ -61,6 +67,18 @@ public class MainActivity extends AppCompatActivity
         aboutUser = findViewById(R.id.aboutUser);
         myPharm = findViewById(R.id.myPharmacy1);
         medicines = findViewById(R.id.listOfMedicines);
+
+
+
+       /* SharedPreferences sp = getSharedPreferences("dane", Context.MODE_PRIVATE);
+        //View navHeaderView = navigationView.inflateHeaderView(R.layout.nav_header_main);
+         email = navigationView.findViewById(R.id.emailUser);
+         name = navigationView.findViewById(R.id.nameUser);
+         name.setText(String.format("%s", sp.getString(SetUserInfoActivity.NAME_PREFS, "Nieznany")));
+         email.setText(String.format("%s", sp.getString(SetUserInfoActivity.USER_EMAIL, "Nieznany")));*/
+
+
+
 
         //listen for clicks
         scanBtn.setOnClickListener(new View.OnClickListener() {

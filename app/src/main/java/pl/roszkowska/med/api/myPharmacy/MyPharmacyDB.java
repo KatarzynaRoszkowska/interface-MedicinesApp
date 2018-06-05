@@ -9,6 +9,11 @@ public class MyPharmacyDB {
     String howMany;
     String expirationData;
     Medicines medicines;
+    String nazwaLeku;
+
+    public String getNazwaLeku() {
+        return nazwaLeku;
+    }
 
     public Medicines getMedicines() {
         return medicines;
@@ -47,9 +52,17 @@ public class MyPharmacyDB {
         this.expirationData = expirationData;
     }
 
+    public MyPharmacyDB(String isTaken, String howMany, String expirationData, String nazwaLeku) {
+        this.isTaken = isTaken;
+        this.howMany = howMany;
+        this.expirationData = expirationData;
+        this.nazwaLeku = nazwaLeku;
+    }
+
     @Override
     public String toString() {
         return "MyPharmacyDB{" +
+
                 "id='" + id + '\'' +
                 ", isTaken='" + isTaken + '\'' +
                 ", howMany='" + howMany + '\'' +
