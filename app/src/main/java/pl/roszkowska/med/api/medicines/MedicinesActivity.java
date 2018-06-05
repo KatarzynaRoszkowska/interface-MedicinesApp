@@ -47,12 +47,12 @@ public class MedicinesActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        medicinesList.add(new Medicines("lekA","lnanana","diasdga","caisugc"));
-        medicinesList.add(new Medicines("lekB","lnanana","diasdga","caisugc"));
-        medicinesList.add(new Medicines("lekC","lnanana","diasdga","caisugc"));
-        medicinesList.add(new Medicines("lekD","lnanana","diasdga","caisugc"));
-        medicinesList.add(new Medicines("lekE","lnanana","diasdga","caisugc"));
-        medicinesList.add(new Medicines("lekF","lnanana","diasdga","caisugc"));
+//        medicinesList.add(new Medicines("lekA","lnanana","diasdga","caisugc"));
+//        medicinesList.add(new Medicines("lekB","lnanana","diasdga","caisugc"));
+//        medicinesList.add(new Medicines("lekC","lnanana","diasdga","caisugc"));
+//        medicinesList.add(new Medicines("lekD","lnanana","diasdga","caisugc"));
+//        medicinesList.add(new Medicines("lekE","lnanana","diasdga","caisugc"));
+//        medicinesList.add(new Medicines("lekF","lnanana","diasdga","caisugc"));
 
         medicinesAdapter = new MedicinesAdapter(this, medicinesList);
         recyclerView.setAdapter(medicinesAdapter);
@@ -60,17 +60,17 @@ public class MedicinesActivity extends AppCompatActivity {
         medicinesAdapter.setOnItemClickListener(new MedicinesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                String medicinesName = medicinesList.get(position).getMedicinesName();
-                String composition = medicinesList.get(position).getComposition();
-                String formOfTheDrag = medicinesList.get(position).getFormOfTheDrag();
-                String category = medicinesList.get(position).getCategory();
-                String speciality = medicinesList.get(position).getSpeciality();
-                String activity = medicinesList.get(position).getActivity();
-                String indications = medicinesList.get(position).getIndications();
-                String wayOfGiving = medicinesList.get(position).getWayOfGiving();
-                String possibleSideEffect = medicinesList.get(position).getPossibleSideEffect();
-                String dose = medicinesList.get(position).getDose();
-                String IsPrescription = medicinesList.get(position).getIsPrescription();
+                String medicinesName = medicinesAdapter.getMedicinesList().get(position).getMedicinesName();
+                String composition = medicinesAdapter.getMedicinesList().get(position).getComposition();
+                String formOfTheDrag = medicinesAdapter.getMedicinesList().get(position).getFormOfTheDrag();
+                String category = medicinesAdapter.getMedicinesList().get(position).getCategory();
+                String speciality = medicinesAdapter.getMedicinesList().get(position).getSpeciality();
+                String activity = medicinesAdapter.getMedicinesList().get(position).getActivity();
+                String indications = medicinesAdapter.getMedicinesList().get(position).getIndications();
+                String wayOfGiving = medicinesAdapter.getMedicinesList().get(position).getWayOfGiving();
+                String possibleSideEffect = medicinesAdapter.getMedicinesList().get(position).getPossibleSideEffect();
+                String dose = medicinesAdapter.getMedicinesList().get(position).getDose();
+                String IsPrescription = medicinesAdapter.getMedicinesList().get(position).getIsPrescription();
 
                 medicinesAdapter.notifyItemChanged(position);
 
@@ -91,8 +91,6 @@ public class MedicinesActivity extends AppCompatActivity {
                 startActivity(showDetailsMedicinesIntent);
             }
         });
-
-/*
 
         ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
@@ -135,7 +133,7 @@ public class MedicinesActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
-        //downloadMedicines();
+        downloadMedicines();
     }
 
     private void downloadMedicines() {
@@ -182,6 +180,6 @@ public class MedicinesActivity extends AppCompatActivity {
                 Log.d("ERROR", "Nie Dodano leku do mojej apteki");
 
             }
-        });*/
+        });
     }
 }

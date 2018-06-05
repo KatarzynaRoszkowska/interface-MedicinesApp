@@ -11,6 +11,7 @@ import pl.roszkowska.med.api.myPharmacy.MyPharmacyDB;
 //import pl.roszkowska.med.api.producers.Producers;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -51,4 +52,9 @@ public interface MedicinesService {
             "Content-Type: application/json"})
     @POST("/api/my-pharmacies")
     Call<MyPharmacyDB> addMedicines(@Header("Authorization") String authorization, @Body MyPharmacyDB myPharmacyDB);
+
+    @Headers({"Accept: application/json",
+            "Content-Type: application/json"})
+    @DELETE("/api/my-pharmacies/{id}")
+    Call<MyPharmacyDB> deleteMyPharmacie(@Header("Authorization") String authorization, @Path("id") String id);
 }
