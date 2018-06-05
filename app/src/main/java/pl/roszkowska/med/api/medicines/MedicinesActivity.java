@@ -24,7 +24,6 @@ public class MedicinesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     MedicinesAdapter medicinesAdapter;
     List<Medicines> medicinesList;
-    List<MyPharmacyDB> myPharmacyDBList;
     private List<String> nameList;
     private List<String> idList;
     private MyMedicinesApplication myMedicinesApplication;
@@ -46,13 +45,6 @@ public class MedicinesActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewListOfMedicines);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-//        medicinesList.add(new Medicines("lekA","lnanana","diasdga","caisugc"));
-//        medicinesList.add(new Medicines("lekB","lnanana","diasdga","caisugc"));
-//        medicinesList.add(new Medicines("lekC","lnanana","diasdga","caisugc"));
-//        medicinesList.add(new Medicines("lekD","lnanana","diasdga","caisugc"));
-//        medicinesList.add(new Medicines("lekE","lnanana","diasdga","caisugc"));
-//        medicinesList.add(new Medicines("lekF","lnanana","diasdga","caisugc"));
 
         medicinesAdapter = new MedicinesAdapter(this, medicinesList);
         recyclerView.setAdapter(medicinesAdapter);

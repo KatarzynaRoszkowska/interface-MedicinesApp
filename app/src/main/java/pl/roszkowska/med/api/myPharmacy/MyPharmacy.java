@@ -26,6 +26,7 @@ public class MyPharmacy extends AppCompatActivity {
     private MedicinesService medicinesService;
     private MyMedicinesApplication myMedicinesApplication;
     private List<String> idList;
+    private int position;
 
 
     @Override
@@ -55,11 +56,9 @@ public class MyPharmacy extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                final int position = viewHolder.getAdapterPosition();
-//                myPharmacyDBAdapter.notifyItemRemoved(position);
-//                myPharmacyDBAdapter.notifyDataSetChanged();
-                Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
+                position = viewHolder.getAdapterPosition();
 
+                Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
                 delete.enqueue(new Callback<MyPharmacyDB>() {
                     @Override
                     public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
@@ -70,10 +69,7 @@ public class MyPharmacy extends AppCompatActivity {
                              */
                             myPharmacyDBAdapter.notifyItemRemoved(position);
                             myPharmacyDBAdapter.notifyDataSetChanged();
-                            recyclerView.invalidate();
-                            recyclerView.setAdapter(myPharmacyDBAdapter);
                             downloadMyMedicines();
-                            Log.d("DELETE", "Usunieto lek");
                         }
                     }
 
@@ -90,8 +86,6 @@ public class MyPharmacy extends AppCompatActivity {
                          */
                         myPharmacyDBAdapter.notifyItemRemoved(position);
                         myPharmacyDBAdapter.notifyDataSetChanged();
-                        recyclerView.invalidate();
-                        recyclerView.setAdapter(myPharmacyDBAdapter);
                         downloadMyMedicines();
                         Log.d("DELETE", "Nie udało się ununą leku");
 
@@ -116,6 +110,7 @@ public class MyPharmacy extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<MyPharmacyDB>> call, Response<List<MyPharmacyDB>> response) {
                 if (response.isSuccessful()) {
+                    idList = new ArrayList<>();
                     for (int i = 0; i < response.body().size(); i++) {
                         Log.d("TAG", response.body().get(i).toString());
                         idList.add(response.body().get(i).getId().toString());
