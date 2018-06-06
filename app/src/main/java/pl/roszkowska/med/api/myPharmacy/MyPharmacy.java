@@ -167,6 +167,44 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
             // remove the item from recycler view
             myPharmacyDBAdapter.removeItem(viewHolder.getAdapterPosition());
 
+            position = viewHolder.getAdapterPosition();
+
+            Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
+            delete.enqueue(new Callback<MyPharmacyDB>() {
+                @Override
+                public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
+                    if (response.isSuccessful()) {
+                        //TODO KASIA
+                            /*
+                            Rozwiazanie tymczasowe. Dziala odswiezanie listy ale wydaje mi sie ze nie w taki sposób powinno to funkcjonowac
+                             */
+                        myPharmacyDBAdapter.notifyItemRemoved(position);
+                        myPharmacyDBAdapter.notifyDataSetChanged();
+                        myPharmacyDBAdapter.getMyPharmacyDBList().remove(position);
+                        downloadMyMedicines();
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
+                    //TODO KASIA
+                         /*
+                        Rozwiazanie tymczasowe. Dziala odswiezanie listy ale wydaje mi sie ze nie w taki sposób powinno to funkcjonowac
+                        */
+
+                    //TODO Maciek
+                        /*
+                        Gdzieś jest błąd najprawdopodobniej z parsowaniem czegos. Wcześniej działało dobrze i teraz tez potrafi usunąć lek z bazy mimo że jest onFailure :(
+                         */
+                    myPharmacyDBAdapter.notifyItemRemoved(position);
+                    myPharmacyDBAdapter.notifyDataSetChanged();
+                    myPharmacyDBAdapter.getMyPharmacyDBList().remove(position);
+                    downloadMyMedicines();
+                    Log.d("DELETE", "Nie udało się ununą leku");
+
+                }
+            });
         }
 
     }
