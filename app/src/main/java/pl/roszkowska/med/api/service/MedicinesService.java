@@ -58,3 +58,4 @@ public interface MedicinesService {
     @DELETE("/api/my-pharmacies/{id}")
     Call<MyPharmacyDB> deleteMyPharmacie(@Header("Authorization") String authorization, @Path("id") String id);
 }
+

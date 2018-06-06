@@ -20,6 +20,7 @@ import java.util.List;
 import pl.roszkowska.med.MyMedicinesApplication;
 import pl.roszkowska.med.R;
 import pl.roszkowska.med.api.medicines.Medicines;
+
 import pl.roszkowska.med.api.service.MedicinesService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,6 +43,7 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
         setContentView(R.layout.activity_my_pharmacy);
 
         downloadMyMedicines();
+
         idList = new ArrayList<>();
         myPharmacyDBList = new ArrayList<>();
         coordinatorLayout = findViewById(R.id.coordinator);
@@ -57,6 +59,7 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(myPharmacyDBAdapter);
+        myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
 
         myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
 
@@ -112,7 +115,66 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
         // Inflate the menu; this adds cartList to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+        downloadMyMedicines();
+
+        ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition();
+//                myPharmacyDBAdapter.notifyItemRemoved(position);
+//                myPharmacyDBAdapter.notifyDataSetChanged();
+                Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
+
+                delete.enqueue(new Callback<MyPharmacyDB>() {
+                    @Override
+                    public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
+                        if (response.isSuccessful()) {
+                            //TODO KASIA
+                            /*
+                            Rozwiazanie tymczasowe. Dziala odswiezanie listy ale wydaje mi sie ze nie w taki sposób powinno to funkcjonowac
+                             */
+                            myPharmacyDBAdapter.notifyItemRemoved(position);
+                            myPharmacyDBAdapter.notifyDataSetChanged();
+                            recyclerView.invalidate();
+                            recyclerView.setAdapter(myPharmacyDBAdapter);
+                            downloadMyMedicines();
+                            Log.d("DELETE", "Usunieto lek");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
+                        //TODO KASIA
+                         /*
+                        Rozwiazanie tymczasowe. Dziala odswiezanie listy ale wydaje mi sie ze nie w taki sposób powinno to funkcjonowac
+                        */
+
+                        //TODO Maciek
+                        /*
+                        Gdzieś jest błąd najprawdopodobniej z parsowaniem czegos. Wcześniej działało dobrze i teraz tez potrafi usunąć lek z bazy mimo że jest onFailure :(
+                         */
+                        myPharmacyDBAdapter.notifyItemRemoved(position);
+                        myPharmacyDBAdapter.notifyDataSetChanged();
+                        recyclerView.invalidate();
+                        recyclerView.setAdapter(myPharmacyDBAdapter);
+                        downloadMyMedicines();
+                        Log.d("DELETE", "Nie udało się ununą leku");
+
+                    }
+                });
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(item);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
+
 
     private void downloadMyMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
@@ -125,6 +187,7 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
             public void onResponse(Call<List<MyPharmacyDB>> call, Response<List<MyPharmacyDB>> response) {
                 if (response.isSuccessful()) {
                     idList = new ArrayList<>();
+
                     for (int i = 0; i < response.body().size(); i++) {
                         Log.d("TAG", response.body().get(i).toString());
                         idList.add(response.body().get(i).getId().toString());
@@ -139,4 +202,5 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
             }
         });
     }
+
 }

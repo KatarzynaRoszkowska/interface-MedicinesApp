@@ -93,7 +93,6 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<MyPharmacyDBAdapte
     public List<MyPharmacyDB> getMyPharmacyDBList() {
         // odśwież RecyclerView
         notifyDataSetChanged();
-
         return myPharmacyDBList;
     }
 }

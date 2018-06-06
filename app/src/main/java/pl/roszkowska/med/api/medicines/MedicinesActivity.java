@@ -47,6 +47,7 @@ public class MedicinesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         medicinesAdapter = new MedicinesAdapter(this, medicinesList);
+
         recyclerView.setAdapter(medicinesAdapter);
 
         medicinesAdapter.setOnItemClickListener(new MedicinesAdapter.OnItemClickListener() {
@@ -123,12 +124,12 @@ public class MedicinesActivity extends AppCompatActivity {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(item);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-
         downloadMedicines();
     }
 
     private void downloadMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
+
         medicinesService = myMedicinesApplication.getMedicinesService();
 
         Call<List<Medicines>> repo = medicinesService.getMedicines(myMedicinesApplication.getToken().getTokenID());
@@ -152,7 +153,6 @@ public class MedicinesActivity extends AppCompatActivity {
         });
 
     }
-
     private void insertMedi() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
@@ -173,4 +173,5 @@ public class MedicinesActivity extends AppCompatActivity {
             }
         });
     }
+
 }
