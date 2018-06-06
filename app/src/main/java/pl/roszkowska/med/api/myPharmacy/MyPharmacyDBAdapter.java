@@ -31,7 +31,6 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<MyPharmacyDBAdapte
     public MyPharmacyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(contex);
-        //View view = layoutInflater.inflate(R.layout.activity_my_pharmacy_list,null);
         View view = layoutInflater.inflate(R.layout.activity_my_pharmacy_list,null);
         MyPharmacyViewHolder holder = new MyPharmacyViewHolder(view);
 
@@ -42,9 +41,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<MyPharmacyDBAdapte
     public void onBindViewHolder(@NonNull MyPharmacyViewHolder holder, int position) {
         MyPharmacyDB myPharmacyDB = myPharmacyDBList.get(position);
 
-        //TODO MACIEk odkomenuj ponizszą linijkę i zakomentuj tą jedną niżej z getNazwaLeku();
-        //holder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
-        holder.name.setText(myPharmacyDB.getNazwaLeku());
+        holder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
         holder.validate.setText(myPharmacyDB.getExpirationData());
 
     }

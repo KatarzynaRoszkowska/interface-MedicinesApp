@@ -41,6 +41,7 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_pharmacy);
 
+        downloadMyMedicines();
         idList = new ArrayList<>();
         myPharmacyDBList = new ArrayList<>();
         coordinatorLayout = findViewById(R.id.coordinator);
@@ -62,124 +63,18 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
-        downloadMyMedicines();
-        //TODO MACIEJ to tez będzie nie potrzebne:
-
-//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","lekA"));
-//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","lekB"));
-//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","lekC"));
-//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","lekD"));
-
-
-        /*downloadMyMedicines();
-
-        ItemTouchHelper.SimpleCallback item = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                final int position = viewHolder.getAdapterPosition();
-                  myPharmacyDBAdapter.notifyItemRemoved(position);
-                    myPharmacyDBAdapter.notifyDataSetChanged();
-                Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
-
-                delete.enqueue(new Callback<MyPharmacyDB>() {
-                    @Override
-                    public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
-                        if (response.isSuccessful()) {
-                            //TODO KASIA
-
-                            //Rozwiazanie tymczasowe. Dziala odswiezanie listy ale wydaje mi sie ze nie w taki sposób powinno to funkcjonowac
-
-                            myPharmacyDBAdapter.notifyItemRemoved(position);
-                            myPharmacyDBAdapter.notifyDataSetChanged();
-                            recyclerView.invalidate();
-                            recyclerView.setAdapter(myPharmacyDBAdapter);
-                            downloadMyMedicines();
-                            Log.d("DELETE", "Usunieto lek");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
-                        //TODO KASIA
-
-                       // Rozwiazanie tymczasowe. Dziala odswiezanie listy ale wydaje mi sie ze nie w taki sposób powinno to funkcjonowac
-
-
-                        //TODO Maciek
-
-                        //Gdzieś jest błąd najprawdopodobniej z parsowaniem czegos. Wcześniej działało dobrze i teraz tez potrafi usunąć lek z bazy mimo że jest onFailure :(
-
-                        myPharmacyDBAdapter.notifyItemRemoved(position);
-                        myPharmacyDBAdapter.notifyDataSetChanged();
-                        recyclerView.invalidate();
-                        recyclerView.setAdapter(myPharmacyDBAdapter);
-                        downloadMyMedicines();
-                        Log.d("DELETE", "Nie udało się ununą leku");
-
-                    }
-                });
-            }
-        };
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(item);
-        itemTouchHelper.attachToRecyclerView(recyclerView);*/
-
     }
 
-
-   /* private void downloadMyMedicines() {
-        myMedicinesApplication = (MyMedicinesApplication) getApplication();
-        medicinesService = myMedicinesApplication.getMedicinesService();
-
-        final Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(myMedicinesApplication.getToken().getTokenID());
-
-        repo.enqueue(new Callback<List<MyPharmacyDB>>() {
-            @Override
-            public void onResponse(Call<List<MyPharmacyDB>> call, Response<List<MyPharmacyDB>> response) {
-                if (response.isSuccessful()) {
-                    for (int i = 0; i < response.body().size(); i++) {
-                        Log.d("TAG", response.body().get(i).toString());
-                        idList.add(response.body().get(i).getId().toString());
-                    }
-                    myPharmacyDBAdapter.setMyPharmacyDBList(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<MyPharmacyDB>> call, Throwable t) {
-                Log.d("ERROR", t.toString());
-            }
-        });
-    }*/
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof MyPharmacyDBAdapter.MyPharmacyViewHolder) {
-            // get the removed item name to display it in snack bar
-            //TODO MACIEj tutaj odkomentuj poniższą linijke i zakometuj tą jedną niżej z getNazwaLeku();
-            //TODO MACIEJ i tutaj muszisz zaaplikowac swoj kod serwerowy
-            // String name = myPharmacyDBList.get(viewHolder.getAdapterPosition()).getMedicines().getMedicinesName();
-            String name = myPharmacyDBList.get(viewHolder.getAdapterPosition()).getNazwaLeku();
-            // remove the item from recycler view
-            myPharmacyDBAdapter.removeItem(viewHolder.getAdapterPosition());
-
-            position = viewHolder.getAdapterPosition();
-
             Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
             final int finalPosition = position;
             delete.enqueue(new Callback<MyPharmacyDB>() {
                 @Override
                 public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
                     if (response.isSuccessful()) {
-                        //TODO KASIA
-                            /*
-                            Rozwiazanie tymczasowe. Dziala odswiezanie listy ale wydaje mi sie ze nie w taki sposób powinno to funkcjonowac
-                             */
                         myPharmacyDBAdapter.notifyItemRemoved(finalPosition);
                         myPharmacyDBAdapter.notifyDataSetChanged();
                         myPharmacyDBAdapter.getMyPharmacyDBList().remove(finalPosition);
@@ -198,7 +93,7 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
                     myPharmacyDBAdapter.notifyDataSetChanged();
                     myPharmacyDBAdapter.getMyPharmacyDBList().remove(finalPosition);
                     downloadMyMedicines();
-                    Log.d("DELETE", "Nie udało się ununą leku");
+                    Log.d("DELETE", "Nie udało się usunąc leku");
 
                 }
             });
