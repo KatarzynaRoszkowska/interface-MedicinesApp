@@ -57,6 +57,8 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(myPharmacyDBAdapter);
 
+        myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
+
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
