@@ -16,6 +16,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
     private Context contex;
     private List<Medicines> medicinesList;
     private Medicines medicines;
+    String s;
 
     public OnItemClickListener mListener;
 
@@ -48,9 +49,29 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
         medicines = medicinesList.get(position);
 
         holder.medicinesName.setText(medicines.getMedicinesName());
-        holder.speciality.setText(medicines.getSpeciality());
-        holder.composition.setText(medicines.getComposition());
-        holder.formOfTheDrag.setText(medicines.getFormOfTheDrag());
+        if(medicines.getSpeciality().length() >= 30)
+        {
+            s = medicines.getSpeciality().substring(0, 30);
+            holder.speciality.setText(s+" ...");
+        }
+        else
+            holder.speciality.setText(medicines.getSpeciality());
+
+        if(medicines.getComposition().length() >= 30)
+        {
+            s = medicines.getComposition().substring(0, 30);
+            holder.composition.setText(s+" ...");
+        }
+        else
+            holder.composition.setText(medicines.getComposition());
+
+        if(medicines.getFormOfTheDrag().length() >= 30)
+        {
+            s = medicines.getFormOfTheDrag().substring(0, 30);
+            holder.formOfTheDrag.setText(s+" ...");
+        }
+        else
+            holder.formOfTheDrag.setText(medicines.getFormOfTheDrag());
 
     }
 
