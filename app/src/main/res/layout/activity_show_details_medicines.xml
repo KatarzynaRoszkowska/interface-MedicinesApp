@@ -18,7 +18,6 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,7 +32,7 @@
                 android:src="@mipmap/ic_test" />
 
             <TextView
-                android:id="@+id/nameOfMedicine"
+                android:id="@+id/detailsMedicinesName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -47,34 +46,63 @@
                 android:layout_margin="10dp"/>
 
             <TextView
-                android:id="@+id/activity"
+                android:id="@+id/detailsComposition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp" />
 
             <TextView
-                android:id="@+id/composition"
+                android:id="@+id/detailsFormOfTheDrag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                />
+                android:layout_marginBottom="5dp" />
+
             <TextView
-                android:id="@+id/formOfTheDrag"
+                android:id="@+id/detailsCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/detailsSpeciality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/detailsActivity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"/>
 
             <TextView
-                android:id="@+id/quantity"
+                android:id="@+id/detailsIndications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"/>
 
             <TextView
-                android:id="@+id/wayOfGiving"
+                android:id="@+id/detailsWayOfGiving"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/detailsPossibleSideEffect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/detailsDose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"/>
+
+            <TextView
+                android:id="@+id/detailsIsPrescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
         </ScrollView>
     </android.support.v7.widget.CardView>

@@ -1,7 +1,7 @@
 package pl.roszkowska.med.api.medicines;
 
 public class Medicines {
-            String id;
+            Long id;
             String medicinesName;
             String composition;
             String formOfTheDrag;
@@ -29,11 +29,11 @@ public class Medicines {
 
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

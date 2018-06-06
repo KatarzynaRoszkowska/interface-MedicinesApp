@@ -1,10 +1,12 @@
-package pl.roszkowska.med;
+package pl.roszkowska.med.api.appInformation;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import pl.roszkowska.med.R;
 
 public class AppInformationActivity extends AppCompatActivity {
 

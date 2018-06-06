@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import pl.roszkowska.med.api.medicines.Medicines;
 import pl.roszkowska.med.api.myPharmacy.MyPharmacyDB;
 import pl.roszkowska.med.api.service.MedicinesService;
@@ -48,15 +50,25 @@ public class MyMedicinesApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+// set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+// add your other interceptors …
+
+// add logging as last interceptor
+        httpClient.addInterceptor(logging);  // <-- this is the important line!
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.0.122:8080") // Adres serwera
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
                 .build();
 
         medicinesService = retrofit.create(MedicinesService.class);
 
-                authenticateUser();
+        authenticateUser();
     }
 
     private void authenticateUser() {
@@ -74,7 +86,7 @@ public class MyMedicinesApplication extends Application {
             userCredentials.enqueue(new Callback<ResponseAuthentication>() {
                 @Override
                 public void onResponse(Call<ResponseAuthentication> call, Response<ResponseAuthentication> response) {
-                    if(response.isSuccessful()) {
+                    if (response.isSuccessful()) {
                         Log.d("EA", "Success: " + response.body().toString());
 //                    }
 
@@ -87,7 +99,7 @@ public class MyMedicinesApplication extends Application {
 
                         String responseHeaders = response.headers().get("Authorization");
                         token = new TokenCredentials();
-                        responseAuthentication= new ResponseAuthentication();
+                        responseAuthentication = new ResponseAuthentication();
                         token.tokenID = responseHeaders;
                         token.setTokenID(responseHeaders);
                         responseAuthentication.setTokenID(responseHeaders);
@@ -114,27 +126,27 @@ public class MyMedicinesApplication extends Application {
         }
     }
 
-//    private void downloadMyMedicines() {
-//        Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(responseAuthentication.getTokenID());
-//
-//        repo.enqueue(new Callback<List<MyPharmacyDB>>() {
-//            @Override
-//            public void onResponse(Call<List<MyPharmacyDB>> call, Response<List<MyPharmacyDB>> response) {
-//                if(response.isSuccessful()) {
-////                    myPharmacyDBAdapter.setMyPharmacyDBList(response.body());
-//                    for(int i=0; i<response.body().size();i++) {
-////                        MyPharmacyDB myPharmacyDB = response.body().get(i);
-//                        Log.d("TAG", response.body().get(i).toString());
-////                        Log.d("TAG", myPharmacyDB.toString());
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<MyPharmacyDB>> call, Throwable t) {
-//                Log.d("ERROR", t.toString());
-//            }
-//        });
-//    }
+    private void downloadMyMedicines() {
+        Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(responseAuthentication.getTokenID());
+
+        repo.enqueue(new Callback<List<MyPharmacyDB>>() {
+            @Override
+            public void onResponse(Call<List<MyPharmacyDB>> call, Response<List<MyPharmacyDB>> response) {
+                if (response.isSuccessful()) {
+//                    myPharmacyDBAdapter.setMyPharmacyDBList(response.body());
+                    for (int i = 0; i < response.body().size(); i++) {
+//                        MyPharmacyDB myPharmacyDB = response.body().get(i);
+                        Log.d("TAG", response.body().get(i).toString());
+//                        Log.d("TAG", myPharmacyDB.toString());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<MyPharmacyDB>> call, Throwable t) {
+                Log.d("ERROR", t.toString());
+            }
+        });
+    }
 
 }

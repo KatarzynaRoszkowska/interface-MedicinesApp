@@ -22,10 +22,18 @@
 
         </activity>
         <activity
-            android:name=".UserInformationActivity"
+            android:name=".api.userInformation.UserInformationActivity"
             android:label="Informacje o użytkowniku" />
+
         <activity
-            android:name=".AppInformationActivity"
+            android:name=".api.userInformation.SetUserInfoActivity"
+            android:label="Podaj informacje" />
+
+        <activity
+            android:name=".api.medicines.ShowDetailsMedicinesActivity"
+            android:label="Informacje o leku" />
+        <activity
+            android:name=".api.appInformation.AppInformationActivity"
             android:label="Informacje o aplikacji" />
         <activity
             android:name=".MainActivity"

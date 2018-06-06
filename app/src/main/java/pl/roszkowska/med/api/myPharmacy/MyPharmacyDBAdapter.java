@@ -1,11 +1,13 @@
 package pl.roszkowska.med.api.myPharmacy;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<MyPharmacyDBAdapte
 
     private Context contex;
     private List<MyPharmacyDB> myPharmacyDBList;
+
 
     public MyPharmacyDBAdapter(Context contex, List<MyPharmacyDB> myPharmacyDBList) {
         this.contex = contex;
@@ -40,6 +43,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<MyPharmacyDBAdapte
 
         holder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
         holder.validate.setText(myPharmacyDB.getExpirationData());
+
     }
 
     @Override
@@ -47,9 +51,24 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<MyPharmacyDBAdapte
         return myPharmacyDBList.size();
     }
 
+    public void removeItem(int position) {
+        myPharmacyDBList.remove(position);
+        // notify the item removed by position
+        // to perform recycler view delete animations
+        // NOTE: don't call notifyDataSetChanged()
+        notifyItemRemoved(position);
+    }
+
+    /*public void restoreItem(MyPharmacy item, int position) {
+        myPharmacyDBList.add(position, item);
+        // notify item added by position
+        notifyItemInserted(position);
+    }*/
+
     class MyPharmacyViewHolder extends RecyclerView.ViewHolder{
 
         TextView name, validate;
+        public RelativeLayout viewBackground, viewForeground;
 
         public MyPharmacyViewHolder(View itemView){
 
@@ -57,6 +76,8 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<MyPharmacyDBAdapte
 
             name = itemView.findViewById(R.id.name);
             validate = itemView.findViewById(R.id.validate);
+            viewBackground = itemView.findViewById(R.id.view_background);
+            viewForeground = itemView.findViewById(R.id.view_foreground);
 
         }
 
@@ -70,6 +91,8 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<MyPharmacyDBAdapte
     }
 
     public List<MyPharmacyDB> getMyPharmacyDBList() {
+        // odśwież RecyclerView
+        notifyDataSetChanged();
         return myPharmacyDBList;
     }
 }
