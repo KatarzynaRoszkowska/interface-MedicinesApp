@@ -40,6 +40,6 @@ public class ShowDetailsMedicinesActivity extends AppCompatActivity {
         detailsWayOfGiving.setText("Sposób zażywania: "+ getIntent().getExtras().getString("wayOfGiving"));
         detailsPossibleSideEffect.setText("Skutki uboczne: " + getIntent().getExtras().getString("possibleSideEffect"));
         detailsDose.setText("Dawka: "+ getIntent().getExtras().getString("dose"));
-        detailsIsPrescription.setText("Na receptę?" +getIntent().getExtras().getString("IsPrescription"));
+        detailsIsPrescription.setText("Na receptę: " +getIntent().getExtras().getString("IsPrescription"));
     }
 }
