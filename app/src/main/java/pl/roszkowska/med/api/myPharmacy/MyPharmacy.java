@@ -69,6 +69,7 @@ public class MyPharmacy extends AppCompatActivity {
                              */
                             myPharmacyDBAdapter.notifyItemRemoved(position);
                             myPharmacyDBAdapter.notifyDataSetChanged();
+                            myPharmacyDBAdapter.getMyPharmacyDBList().remove(position);
                             downloadMyMedicines();
 
                         }
@@ -87,6 +88,7 @@ public class MyPharmacy extends AppCompatActivity {
                          */
                         myPharmacyDBAdapter.notifyItemRemoved(position);
                         myPharmacyDBAdapter.notifyDataSetChanged();
+                        myPharmacyDBAdapter.getMyPharmacyDBList().remove(position);
                         downloadMyMedicines();
                         Log.d("DELETE", "Nie udało się ununą leku");
 
