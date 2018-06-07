@@ -23,31 +23,68 @@
         </activity>
         <activity
             android:name=".api.userInformation.UserInformationActivity"
-            android:label="Informacje o użytkowniku" />
+            android:label="Informacje o użytkowniku" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
 
         <activity
             android:name=".api.userInformation.SetUserInfoActivity"
-            android:label="Podaj informacje" />
+            android:label="Podaj informacje">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".api.userInformation.UserInformationActivity" />
+        </activity>
 
         <activity
             android:name=".api.medicines.ShowDetailsMedicinesActivity"
-            android:label="Informacje o leku" />
+            android:label="Informacje o leku" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".api.medicines.MedicinesActivity" />
+        </activity>
+
         <activity
             android:name=".api.appInformation.AppInformationActivity"
-            android:label="Informacje o aplikacji" />
+            android:label="Informacje o aplikacji" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="Strona główna"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".api.Scanner.ScanTheCode"
-            android:label="Informacje o leku" />
+            android:label="Informacje o leku" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
 
         <activity android:name=".api.myPharmacy.MyPharmacy"
-            android:label="Moje leki w apteczce"/>
+            android:label="Moje leki w apteczce">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
 
         <activity android:name=".api.medicines.MedicinesActivity"
-            android:label="Baza leków"/>
+            android:label="Baza leków">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity android:name=".api.myPharmacy.MyPharmacyDetailsActivity"
+            android:label="Ustaw szczegóły">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".api.myPharmacy.MyPharmacy" />
+        </activity>
     </application>
 
 </manifest>

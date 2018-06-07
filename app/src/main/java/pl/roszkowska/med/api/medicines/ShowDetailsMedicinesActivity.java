@@ -16,8 +16,6 @@ public class ShowDetailsMedicinesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_details_medicines);
 
-
-
         detailsMedicinesName = findViewById(R.id.detailsMedicinesName);
         detailsComposition = findViewById(R.id.detailsComposition);
         detailsFormOfTheDrag = findViewById(R.id.detailsFormOfTheDrag);

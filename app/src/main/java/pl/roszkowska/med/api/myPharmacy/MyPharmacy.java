@@ -5,6 +5,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
 
     RecyclerView recyclerView;
     MyPharmacyDBAdapter myPharmacyDBAdapter;
@@ -35,6 +37,7 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
     private MedicinesService medicinesService;
     private MyMedicinesApplication myMedicinesApplication;
     private List<String> idList;
+    CardView medicinesCardView;
 
 
     @Override
@@ -42,36 +45,58 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_pharmacy);
 
-        downloadMyMedicines();
+        //downloadMyMedicines();
 
-        idList = new ArrayList<>();
+        //medicinesCardView=findViewById(R.id.medicinesCardView);
+       // idList = new ArrayList<>();
         myPharmacyDBList = new ArrayList<>();
-        coordinatorLayout = findViewById(R.id.coordinator);
+        //coordinatorLayout = findViewById(R.id.coordinator);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
+       // recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        myPharmacyDBAdapter = new MyPharmacyDBAdapter(this, myPharmacyDBList);
+        myPharmacyDBAdapter = new MyPharmacyDBAdapter(myPharmacyDBList);
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+       /* RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));*/
         recyclerView.setAdapter(myPharmacyDBAdapter);
-        myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
 
-        myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
+        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Ibuprom"));
+        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Apap"));
+        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Etopiryna"));
+        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","lekD"));
+
+        //myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
 
 
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+       /* ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);*/
+
+
+
+
+
+
     }
-
-
+/*
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if (viewHolder instanceof MyPharmacyDBAdapter.MyPharmacyViewHolder) {
+
+            if(direction == ItemTouchHelper.LEFT) {
+
+                String name = myPharmacyDBList.get(viewHolder.getAdapterPosition()).getNazwaLeku();
+                // remove the item from recycler view
+                myPharmacyDBAdapter.removeItem(viewHolder.getAdapterPosition());
+            }
+            else{
+
+
+            }
+
             Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
             final int finalPosition = position;
             delete.enqueue(new Callback<MyPharmacyDB>() {
@@ -89,9 +114,9 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
                 @Override
                 public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
                     //TODO Maciek
-                        /*
-                        Gdzieś jest błąd najprawdopodobniej z parsowaniem czegos. Wcześniej działało dobrze i teraz tez potrafi usunąć lek z bazy mimo że jest onFailure :(
-                         */
+                        //
+                        //Gdzieś jest błąd najprawdopodobniej z parsowaniem czegos. Wcześniej działało dobrze i teraz tez potrafi usunąć lek z bazy mimo że jest onFailure :(
+                         //
                     myPharmacyDBAdapter.notifyItemRemoved(finalPosition);
                     myPharmacyDBAdapter.notifyDataSetChanged();
                     myPharmacyDBAdapter.getMyPharmacyDBList().remove(finalPosition);
@@ -142,6 +167,6 @@ public class MyPharmacy extends AppCompatActivity implements RecyclerItemTouchHe
                 Log.d("ERROR", t.toString());
             }
         });
-    }
+    }*/
 
 }
