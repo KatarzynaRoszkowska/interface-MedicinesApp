@@ -79,7 +79,11 @@ public class MedicinesActivity extends AppCompatActivity {
                 showDetailsMedicinesIntent.putExtra("wayOfGiving",wayOfGiving);
                 showDetailsMedicinesIntent.putExtra("possibleSideEffect",possibleSideEffect);
                 showDetailsMedicinesIntent.putExtra("dose",dose);
-                showDetailsMedicinesIntent.putExtra("IsPrescription",IsPrescription);
+                if(IsPrescription.equals("true")) {
+                showDetailsMedicinesIntent.putExtra("IsPrescription", "Tak");
+                } else {
+                showDetailsMedicinesIntent.putExtra("IsPrescription", "Nie");
+                }
 
                 startActivity(showDetailsMedicinesIntent);
             }

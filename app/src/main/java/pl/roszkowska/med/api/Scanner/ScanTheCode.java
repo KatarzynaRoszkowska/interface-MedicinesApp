@@ -1,9 +1,11 @@
 package pl.roszkowska.med.api.Scanner;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -46,8 +48,8 @@ public class ScanTheCode extends AppCompatActivity {
     private void downloadMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
-        Bundle b = getIntent().getExtras();
-        eanCode = b.getString("ean");
+        Bundle c = getIntent().getExtras();
+        eanCode = c.getString("ean");
 
         /*
         Nie jest to dopracowany sposób ponieważ na ułamek sekundy pokazywany jest pusty CardView
@@ -70,12 +72,11 @@ public class ScanTheCode extends AppCompatActivity {
                     public void onResponse(Call<Medicines> call, Response<Medicines> response) {
                         if(response.isSuccessful()) {
                             Log.d("IDe", response.body().toString());
-                            nameOfMedicine.setText(response.body().getMedicinesName());
-                            contentTxt.setText("Kod EAN " + response.body().getEan());
-                            composition.setText("Skład leku: " + response.body().getComposition());
-                            formOfTheDrag.setText("Forma leku: " + response.body().getFormOfTheDrag());
-                            quantity.setText("Ilość w opakowaniu :" + response.body().getQuantity());
-                            wayOfGiving.setText("Sposób stosowania: " + response.body().getWayOfGiving());
+                            contentTxt.setText(Html.fromHtml("<b>" + "Kod EAN: " + "</b>" + response.body().getEan()));
+                            composition.setText(Html.fromHtml("<b>" + "Skład leku: " + "</b>" + response.body().getComposition()));
+                            formOfTheDrag.setText(Html.fromHtml("<b>" + "Forma leku: " + "</b>" + response.body().getFormOfTheDrag()));
+                            quantity.setText(Html.fromHtml("<b>" + "Ilość w opakowaniu: " + "</b>" + response.body().getQuantity()));
+                            wayOfGiving.setText(Html.fromHtml("<b>" + "Sposób stosowania: " + "</b>" + response.body().getWayOfGiving()));
                         }
                     }
 
