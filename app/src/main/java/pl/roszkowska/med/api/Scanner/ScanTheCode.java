@@ -1,5 +1,7 @@
 package pl.roszkowska.med.api.Scanner;
 
+import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.roszkowska.med.MainActivity;
 import pl.roszkowska.med.MyMedicinesApplication;
 import pl.roszkowska.med.R;
 import pl.roszkowska.med.api.medicines.Medicines;
@@ -29,19 +32,15 @@ public class ScanTheCode extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan_the_code);
+//        setContentView(R.layout.activity_scan_the_code);
 
         medicinesList = new ArrayList<>();
         medicinesAdapter = new MedicinesAdapter(this, medicinesList);
 
-        nameOfMedicine = findViewById(R.id.nameOfMedicine);
-        contentTxt = findViewById(R.id.activity);
-        composition = findViewById(R.id.composition);
-        formOfTheDrag = findViewById(R.id.formOfTheDrag);
-        quantity = findViewById(R.id.quantity);
-        wayOfGiving = findViewById(R.id.wayOfGiving);
+
 
         downloadMedicines();
+
     }
 
     private void downloadMedicines() {
@@ -50,7 +49,22 @@ public class ScanTheCode extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         eanCode = b.getString("ean");
 
-                Call<Medicines> repo = medicinesService.getMedicinesEan(myMedicinesApplication.getToken().getTokenID(), eanCode);
+        /*
+        Nie jest to dopracowany sposób ponieważ na ułamek sekundy pokazywany jest pusty CardView
+         */
+        if(eanCode == null) {
+            Intent intent = NavUtils.getParentActivityIntent(this);
+            NavUtils.navigateUpTo(this, intent);
+        } else {
+            setContentView(R.layout.activity_scan_the_code);
+            nameOfMedicine = findViewById(R.id.nameOfMedicine);
+            contentTxt = findViewById(R.id.activity);
+            composition = findViewById(R.id.composition);
+            formOfTheDrag = findViewById(R.id.formOfTheDrag);
+            quantity = findViewById(R.id.quantity);
+            wayOfGiving = findViewById(R.id.wayOfGiving);
+
+            Call<Medicines> repo = medicinesService.getMedicinesEan(myMedicinesApplication.getToken().getTokenID(), eanCode);
                 repo.enqueue(new Callback<Medicines>() {
                     @Override
                     public void onResponse(Call<Medicines> call, Response<Medicines> response) {
@@ -70,6 +84,7 @@ public class ScanTheCode extends AppCompatActivity {
                     Log.d("ERROR", t.toString());
                     }
                 });
+        }
 
     }
 
