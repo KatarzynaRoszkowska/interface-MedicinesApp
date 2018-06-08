@@ -2,6 +2,7 @@ package pl.roszkowska.med.api.medicines;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.widget.TextView;
 
 import pl.roszkowska.med.R;
@@ -29,15 +30,15 @@ public class ShowDetailsMedicinesActivity extends AppCompatActivity {
         detailsIsPrescription = findViewById(R.id.detailsIsPrescription);
 
         detailsMedicinesName.setText(getIntent().getExtras().getString("medicinesName"));
-        detailsComposition.setText("Skład: "+ getIntent().getExtras().getString("composition"));
-        detailsFormOfTheDrag.setText("Formuła: "+ getIntent().getExtras().getString("formOfTheDrag"));
-        detailsCategory.setText("Kategoria: "+ getIntent().getExtras().getString("category"));
-        detailsSpeciality.setText("Przeznaczenie: " + getIntent().getExtras().getString("speciality"));
-        detailsActivity.setText("Działanie: "+ getIntent().getExtras().getString("activity"));
-        detailsIndications.setText("Wskazania: "+ getIntent().getExtras().getString("indications"));
-        detailsWayOfGiving.setText("Sposób zażywania: "+ getIntent().getExtras().getString("wayOfGiving"));
-        detailsPossibleSideEffect.setText("Skutki uboczne: " + getIntent().getExtras().getString("possibleSideEffect"));
-        detailsDose.setText("Dawka: "+ getIntent().getExtras().getString("dose"));
-        detailsIsPrescription.setText("Na receptę: " +getIntent().getExtras().getString("IsPrescription"));
+        detailsComposition.setText(Html.fromHtml("<b>" + "Skład: " + "</b>" + getIntent().getExtras().getString("composition")));
+        detailsFormOfTheDrag.setText(Html.fromHtml("<b>" + "Formuła: " + "</b>" + getIntent().getExtras().getString("formOfTheDrag")));
+        detailsCategory.setText(Html.fromHtml("<b>" + "Kategoria: " + "</b>" + getIntent().getExtras().getString("category")));
+        detailsSpeciality.setText(Html.fromHtml("<b>" + "Przeznaczenie: " + "</b>" + getIntent().getExtras().getString("speciality")));
+        detailsActivity.setText(Html.fromHtml("<b>" + "Działanie: " + "</b>" + getIntent().getExtras().getString("activity")));
+        detailsIndications.setText(Html.fromHtml("<b>" + "Wskazania: " + "</b>" + getIntent().getExtras().getString("indications")));
+        detailsWayOfGiving.setText(Html.fromHtml("<b>" + "Sposób zażywania: " + "</b>" + getIntent().getExtras().getString("wayOfGiving")));
+        detailsPossibleSideEffect.setText(Html.fromHtml("<b>" + "Skutki uboczne: " + "</b>" + getIntent().getExtras().getString("possibleSideEffect")));
+        detailsDose.setText(Html.fromHtml("<b>" + "Dawka: " + "</b>" + getIntent().getExtras().getString("dose")));
+        detailsIsPrescription.setText(Html.fromHtml("<b>" + "Na receptę: " + "</b>" + getIntent().getExtras().getString("IsPrescription")));
     }
 }
