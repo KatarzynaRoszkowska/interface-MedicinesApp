@@ -39,6 +39,9 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
     private List<String> idList;
     CardView medicinesCardView;
 
+    public List<String> getIdList() {
+        return idList;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
         setContentView(R.layout.activity_my_pharmacy);
 
 
+        downloadMyMedicines();
 
         //medicinesCardView=findViewById(R.id.medicinesCardView);
        // idList = new ArrayList<>();
@@ -55,8 +59,8 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
        // recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        downloadMyMedicines();
 
+        myPharmacyDBAdapter = new MyPharmacyDBAdapter(this, this, myPharmacyDBList);
 
        /* RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -71,8 +75,6 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
 
         myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
 
-        myPharmacyDBAdapter = new MyPharmacyDBAdapter(myPharmacyDBList);
-        myPharmacyDBAdapter = new MyPharmacyDBAdapter(this);
 
        /* ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);*/
@@ -144,7 +146,7 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
         return true;
     }*/
 
-    private void downloadMyMedicines() {
+    protected void downloadMyMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
         final Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(myMedicinesApplication.getToken().getTokenID());

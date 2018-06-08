@@ -27,6 +27,7 @@ import retrofit2.Response;
 
 public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private Context context;
     private List<MyPharmacyDB> myPharmacyDBList;
     Intent myPharmacyDetailsIntent;
     MedicinesService medicinesService;
@@ -38,8 +39,11 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.myPharmacy = myPharmacy;
     }
 
-    public MyPharmacyDBAdapter(List<MyPharmacyDB> myPharmacyDBList) {
+    public MyPharmacyDBAdapter(Context context, MyPharmacy myPharmacy, List<MyPharmacyDB> myPharmacyDBList) {
+        this.myPharmacy = myPharmacy;
+        this.context = context;
         this.myPharmacyDBList = myPharmacyDBList;
+        myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
     }
 
     @Override
@@ -55,29 +59,29 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
-        idList = new ArrayList<>();
+        idList = myPharmacy.getIdList();
 
-        myMedicinesApplication = (MyMedicinesApplication) myPharmacy.getApplication();
-        medicinesService = myMedicinesApplication.getMedicinesService();
         MyPharmacyViewHolder myPharmacyViewHolder = (MyPharmacyViewHolder) holder;
         MyPharmacyDB myPharmacyDB = myPharmacyDBList.get(position);
 
-        myPharmacyViewHolder.name.setText(myPharmacyDB.getNazwaLeku());
+        myPharmacyViewHolder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
         myPharmacyViewHolder.validate.setText("Termin ważności: " + myPharmacyDB.getExpirationData());
         myPharmacyViewHolder.infoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO MACIEJ TUTAJ USUN LEK Z MYPHARMACY:
-                Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
-                final int finalPosition = position;
+                myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
+                medicinesService = myMedicinesApplication.getMedicinesService();
+                Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), myPharmacyDBList.get(position).getId());
+//                final int finalPosition = position;
                 delete.enqueue(new Callback<MyPharmacyDB>() {
                     @Override
                     public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
                         if (response.isSuccessful()) {
-                            notifyItemRemoved(finalPosition);
+                            notifyItemRemoved(position);
                             notifyDataSetChanged();
-                            getMyPharmacyDBList().remove(finalPosition);
-//                            downloadMyMedicines();
+                            removeItem(position);
+                            downloadMyMedicines();
 
                         }
                     }
@@ -88,19 +92,17 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         //
                         //Gdzieś jest błąd najprawdopodobniej z parsowaniem czegos. Wcześniej działało dobrze i teraz tez potrafi usunąć lek z bazy mimo że jest onFailure :(
                         //
-                        notifyItemRemoved(finalPosition);
+                        notifyItemRemoved(position);
                         notifyDataSetChanged();
-                        getMyPharmacyDBList().remove(finalPosition);
-//                        downloadMyMedicines();
+                        removeItem(position);
+                        downloadMyMedicines();
                         Log.d("DELETE", "Nie udało się usunąc leku");
 
                     }
                 });
-                String name = myPharmacyDBList.get(holder.getAdapterPosition()).getNazwaLeku();
-                // remove the item from recycler view
-                removeItem(holder.getAdapterPosition());
-
                 Toast.makeText(v.getContext(), "LEK USUNIĘTO", Toast.LENGTH_SHORT).show();
+                // remove the item from recycler view
+
             }
         });
         myPharmacyViewHolder.editButton.setOnClickListener(new View.OnClickListener() {
@@ -162,5 +164,31 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         // odśwież RecyclerView
         notifyDataSetChanged();
         return myPharmacyDBList;
+    }
+
+    protected void downloadMyMedicines() {
+        myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
+        medicinesService = myMedicinesApplication.getMedicinesService();
+        final Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(myMedicinesApplication.getToken().getTokenID());
+
+        repo.enqueue(new Callback<List<MyPharmacyDB>>() {
+            @Override
+            public void onResponse(Call<List<MyPharmacyDB>> call, Response<List<MyPharmacyDB>> response) {
+                if (response.isSuccessful()) {
+                    idList = new ArrayList<>();
+
+                    for (int i = 0; i < response.body().size(); i++) {
+                        Log.d("TAG", response.body().get(i).toString());
+                        idList.add(response.body().get(i).getId().toString());
+                    }
+                    setMyPharmacyDBList(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<MyPharmacyDB>> call, Throwable t) {
+                Log.d("ERROR", t.toString());
+            }
+        });
     }
 }

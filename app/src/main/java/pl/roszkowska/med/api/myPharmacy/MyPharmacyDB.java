@@ -4,7 +4,7 @@ import pl.roszkowska.med.api.medicines.Medicines;
 
 public class MyPharmacyDB {
 
-    Long id;
+    String id;
     String isTaken;
     String howMany;
     String expirationData;
@@ -20,11 +20,11 @@ public class MyPharmacyDB {
     }
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
