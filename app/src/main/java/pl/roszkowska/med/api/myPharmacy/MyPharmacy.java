@@ -45,7 +45,7 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_pharmacy);
 
-        //downloadMyMedicines();
+
 
         //medicinesCardView=findViewById(R.id.medicinesCardView);
        // idList = new ArrayList<>();
@@ -55,8 +55,8 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
        // recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        downloadMyMedicines();
 
-        myPharmacyDBAdapter = new MyPharmacyDBAdapter(myPharmacyDBList);
 
        /* RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -64,13 +64,15 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));*/
         recyclerView.setAdapter(myPharmacyDBAdapter);
 
-        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Ibuprom"));
-        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Apap"));
-        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Etopiryna"));
-        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","lekD"));
+//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Ibuprom"));
+//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Apap"));
+//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Etopiryna"));
+//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","lekD"));
 
-        //myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
+        myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
 
+        myPharmacyDBAdapter = new MyPharmacyDBAdapter(myPharmacyDBList);
+        myPharmacyDBAdapter = new MyPharmacyDBAdapter(this);
 
        /* ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);*/
@@ -140,12 +142,11 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
         // Inflate the menu; this adds cartList to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
+    }*/
 
     private void downloadMyMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
-
         final Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(myMedicinesApplication.getToken().getTokenID());
 
         repo.enqueue(new Callback<List<MyPharmacyDB>>() {
@@ -167,6 +168,6 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
                 Log.d("ERROR", t.toString());
             }
         });
-    }*/
+    }
 
 }
