@@ -28,16 +28,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class MyPharmacy extends AppCompatActivity {
 
     RecyclerView recyclerView;
     MyPharmacyDBAdapter myPharmacyDBAdapter;
-    private CoordinatorLayout coordinatorLayout;
     List<MyPharmacyDB> myPharmacyDBList;
     private MedicinesService medicinesService;
     private MyMedicinesApplication myMedicinesApplication;
     private List<String> idList;
-    CardView medicinesCardView;
 
     public List<String> getIdList() {
         return idList;
@@ -51,21 +49,13 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
 
         downloadMyMedicines();
 
-        //medicinesCardView=findViewById(R.id.medicinesCardView);
-       // idList = new ArrayList<>();
         myPharmacyDBList = new ArrayList<>();
-        //coordinatorLayout = findViewById(R.id.coordinator);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-       // recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
         myPharmacyDBAdapter = new MyPharmacyDBAdapter(this, this, myPharmacyDBList);
 
-       /* RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));*/
         recyclerView.setAdapter(myPharmacyDBAdapter);
 
 //        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Ibuprom"));
@@ -74,15 +64,6 @@ public class MyPharmacy extends AppCompatActivity {//implements RecyclerItemTouc
 //        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","lekD"));
 
         myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
-
-
-       /* ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);*/
-
-
-
-
-
 
     }
 /*

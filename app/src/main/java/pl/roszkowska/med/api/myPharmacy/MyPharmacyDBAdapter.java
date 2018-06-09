@@ -65,8 +65,9 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         MyPharmacyDB myPharmacyDB = myPharmacyDBList.get(position);
 
         myPharmacyViewHolder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
+        myPharmacyViewHolder.howMany.setText("Ilość w opakowaniu : " + myPharmacyDB.getHowMany());
         myPharmacyViewHolder.validate.setText("Termin ważności: " + myPharmacyDB.getExpirationData());
-        myPharmacyViewHolder.infoButton.setOnClickListener(new View.OnClickListener() {
+        myPharmacyViewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO MACIEJ TUTAJ USUN LEK Z MYPHARMACY:
@@ -135,20 +136,20 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     class MyPharmacyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, validate;
-        protected ImageButton infoButton;
+        TextView name, validate, howMany;
+        protected ImageButton removeButton;
         protected ImageButton editButton;
 
         public MyPharmacyViewHolder(View itemView) {
+
 
             super(itemView);
 
             name = itemView.findViewById(R.id.name);
             validate = itemView.findViewById(R.id.validate);
-            infoButton = itemView.findViewById(R.id.info_button);
+            howMany = itemView.findViewById(R.id.howMany);
+            removeButton = itemView.findViewById(R.id.info_button);
             editButton = itemView.findViewById(R.id.edit_button);
-
-
         }
 
     }
