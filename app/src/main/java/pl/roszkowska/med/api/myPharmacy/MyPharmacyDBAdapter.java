@@ -1,16 +1,13 @@
 package pl.roszkowska.med.api.myPharmacy;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,15 +28,15 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<MyPharmacyDB> myPharmacyDBList;
     Intent myPharmacyDetailsIntent;
     MedicinesService medicinesService;
-    MyPharmacy myPharmacy;
+    MyPharmacyActivity myPharmacy;
     private List<String> idList;
     private MyMedicinesApplication myMedicinesApplication;
 
-    public MyPharmacyDBAdapter(MyPharmacy myPharmacy) {
+    public MyPharmacyDBAdapter(MyPharmacyActivity myPharmacy) {
         this.myPharmacy = myPharmacy;
     }
 
-    public MyPharmacyDBAdapter(Context context, MyPharmacy myPharmacy, List<MyPharmacyDB> myPharmacyDBList) {
+    public MyPharmacyDBAdapter(Context context, MyPharmacyActivity myPharmacy, List<MyPharmacyDB> myPharmacyDBList) {
         this.myPharmacy = myPharmacy;
         this.context = context;
         this.myPharmacyDBList = myPharmacyDBList;

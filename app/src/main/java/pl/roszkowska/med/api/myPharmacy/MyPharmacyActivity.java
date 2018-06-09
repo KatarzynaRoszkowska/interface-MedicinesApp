@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyPharmacy extends AppCompatActivity {
+public class MyPharmacyActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     MyPharmacyDBAdapter myPharmacyDBAdapter;

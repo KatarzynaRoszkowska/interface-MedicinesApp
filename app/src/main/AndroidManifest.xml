@@ -66,7 +66,7 @@
                 android:value=".MainActivity" />
         </activity>
 
-        <activity android:name=".api.myPharmacy.MyPharmacy"
+        <activity android:name=".api.myPharmacy.MyPharmacyActivity"
             android:label="Moje leki w apteczce">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -84,7 +84,7 @@
             android:label="Ustaw szczegóły">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".api.myPharmacy.MyPharmacy" />
+                android:value=".api.myPharmacy.MyPharmacyActivity" />
         </activity>
     </application>
 
