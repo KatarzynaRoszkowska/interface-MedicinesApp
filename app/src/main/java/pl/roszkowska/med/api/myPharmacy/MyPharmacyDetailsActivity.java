@@ -10,8 +10,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.List;
-
 import pl.roszkowska.med.R;
 
 public class MyPharmacyDetailsActivity extends AppCompatActivity {
@@ -57,7 +55,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
                         //TODO MACIEJ ZROB CALL DO SERIWSU DO TABELI MYPHARMACY I ZAPISZ REKORD Z POWYZSZYCH POL i NAZWY LEKU-- isTaken zrob na nie
                     }
 
-                    Intent intent = new Intent(MyPharmacyDetailsActivity.this, MyPharmacy.class);
+                    Intent intent = new Intent(MyPharmacyDetailsActivity.this, MyPharmacyActivity.class);
                     startActivity(intent);
                 }
 

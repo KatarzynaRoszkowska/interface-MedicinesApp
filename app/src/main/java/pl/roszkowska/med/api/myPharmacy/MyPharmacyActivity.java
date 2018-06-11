@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyPharmacy extends AppCompatActivity {
+public class MyPharmacyActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     MyPharmacyDBAdapter myPharmacyDBAdapter;
@@ -58,74 +58,9 @@ public class MyPharmacy extends AppCompatActivity {
 
         recyclerView.setAdapter(myPharmacyDBAdapter);
 
-//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Ibuprom"));
-//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Apap"));
-//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","Etopiryna"));
-//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","03.09.2020","lekD"));
-
         myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
 
     }
-/*
-    @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof MyPharmacyDBAdapter.MyPharmacyViewHolder) {
-
-            if(direction == ItemTouchHelper.LEFT) {
-
-                String name = myPharmacyDBList.get(viewHolder.getAdapterPosition()).getNazwaLeku();
-                // remove the item from recycler view
-                myPharmacyDBAdapter.removeItem(viewHolder.getAdapterPosition());
-            }
-            else{
-
-
-            }
-
-            Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
-            final int finalPosition = position;
-            delete.enqueue(new Callback<MyPharmacyDB>() {
-                @Override
-                public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
-                    if (response.isSuccessful()) {
-                        myPharmacyDBAdapter.notifyItemRemoved(finalPosition);
-                        myPharmacyDBAdapter.notifyDataSetChanged();
-                        myPharmacyDBAdapter.getMyPharmacyDBList().remove(finalPosition);
-                        downloadMyMedicines();
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
-                    //TODO Maciek
-                        //
-                        //Gdzieś jest błąd najprawdopodobniej z parsowaniem czegos. Wcześniej działało dobrze i teraz tez potrafi usunąć lek z bazy mimo że jest onFailure :(
-                         //
-                    myPharmacyDBAdapter.notifyItemRemoved(finalPosition);
-                    myPharmacyDBAdapter.notifyDataSetChanged();
-                    myPharmacyDBAdapter.getMyPharmacyDBList().remove(finalPosition);
-                    downloadMyMedicines();
-                    Log.d("DELETE", "Nie udało się usunąc leku");
-
-                }
-            });
-        }
-
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds cartList to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
 
     protected void downloadMyMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();

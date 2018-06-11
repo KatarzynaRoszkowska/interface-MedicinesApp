@@ -1,5 +1,6 @@
 package pl.roszkowska.med.api.medicines;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MedicinesActivity extends AppCompatActivity {
+    private final Context context;
     RecyclerView recyclerView;
     MedicinesAdapter medicinesAdapter;
     List<Medicines> medicinesList;
@@ -32,7 +34,10 @@ public class MedicinesActivity extends AppCompatActivity {
     private MyPharmacyDB myPharmacyDB;
     String idMed;
 
-
+    public MedicinesActivity(Context context, Medicines medicines) {
+        this.context = context;
+        this.medicines = medicines;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

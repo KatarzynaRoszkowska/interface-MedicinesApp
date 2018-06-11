@@ -1,16 +1,13 @@
 package pl.roszkowska.med.api.myPharmacy;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +16,7 @@ import java.util.List;
 
 import pl.roszkowska.med.MyMedicinesApplication;
 import pl.roszkowska.med.R;
+import pl.roszkowska.med.api.medicines.Medicines;
 import pl.roszkowska.med.api.service.MedicinesService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,18 +26,20 @@ import retrofit2.Response;
 public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
+    private Medicines medicines;
     private List<MyPharmacyDB> myPharmacyDBList;
     Intent myPharmacyDetailsIntent;
     MedicinesService medicinesService;
-    MyPharmacy myPharmacy;
+    MyPharmacyActivity myPharmacy;
     private List<String> idList;
     private MyMedicinesApplication myMedicinesApplication;
+    private MyPharmacyDB myPharmacyDB;
 
-    public MyPharmacyDBAdapter(MyPharmacy myPharmacy) {
+    public MyPharmacyDBAdapter(MyPharmacyActivity myPharmacy) {
         this.myPharmacy = myPharmacy;
     }
 
-    public MyPharmacyDBAdapter(Context context, MyPharmacy myPharmacy, List<MyPharmacyDB> myPharmacyDBList) {
+    public MyPharmacyDBAdapter(Context context, MyPharmacyActivity myPharmacy, List<MyPharmacyDB> myPharmacyDBList) {
         this.myPharmacy = myPharmacy;
         this.context = context;
         this.myPharmacyDBList = myPharmacyDBList;
@@ -62,7 +62,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         idList = myPharmacy.getIdList();
 
         MyPharmacyViewHolder myPharmacyViewHolder = (MyPharmacyViewHolder) holder;
-        MyPharmacyDB myPharmacyDB = myPharmacyDBList.get(position);
+        final MyPharmacyDB myPharmacyDB = myPharmacyDBList.get(position);
 
         myPharmacyViewHolder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
         myPharmacyViewHolder.howMany.setText("Ilość w opakowaniu : " + myPharmacyDB.getHowMany());
@@ -70,7 +70,6 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         myPharmacyViewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO MACIEJ TUTAJ USUN LEK Z MYPHARMACY:
                 myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
                 medicinesService = myMedicinesApplication.getMedicinesService();
                 Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), myPharmacyDBList.get(position).getId());
@@ -89,7 +88,6 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     @Override
                     public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
-                        //TODO Maciek
                         //
                         //Gdzieś jest błąd najprawdopodobniej z parsowaniem czegos. Wcześniej działało dobrze i teraz tez potrafi usunąć lek z bazy mimo że jest onFailure :(
                         //
@@ -109,14 +107,27 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         myPharmacyViewHolder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO MACIEJ TUTAJ PRZEKAZ NAZWE LEKU DO NOWEJ AKTYWNOSCI, czyli jako name wez nie getNazwaLeku() a getMedicines()... tak jak to wczzesniej robiles
-
                 Toast.makeText(v.getContext(), "EDIT CLICKED", Toast.LENGTH_SHORT).show();
 
                 myPharmacyDetailsIntent = new Intent(v.getContext(), MyPharmacyDetailsActivity.class);
-                String name = myPharmacyDBList.get(holder.getAdapterPosition()).getNazwaLeku();
+
+                //TODO KASIA
+                /* Tutaj jak zmienisz typ pola na telefonie zeby bylo wyswietlanie i edytowanie to dane powinny juz byc wyswietlane. Narazie tylko nazwa leku jest wyswietlana
+                 * Zakomentowalem metode bo nie wiem ktora bedzie lepsza. Czy ta zakomentowana czy pod nia
+                 */
+                String name = myPharmacyDBList.get(position).getMedicines().getMedicinesName();
+//                String count = myPharmacyDBList.get(position).getHowMany();
+//                myPharmacyDetailsIntent.putExtra("nazwaLeku", name);
+//                String name = myPharmacyDB.getMedicines().getMedicinesName();
+                String count = myPharmacyDB.getHowMany();
+                String isTaken = myPharmacyDB.getIsTaken();
+
                 myPharmacyDetailsIntent.putExtra("nazwaLeku", name);
+                myPharmacyDetailsIntent.putExtra("howMany", count);
+                myPharmacyDetailsIntent.putExtra("isTaken", isTaken);
                 v.getContext().startActivity(myPharmacyDetailsIntent);
+
+                downloadMedicinesById(position);
 
             }
         });
@@ -189,6 +200,56 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             @Override
             public void onFailure(Call<List<MyPharmacyDB>> call, Throwable t) {
                 Log.d("ERROR", t.toString());
+            }
+        });
+    }
+
+    protected void updateMyMedicines() {
+        myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
+        medicinesService = myMedicinesApplication.getMedicinesService();
+        //TODO KASIA
+        /* tutaj zamiast sztywnych wartosci nalezy wpisac nazwe pola do ktorego wpisujemy dane na telefonie
+           i pobrac dane. Trzeba bedzie przejsc z typu pola na Stringa.
+         */
+        myPharmacyDB.setIsTaken("true");
+        myPharmacyDB.setExpirationData("2020-02-02");
+        myPharmacyDB.setHowMany("20");
+
+        final Call<MyPharmacyDB> repo = medicinesService.updateMyPharmacy(myMedicinesApplication.getToken().getTokenID(), myPharmacyDB);
+        repo.enqueue(new Callback<MyPharmacyDB>() {
+            @Override
+            public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
+                if(response.isSuccessful()) {
+                    Log.d("TAG", "Zaktualizowano poprawnie");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
+                    Log.d("ERROR", t.toString());
+
+            }
+        });
+    }
+
+    protected void downloadMedicinesById(int position) {
+        myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
+        medicinesService = myMedicinesApplication.getMedicinesService();
+        Call<MyPharmacyDB> repo = medicinesService.getMyMedicinesById(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
+        repo.enqueue(new Callback<MyPharmacyDB>() {
+            @Override
+            public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
+                if(response.isSuccessful()) {
+                    Log.d("TAG", "Udalo sie");
+                }
+                myPharmacyDB = response.body();
+                updateMyMedicines();
+            }
+
+            @Override
+            public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
+                Log.d("TAG", "Nie udalo sie");
+
             }
         });
     }
