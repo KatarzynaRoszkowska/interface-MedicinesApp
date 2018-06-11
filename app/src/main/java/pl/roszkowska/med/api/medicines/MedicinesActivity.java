@@ -22,7 +22,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MedicinesActivity extends AppCompatActivity {
-    private final Context context;
     RecyclerView recyclerView;
     MedicinesAdapter medicinesAdapter;
     List<Medicines> medicinesList;
@@ -34,10 +33,6 @@ public class MedicinesActivity extends AppCompatActivity {
     private MyPharmacyDB myPharmacyDB;
     String idMed;
 
-    public MedicinesActivity(Context context, Medicines medicines) {
-        this.context = context;
-        this.medicines = medicines;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
