@@ -64,10 +64,11 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         MyPharmacyViewHolder myPharmacyViewHolder = (MyPharmacyViewHolder) holder;
         final MyPharmacyDB myPharmacyDB = myPharmacyDBList.get(position);
 
-        myPharmacyViewHolder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
+       // myPharmacyViewHolder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
+        myPharmacyViewHolder.name.setText(myPharmacyDB.getNazwaLeku());
         myPharmacyViewHolder.howMany.setText("Ilość w opakowaniu : " + myPharmacyDB.getHowMany());
         myPharmacyViewHolder.validate.setText("Termin ważności: " + myPharmacyDB.getExpirationData());
-        myPharmacyViewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
+       /* myPharmacyViewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
@@ -103,7 +104,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 // remove the item from recycler view
 
             }
-        });
+        });*/
         myPharmacyViewHolder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,23 +112,21 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 myPharmacyDetailsIntent = new Intent(v.getContext(), MyPharmacyDetailsActivity.class);
 
-                //TODO KASIA
-                /* Tutaj jak zmienisz typ pola na telefonie zeby bylo wyswietlanie i edytowanie to dane powinny juz byc wyswietlane. Narazie tylko nazwa leku jest wyswietlana
-                 * Zakomentowalem metode bo nie wiem ktora bedzie lepsza. Czy ta zakomentowana czy pod nia
-                 */
-                String name = myPharmacyDBList.get(position).getMedicines().getMedicinesName();
-//                String count = myPharmacyDBList.get(position).getHowMany();
-//                myPharmacyDetailsIntent.putExtra("nazwaLeku", name);
-//                String name = myPharmacyDB.getMedicines().getMedicinesName();
-                String count = myPharmacyDB.getHowMany();
-                String isTaken = myPharmacyDB.getIsTaken();
+
+                //String name = myPharmacyDBList.get(position).getMedicines().getMedicinesName();
+                String name = myPharmacyDBList.get(position).getNazwaLeku();
+                String howMany = myPharmacyDBList.get(position).getHowMany();
+                String isTaken = myPharmacyDBList.get(position).getIsTaken();
+                String expirationDate = myPharmacyDBList.get(position).getExpirationData();
 
                 myPharmacyDetailsIntent.putExtra("nazwaLeku", name);
-                myPharmacyDetailsIntent.putExtra("howMany", count);
+                myPharmacyDetailsIntent.putExtra("expirationDate",expirationDate);
+                myPharmacyDetailsIntent.putExtra("howMany", howMany);
                 myPharmacyDetailsIntent.putExtra("isTaken", isTaken);
                 v.getContext().startActivity(myPharmacyDetailsIntent);
 
-                downloadMedicinesById(position);
+               // downloadMedicinesById(position);
+                //downloadMedicinesById(position,isTaken,expirationDate,howMany);
 
             }
         });
@@ -204,16 +203,13 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         });
     }
 
-    protected void updateMyMedicines() {
+    protected void updateMyMedicines(final String isTaken, final String expirationDate, String howMany) {
         myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
         medicinesService = myMedicinesApplication.getMedicinesService();
-        //TODO KASIA
-        /* tutaj zamiast sztywnych wartosci nalezy wpisac nazwe pola do ktorego wpisujemy dane na telefonie
-           i pobrac dane. Trzeba bedzie przejsc z typu pola na Stringa.
-         */
-        myPharmacyDB.setIsTaken("true");
-        myPharmacyDB.setExpirationData("2020-02-02");
-        myPharmacyDB.setHowMany("20");
+
+        myPharmacyDB.setIsTaken(isTaken);
+        myPharmacyDB.setExpirationData(expirationDate);
+        myPharmacyDB.setHowMany(howMany);
 
         final Call<MyPharmacyDB> repo = medicinesService.updateMyPharmacy(myMedicinesApplication.getToken().getTokenID(), myPharmacyDB);
         repo.enqueue(new Callback<MyPharmacyDB>() {
@@ -232,7 +228,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         });
     }
 
-    protected void downloadMedicinesById(int position) {
+    protected void downloadMedicinesById(final int position, final String isTaken, final String expirationDate, final String howMany) {
         myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
         medicinesService = myMedicinesApplication.getMedicinesService();
         Call<MyPharmacyDB> repo = medicinesService.getMyMedicinesById(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
@@ -243,7 +239,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     Log.d("TAG", "Udalo sie");
                 }
                 myPharmacyDB = response.body();
-                updateMyMedicines();
+                updateMyMedicines(isTaken,expirationDate,howMany);
             }
 
             @Override
