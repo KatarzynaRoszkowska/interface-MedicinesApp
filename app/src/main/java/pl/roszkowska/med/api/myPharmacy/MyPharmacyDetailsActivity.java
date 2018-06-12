@@ -33,6 +33,13 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         MPisTaken = findViewById(R.id.MPisTaken);
 
         MPNameDetails.setText(getIntent().getExtras().getString("nazwaLeku"));
+        MPvalidateDate.setText(getIntent().getExtras().getString("expirationDate"));
+        MPquantity.setText(getIntent().getExtras().getString("howMany"));
+        String check = getIntent().getExtras().getString("isTaken");
+        if(check == "yes")
+            MPisTaken.setChecked(true);
+        if(check == "no")
+            MPisTaken.setChecked(false);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,18 +49,16 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
                 MPquantity1 = MPquantity.getText().toString();
                 if(MPquantity.getText().toString().trim().length() == 0)
                     MPquantity.setError("Puste pole");
-                else if (MPvalidateDate.getText().toString().trim().length() == 0)
+                else if (MPvalidateDate.getText().toString().trim().length() == 0 || MPvalidateDate.getHint().toString() =="dd-mm-yyyy")
                     MPvalidateDate.setError("Puste pole");
                 else
                     {
 
                     if(MPisTaken.isChecked()) {
-                        //TODO MACIEJ ZROB CALL DO SERIWSU DO TABELI MYPHARMACY I ZAPISZ REKORD Z POWYZSZYCH POL i NAZWY LEKU-- isTaken zrob na tak
+                        //TODO MACIEJ moim zdaniem to tutaj powinna byc metoda updateMyMedicines
+                        //
                     }
-                    else
-                    {
-                        //TODO MACIEJ ZROB CALL DO SERIWSU DO TABELI MYPHARMACY I ZAPISZ REKORD Z POWYZSZYCH POL i NAZWY LEKU-- isTaken zrob na nie
-                    }
+
 
                     Intent intent = new Intent(MyPharmacyDetailsActivity.this, MyPharmacyActivity.class);
                     startActivity(intent);
