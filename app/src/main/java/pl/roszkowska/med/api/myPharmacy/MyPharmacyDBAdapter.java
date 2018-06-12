@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,15 +61,20 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
         idList = myPharmacy.getIdList();
-
         MyPharmacyViewHolder myPharmacyViewHolder = (MyPharmacyViewHolder) holder;
         final MyPharmacyDB myPharmacyDB = myPharmacyDBList.get(position);
 
-       // myPharmacyViewHolder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
-        myPharmacyViewHolder.name.setText(myPharmacyDB.getNazwaLeku());
+        myPharmacyViewHolder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
+        //myPharmacyViewHolder.name.setText(myPharmacyDB.getNazwaLeku());
         myPharmacyViewHolder.howMany.setText("Ilość w opakowaniu : " + myPharmacyDB.getHowMany());
         myPharmacyViewHolder.validate.setText("Termin ważności: " + myPharmacyDB.getExpirationData());
-       /* myPharmacyViewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
+        if(myPharmacyDB.getIsTaken()=="yes")
+            myPharmacyViewHolder.check.setImageResource(R.drawable.ic_check_box_black_24dp);
+        if(myPharmacyDB.getIsTaken()=="no" || myPharmacyDB.getIsTaken()== "")
+            myPharmacyViewHolder.check.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp);
+
+
+        myPharmacyViewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
@@ -104,7 +110,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 // remove the item from recycler view
 
             }
-        });*/
+        });
         myPharmacyViewHolder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,8 +119,8 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 myPharmacyDetailsIntent = new Intent(v.getContext(), MyPharmacyDetailsActivity.class);
 
 
-                //String name = myPharmacyDBList.get(position).getMedicines().getMedicinesName();
-                String name = myPharmacyDBList.get(position).getNazwaLeku();
+                String name = myPharmacyDBList.get(position).getMedicines().getMedicinesName();
+               // String name = myPharmacyDBList.get(position).getNazwaLeku();
                 String howMany = myPharmacyDBList.get(position).getHowMany();
                 String isTaken = myPharmacyDBList.get(position).getIsTaken();
                 String expirationDate = myPharmacyDBList.get(position).getExpirationData();
@@ -125,7 +131,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 myPharmacyDetailsIntent.putExtra("isTaken", isTaken);
                 v.getContext().startActivity(myPharmacyDetailsIntent);
 
-               // downloadMedicinesById(position);
+                downloadMedicinesById(position);
                 //downloadMedicinesById(position,isTaken,expirationDate,howMany);
 
             }
@@ -147,6 +153,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     class MyPharmacyViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, validate, howMany;
+        ImageView check;
         protected ImageButton removeButton;
         protected ImageButton editButton;
 
@@ -160,6 +167,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             howMany = itemView.findViewById(R.id.howMany);
             removeButton = itemView.findViewById(R.id.info_button);
             editButton = itemView.findViewById(R.id.edit_button);
+            check = itemView.findViewById(R.id.imageView3);
         }
 
     }
@@ -203,13 +211,18 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         });
     }
 
-    protected void updateMyMedicines(final String isTaken, final String expirationDate, String howMany) {
+//    protected void updateMyMedicines(final String isTaken, final String expirationDate, String howMany) {
+protected void updateMyMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
         medicinesService = myMedicinesApplication.getMedicinesService();
 
-        myPharmacyDB.setIsTaken(isTaken);
+       /* myPharmacyDB.setIsTaken(isTaken);
         myPharmacyDB.setExpirationData(expirationDate);
-        myPharmacyDB.setHowMany(howMany);
+        myPharmacyDB.setHowMany(howMany);*/
+
+    myPharmacyDB.setIsTaken("yes");
+    myPharmacyDB.setExpirationData("04-04-2020");
+    myPharmacyDB.setHowMany("20");
 
         final Call<MyPharmacyDB> repo = medicinesService.updateMyPharmacy(myMedicinesApplication.getToken().getTokenID(), myPharmacyDB);
         repo.enqueue(new Callback<MyPharmacyDB>() {
@@ -228,7 +241,8 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         });
     }
 
-    protected void downloadMedicinesById(final int position, final String isTaken, final String expirationDate, final String howMany) {
+    //protected void downloadMedicinesById(final int position, final String isTaken, final String expirationDate, final String howMany) {
+    protected void downloadMedicinesById(final int position) {
         myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
         medicinesService = myMedicinesApplication.getMedicinesService();
         Call<MyPharmacyDB> repo = medicinesService.getMyMedicinesById(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
@@ -239,7 +253,8 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     Log.d("TAG", "Udalo sie");
                 }
                 myPharmacyDB = response.body();
-                updateMyMedicines(isTaken,expirationDate,howMany);
+//                updateMyMedicines(isTaken,expirationDate,howMany);
+                updateMyMedicines();
             }
 
             @Override

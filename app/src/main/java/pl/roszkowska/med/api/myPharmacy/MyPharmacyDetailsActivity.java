@@ -35,7 +35,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         MPNameDetails.setText(getIntent().getExtras().getString("nazwaLeku"));
         MPvalidateDate.setText(getIntent().getExtras().getString("expirationDate"));
         MPquantity.setText(getIntent().getExtras().getString("howMany"));
-        String check = getIntent().getExtras().getString("howMany");
+        String check = getIntent().getExtras().getString("isTaken");
         if(check == "yes")
             MPisTaken.setChecked(true);
         if(check == "no")
@@ -55,12 +55,10 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
                     {
 
                     if(MPisTaken.isChecked()) {
-                        //TODO MACIEJ ZROB CALL DO SERIWSU DO TABELI MYPHARMACY I ZAPISZ REKORD Z POWYZSZYCH POL i NAZWY LEKU-- isTaken zrob na tak
+                        //TODO MACIEJ moim zdaniem to tutaj powinna byc metoda updateMyMedicines
+                        //
                     }
-                    else
-                    {
-                        //TODO MACIEJ ZROB CALL DO SERIWSU DO TABELI MYPHARMACY I ZAPISZ REKORD Z POWYZSZYCH POL i NAZWY LEKU-- isTaken zrob na nie
-                    }
+
 
                     Intent intent = new Intent(MyPharmacyDetailsActivity.this, MyPharmacyActivity.class);
                     startActivity(intent);
