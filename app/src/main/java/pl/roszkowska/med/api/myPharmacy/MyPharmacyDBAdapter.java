@@ -152,6 +152,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 myPharmacyDetailsIntent.putExtra("isTaken", isTaken);
                 myPharmacyDetailsIntent.putExtra("id", finalPosition);
                 myPharmacyDetailsIntent.putExtra("token", token);
+                //TODO KASIA Zmienilem sposob wywolania aktywnosci. Tak tez dziala, ale jak bedziesz potrzebowac poprzedniego to mozesz zamienic
 //                v.getContext().startActivity(myPharmacyDetailsIntent);
                 startActivity(v.getContext(),myPharmacyDetailsIntent,null);
 

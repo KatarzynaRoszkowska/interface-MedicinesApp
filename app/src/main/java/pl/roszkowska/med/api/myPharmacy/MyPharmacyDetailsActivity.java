@@ -66,11 +66,12 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
 
         downloadMyMedicines();
 //TODO KASIA zakomentowalem bo nie dzialalo
+//TODO KASIA wyslalem ci zdjecie ustawainia szczegolow i na nim w polu Data waznosci jest: "dd-mm-yyy" a trzeba zrobic "yyyy-mm-dd" bo taki format przyjmuje baza danych
 //        if(check.equals("yes"))
 //            MPisTaken.setChecked(true);
 //        if(check.equals("false") || check.equals(null));
 //            MPisTaken.setChecked(false);
-
+//TODO KASIA zle jest cos zrobione z aktywnosciami. Wysylam filmik na FB jak to wyglada (chodzi o cofanie do poprzedniej aktywnosci i odswiezenie listy recycleView z nowymi wartosciami)
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +85,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
                     MPvalidateDate.setError("Puste pole");
                 else
                     {
-
+//TODO KASIA tutaj jak juz ogarniesz te ify to ustaw funkcje updateMyMedicines w odpowiednim miejscu. Bo teraz zostanie ona wywolana wtedy gdy checkBox bedzie zaznaczony
                     if(MPisTaken.isChecked()) {
                         //TODO MACIEJ moim zdaniem to tutaj powinna byc metoda updateMyMedicines
                         updateMyMedicines(MPvalidateDate1, MPquantity1, MPisTaken1);
