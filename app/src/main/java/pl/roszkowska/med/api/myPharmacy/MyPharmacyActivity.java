@@ -60,13 +60,6 @@ public class MyPharmacyActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(myPharmacyDBAdapter);
 
-//        myPharmacyDBList.add(new MyPharmacyDB("yes","50","03-05-2010","Apap"));
-//        myPharmacyDBList.add(new MyPharmacyDB("no","43","09-11-2017","Witamina C"));
-//        myPharmacyDBList.add(new MyPharmacyDB("",null,"","faFSF"));
-//        myPharmacyDBList.add(new MyPharmacyDB("no","23","03-05-2010","faFSF"));
-//        myPharmacyDBList.add(new MyPharmacyDB("no","45","AsSc","faFSF"));
-//        myPharmacyDBList.add(new MyPharmacyDB("yes","3","AsSc","faFSF"));
-
         myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
 
     }

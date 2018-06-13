@@ -78,7 +78,6 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        myPharmacyDBAdapter = this;
         idList = myPharmacy.getIdList();
 //        myPharmacyDetailsActivity = new MyPharmacyDetailsActivity(this, this);
         MyPharmacyViewHolder myPharmacyViewHolder = (MyPharmacyViewHolder) holder;
