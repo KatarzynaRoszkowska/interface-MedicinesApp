@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import pl.roszkowska.med.R;
 
+// A class that displays user information
+
 public class UserInformationActivity extends AppCompatActivity {
 
     Button userInfo;

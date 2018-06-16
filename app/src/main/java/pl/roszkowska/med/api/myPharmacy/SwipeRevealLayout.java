@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 
 import pl.roszkowska.med.R;
 
+// The class in which the swipe properties are described
+
 @SuppressLint("RtlHardcoded")
 public class SwipeRevealLayout extends ViewGroup{
 

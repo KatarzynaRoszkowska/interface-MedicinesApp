@@ -2,6 +2,8 @@ package pl.roszkowska.med.api.myPharmacy;
 
 import pl.roszkowska.med.api.medicines.Medicines;
 
+// A class that has all fields from the MyPharmacy table from the database. It also provides setters and getters
+
 public class MyPharmacyDB {
 
     String id;

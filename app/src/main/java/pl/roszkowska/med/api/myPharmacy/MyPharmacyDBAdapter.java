@@ -26,7 +26,7 @@ import retrofit2.Response;
 
 import static android.support.v4.content.ContextCompat.startActivity;
 
-
+// The adapter class provides value transfer and inserts in the appropriate fields
 public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
@@ -36,13 +36,13 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     MedicinesService medicinesService;
     MyPharmacyActivity myPharmacy;
     private List<String> idList;
-    private MyPharmacyDBAdapter myPharmacyDBAdapter;
     private MyMedicinesApplication myMedicinesApplication;
-    private MyPharmacyDB myPharmacyDB;
     private int finalPosition;
     private MyPharmacyDetailsActivity myPharmacyDetailsActivity;
     private String token;
 
+
+    // TODO maciej czy ta metoda jest potrzebna??
     public int getFinalPosition() {
         return finalPosition;
     }
@@ -194,12 +194,12 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void setMyPharmacyDBList(List<MyPharmacyDB> myPharmacyDBList) {
         this.myPharmacyDBList = myPharmacyDBList;
 
-        // odśwież RecyclerView
+        // refresh RecyclerView
         notifyDataSetChanged();
     }
 
     public List<MyPharmacyDB> getMyPharmacyDBList() {
-        // odśwież RecyclerView
+        // refresh RecyclerView
         notifyDataSetChanged();
         return myPharmacyDBList;
     }

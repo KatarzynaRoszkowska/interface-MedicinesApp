@@ -27,25 +27,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+// The class displays the selected drug by the user, allows you to enter your own data on the drug such as quantity, expiry date
 
 public class MyPharmacyDetailsActivity extends AppCompatActivity {
 
     private TextView MPNameDetails, title;
     private EditText MPvalidateDate, MPquantity;
-    private Context context;
-    String MPvalidateDate1, MPquantity1;
+    String MPvalidateDate1, MPquantity1,position;
     private CheckBox MPisTaken;
-    static MyPharmacyDetailsActivity myPharmacyDetailsActivity;
 
     Button button;
-    private MyMedicinesApplication myMedicinesApplication;
     private MedicinesService medicinesService;
-    private MyPharmacyDBAdapter myPharmacyDBAdapter = new MyPharmacyDBAdapter();
     private MyPharmacyDB myPharmacyDB;
-    private String MPisTaken1;
-    private String token,titleName;
-    private List<String> idList;
-    String position;
+    private String token,titleName, MPisTaken1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,7 +66,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
 
        downloadMedicinesById(Integer.parseInt(position));
 
-//TODO KASIA wciaz nie dziala
+        //TODO KASIA wciaz nie dziala
         if(check == "true")
             MPisTaken.setChecked(true);
         if(check == "false" || check == "null");

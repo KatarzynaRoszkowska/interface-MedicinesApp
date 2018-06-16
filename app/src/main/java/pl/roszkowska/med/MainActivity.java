@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import pl.roszkowska.med.api.appInformation.AppInformationActivity;
 import pl.roszkowska.med.api.Scanner.ScanTheCode;
+import pl.roszkowska.med.api.intent.IntentIntegrator;
+import pl.roszkowska.med.api.intent.IntentResult;
 import pl.roszkowska.med.api.medicines.MedicinesActivity;
 import pl.roszkowska.med.api.myPharmacy.MyPharmacyActivity;
 import pl.roszkowska.med.api.producers.Producers;

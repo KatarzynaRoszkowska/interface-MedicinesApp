@@ -28,6 +28,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+// The class displays all the medicines that the user has in his first aid kit
+
 public class MyPharmacyActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
@@ -35,7 +37,6 @@ public class MyPharmacyActivity extends AppCompatActivity {
     List<MyPharmacyDB> myPharmacyDBList;
     private MedicinesService medicinesService;
     private MyMedicinesApplication myMedicinesApplication;
-    private MyPharmacyDetailsActivity myPharmacyDetailsActivity;
     private List<String> idList;
 
     public List<String> getIdList() {

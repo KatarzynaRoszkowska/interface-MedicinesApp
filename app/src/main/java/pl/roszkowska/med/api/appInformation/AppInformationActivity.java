@@ -8,6 +8,7 @@ import android.view.View;
 
 import pl.roszkowska.med.R;
 
+//The class responsible for displaying information about the application
 public class AppInformationActivity extends AppCompatActivity {
 
     @Override

@@ -11,6 +11,9 @@ import android.widget.TextView;
 import java.util.List;
 import pl.roszkowska.med.R;
 
+
+// The adapter class provides value transfer and inserts in the appropriate fields
+
 public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.MedicinesViewHolder>{
 
     private Context contex;
@@ -110,7 +113,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
     public void setMedicinesList(List<Medicines> medicinesList) {
         this.medicinesList = medicinesList;
 
-        // odśwież RecyclerView
+        // refresh RecyclerView
         notifyDataSetChanged();
     }
 
