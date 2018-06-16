@@ -84,7 +84,6 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final MyPharmacyDB myPharmacyDB = myPharmacyDBList.get(position);
 
         myPharmacyViewHolder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
-        //myPharmacyViewHolder.name.setText(myPharmacyDB.getNazwaLeku());
         myPharmacyViewHolder.howMany.setText("Ilość w opakowaniu : " + myPharmacyDB.getHowMany());
         myPharmacyViewHolder.validate.setText("Termin ważności: " + myPharmacyDB.getExpirationData());
         if(myPharmacyDB.getIsTaken()=="true")
@@ -151,8 +150,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 myPharmacyDetailsIntent.putExtra("isTaken", isTaken);
                 myPharmacyDetailsIntent.putExtra("id", finalPosition);
                 myPharmacyDetailsIntent.putExtra("token", token);
-                //TODO KASIA Zmienilem sposob wywolania aktywnosci. Tak tez dziala, ale jak bedziesz potrzebowac poprzedniego to mozesz zamienic
-//                v.getContext().startActivity(myPharmacyDetailsIntent);
+
                 startActivity(v.getContext(),myPharmacyDetailsIntent,null);
 
             }

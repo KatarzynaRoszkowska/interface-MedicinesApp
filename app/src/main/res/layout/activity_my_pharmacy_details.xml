@@ -31,11 +31,12 @@
                 android:orientation="vertical"
                 android:gravity="center">
 
-                <ImageView
+                <TextView
+                    android:id="@+id/title"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:background="@drawable/cerclebackgroundgreen"
-                    android:src="@drawable/ic_local_pharmacy_black_24dp"
+                    android:background="@drawable/circle"
+                    android:gravity="center_vertical"
                     android:padding="10dp"/>
 
                 <TextView
@@ -98,7 +99,7 @@
                         android:id="@+id/MPvalidateDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="dd-mm-yyyy"
+                        android:hint="yyyy-mm-dd"
                         android:padding="5dp"
                         android:textColor="@android:color/darker_gray"/>
 

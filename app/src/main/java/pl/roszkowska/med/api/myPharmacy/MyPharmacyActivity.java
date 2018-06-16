@@ -50,13 +50,13 @@ public class MyPharmacyActivity extends AppCompatActivity {
 
         downloadMyMedicines();
 
+
         myPharmacyDBList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
         myPharmacyDBAdapter = new MyPharmacyDBAdapter(this, this, myPharmacyDBList);
-
 
         recyclerView.setAdapter(myPharmacyDBAdapter);
 

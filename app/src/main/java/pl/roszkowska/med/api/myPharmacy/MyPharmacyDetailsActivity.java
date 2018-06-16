@@ -2,6 +2,7 @@ package pl.roszkowska.med.api.myPharmacy;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyPharmacyDetailsActivity extends AppCompatActivity {
 
-    private TextView MPNameDetails;
+    private TextView MPNameDetails, title;
     private EditText MPvalidateDate, MPquantity;
     private Context context;
     String MPvalidateDate1, MPquantity1;
@@ -42,7 +43,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
     private MyPharmacyDBAdapter myPharmacyDBAdapter = new MyPharmacyDBAdapter();
     private MyPharmacyDB myPharmacyDB;
     private String MPisTaken1;
-    private String token;
+    private String token,titleName;
     private List<String> idList;
     String position;
 
@@ -56,6 +57,8 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         MPvalidateDate = findViewById(R.id.MPvalidateDate);
         MPquantity = findViewById(R.id.MPquantity);
         MPisTaken = findViewById(R.id.MPisTaken);
+        title = findViewById(R.id.title);
+        titleName=getIntent().getExtras().getString("nazwaLeku");
 
         position = getIntent().getExtras().getString("id");
         MPNameDetails.setText(getIntent().getExtras().getString("nazwaLeku"));
@@ -63,16 +66,18 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         MPquantity.setText(getIntent().getExtras().getString("howMany"));
         String check = getIntent().getExtras().getString("isTaken");
         token = getIntent().getExtras().getString("token");
+        title.setTextSize(40);
+        title.setTextColor(Color.WHITE);
+        title.setText(" " + String.valueOf(titleName.charAt(0)));
 
-//        downloadMyMedicines();
-        downloadMedicinesById(Integer.parseInt(position));
-//TODO KASIA zakomentowalem bo nie dzialalo
-//TODO KASIA wyslalem ci zdjecie ustawainia szczegolow i na nim w polu Data waznosci jest: "dd-mm-yyy" a trzeba zrobic "yyyy-mm-dd" bo taki format przyjmuje baza danych
-//        if(check.equals("yes"))
-//            MPisTaken.setChecked(true);
-//        if(check.equals("false") || check.equals(null));
-//            MPisTaken.setChecked(false);
-//TODO KASIA zle jest cos zrobione z aktywnosciami. Wysylam filmik na FB jak to wyglada (chodzi o cofanie do poprzedniej aktywnosci i odswiezenie listy recycleView z nowymi wartosciami)
+       downloadMedicinesById(Integer.parseInt(position));
+       
+//TODO KASIA wciaz nie dziala
+        if(check == "true")
+            MPisTaken.setChecked(true);
+        if(check == "false" || check == "null");
+            MPisTaken.setChecked(false);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,19 +85,22 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
                 MPvalidateDate1 = MPvalidateDate.getText().toString();
                 MPquantity1 = MPquantity.getText().toString();
                 MPisTaken1 = MPisTaken.getText().toString();
-                if (MPquantity.getText().toString().trim().length() == 0)
+
+                if (MPquantity.getText().toString().trim().length() == 0
+                        &&
+                        (MPvalidateDate.getText().toString().trim().length() == 0 || MPvalidateDate.getHint().toString() == "yyyy-mm-dd")) {
                     MPquantity.setError("Puste pole");
-                else if (MPvalidateDate.getText().toString().trim().length() == 0 || MPvalidateDate.getHint().toString() == "yyyy-mm-dd")
                     MPvalidateDate.setError("Puste pole");
-                else {
-//TODO KASIA tutaj jak juz ogarniesz te ify to ustaw funkcje updateMyMedicines w odpowiednim miejscu. Bo teraz zostanie ona wywolana wtedy gdy checkBox bedzie zaznaczony
-                    if (MPisTaken.isChecked()) {
-                        //TODO MACIEJ moim zdaniem to tutaj powinna byc metoda updateMyMedicines
-                        updateMyMedicines(MPvalidateDate1, MPquantity1, MPisTaken1);
-                    }
+                }
+                else if(MPquantity.getText().toString().trim().length() == 0){
+                    MPquantity.setError("Puste pole");
+                }
+                else if(MPvalidateDate.getText().toString().trim().length() == 0 || MPvalidateDate.getHint().toString() == "yyyy-mm-dd"){
+                    MPvalidateDate.setError("Puste pole");
                 }
 
-            }
+                updateMyMedicines(MPvalidateDate1, MPquantity1, MPisTaken1);
+                }
         });
 
     }
@@ -140,31 +148,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         });
     }
 
-//    protected void downloadMyMedicines() {
-//        medicinesService = setMedicinesService();
-//        final Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(token);
-//
-//        repo.enqueue(new Callback<List<MyPharmacyDB>>() {
-//            @Override
-//            public void onResponse(Call<List<MyPharmacyDB>> call, Response<List<MyPharmacyDB>> response) {
-//                if (response.isSuccessful()) {
-//                    idList = new ArrayList<>();
-//
-//                    for (int i = 0; i < response.body().size(); i++) {
-//                        Log.d("TAG", response.body().get(i).toString());
-//                        idList.add(response.body().get(i).getId().toString());
-//                    }
-//                    myPharmacyDBAdapter.setMyPharmacyDBList(response.body());
-//                    downloadMedicinesById(Integer.parseInt(position));
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<MyPharmacyDB>> call, Throwable t) {
-//                Log.d("ERROR", t.toString());
-//            }
-//        });
-//    }
+
 
     public MedicinesService setMedicinesService() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
