@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +112,16 @@ public class MedicinesActivity extends AppCompatActivity {
                         }
                         medicines = response.body();
                         insertMedi();
+
+                        Context context = getApplicationContext();
+                        CharSequence text = "Dodano do mojej apteki!";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+
                         downloadMedicines();
+
                     }
 
                     @Override

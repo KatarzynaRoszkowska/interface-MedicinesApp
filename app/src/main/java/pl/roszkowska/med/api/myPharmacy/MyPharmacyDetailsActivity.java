@@ -71,7 +71,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         title.setText(" " + String.valueOf(titleName.charAt(0)));
 
        downloadMedicinesById(Integer.parseInt(position));
-       
+
 //TODO KASIA wciaz nie dziala
         if(check == "true")
             MPisTaken.setChecked(true);
