@@ -19,10 +19,10 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="ffffff" />
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/github-512.png" />
-                                      <entry key="outputName" value="github_image" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/maciek.png" />
+                                      <entry key="foregroundLayerName" value="github_image_foreground" />
+                                      <entry key="outputName" value="maciek" />
                                     </map>
                                   </option>
                                 </PersistentState>

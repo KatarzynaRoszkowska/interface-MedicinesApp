@@ -155,7 +155,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addInterceptor(logging);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.31:8080") // Adres serwera
+                .baseUrl("http://192.168.0.122:8080") // Adres serwera
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();

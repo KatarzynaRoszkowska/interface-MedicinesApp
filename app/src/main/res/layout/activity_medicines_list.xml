@@ -28,7 +28,7 @@
                     android:layout_width="83dp"
                     android:layout_height="90dp"
                     android:padding="4dp"
-                    android:src="@drawable/ic_note_add_green_24dp" />
+                    android:src="@mipmap/github_image" />
             </LinearLayout>
 
             <LinearLayout
