@@ -70,22 +70,22 @@ public class MedicinesActivity extends AppCompatActivity {
 
                 medicinesAdapter.notifyItemChanged(position);
 
-                Intent showDetailsMedicinesIntent = new Intent(MedicinesActivity.this,ShowDetailsMedicinesActivity.class);
+                Intent showDetailsMedicinesIntent = new Intent(MedicinesActivity.this, ShowDetailsMedicinesActivity.class);
 
-                showDetailsMedicinesIntent.putExtra("medicinesName",medicinesName);
-                showDetailsMedicinesIntent.putExtra("composition",composition);
-                showDetailsMedicinesIntent.putExtra("formOfTheDrag",formOfTheDrag);
-                showDetailsMedicinesIntent.putExtra("category",category);
-                showDetailsMedicinesIntent.putExtra("speciality",speciality);
-                showDetailsMedicinesIntent.putExtra("activity",activity);
-                showDetailsMedicinesIntent.putExtra("indications",indications);
-                showDetailsMedicinesIntent.putExtra("wayOfGiving",wayOfGiving);
-                showDetailsMedicinesIntent.putExtra("possibleSideEffect",possibleSideEffect);
-                showDetailsMedicinesIntent.putExtra("dose",dose);
-                if(IsPrescription.equals("true")) {
-                showDetailsMedicinesIntent.putExtra("IsPrescription", "Tak");
+                showDetailsMedicinesIntent.putExtra("medicinesName", medicinesName);
+                showDetailsMedicinesIntent.putExtra("composition", composition);
+                showDetailsMedicinesIntent.putExtra("formOfTheDrag", formOfTheDrag);
+                showDetailsMedicinesIntent.putExtra("category", category);
+                showDetailsMedicinesIntent.putExtra("speciality", speciality);
+                showDetailsMedicinesIntent.putExtra("activity", activity);
+                showDetailsMedicinesIntent.putExtra("indications", indications);
+                showDetailsMedicinesIntent.putExtra("wayOfGiving", wayOfGiving);
+                showDetailsMedicinesIntent.putExtra("possibleSideEffect", possibleSideEffect);
+                showDetailsMedicinesIntent.putExtra("dose", dose);
+                if (IsPrescription.equals("true")) {
+                    showDetailsMedicinesIntent.putExtra("IsPrescription", "Tak");
                 } else {
-                showDetailsMedicinesIntent.putExtra("IsPrescription", "Nie");
+                    showDetailsMedicinesIntent.putExtra("IsPrescription", "Nie");
                 }
 
                 startActivity(showDetailsMedicinesIntent);
@@ -109,7 +109,7 @@ public class MedicinesActivity extends AppCompatActivity {
                 repo.enqueue(new Callback<Medicines>() {
                     @Override
                     public void onResponse(Call<Medicines> call, Response<Medicines> response) {
-                        if(response.isSuccessful()) {
+                        if (response.isSuccessful()) {
                             Log.d("TAG", "Udalo sie");
                         }
                         medicines = response.body();
@@ -169,10 +169,11 @@ public class MedicinesActivity extends AppCompatActivity {
         });
 
     }
+
     private void insertMedi() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
-        myPharmacyDB = new MyPharmacyDB("false","","",medicines);
+        myPharmacyDB = new MyPharmacyDB("false", "", "", medicines);
         Call<MyPharmacyDB> addMed = medicinesService.addMedicines(myMedicinesApplication.getToken().getTokenID(), myPharmacyDB);
         addMed.enqueue(new Callback<MyPharmacyDB>() {
             @Override

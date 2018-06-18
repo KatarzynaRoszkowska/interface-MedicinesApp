@@ -39,13 +39,10 @@ public class UserInformationActivity extends AppCompatActivity {
         userAllergieINFO.setText(String.format("%s", sp.getString(SetUserInfoActivity.USER_ALERGIE, "Nieznany")));
         userEMailINFO.setText(String.format("%s", sp.getString(SetUserInfoActivity.USER_EMAIL, "Nieznany")));
 
-
-
-
-       userInfo.setOnClickListener(new View.OnClickListener() {
+        userInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserInformationActivity.this,SetUserInfoActivity.class);
+                Intent intent = new Intent(UserInformationActivity.this, SetUserInfoActivity.class);
                 startActivity(intent);
 
             }

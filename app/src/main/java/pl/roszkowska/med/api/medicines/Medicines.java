@@ -2,22 +2,22 @@ package pl.roszkowska.med.api.medicines;
 
 // A class that has all fields from the Medicines table from the database. It also provides setters and getters
 public class Medicines {
-            Long id;
-            String medicinesName;
-            String composition;
-            String formOfTheDrag;
-            String category;
-            String speciality;
-            String activity;
-            String indications;
-            String wayOfGiving;
-            String possibleSideEffect;
-            String tellTheDoctor;
-            String dose;
-            String quantity;
-            String isPrescription;
-            String ean;
-            String serialNumber;
+    Long id;
+    String medicinesName;
+    String composition;
+    String formOfTheDrag;
+    String category;
+    String speciality;
+    String activity;
+    String indications;
+    String wayOfGiving;
+    String possibleSideEffect;
+    String tellTheDoctor;
+    String dose;
+    String quantity;
+    String isPrescription;
+    String ean;
+    String serialNumber;
 
     public Medicines(String medicinesName, String speciality, String composition, String formOfTheDrag) {
         this.medicinesName = medicinesName;

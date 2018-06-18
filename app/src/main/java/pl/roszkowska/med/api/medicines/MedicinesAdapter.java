@@ -8,13 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
+
 import java.util.List;
+
 import pl.roszkowska.med.R;
 
 
 // The adapter class provides value transfer and inserts in the appropriate fields
 
-public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.MedicinesViewHolder>{
+public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.MedicinesViewHolder> {
 
     private Context contex;
     private List<Medicines> medicinesList;
@@ -23,12 +25,11 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
 
     public OnItemClickListener mListener;
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listner)
-    {
+    public void setOnItemClickListener(OnItemClickListener listner) {
         mListener = listner;
     }
 
@@ -41,7 +42,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
     @Override
     public MedicinesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(contex);
-        View view = layoutInflater.inflate(R.layout.activity_medicines_list,null);
+        View view = layoutInflater.inflate(R.layout.activity_medicines_list, null);
         MedicinesViewHolder holder = new MedicinesViewHolder(view, mListener);
 
         return holder;
@@ -52,28 +53,22 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
         medicines = medicinesList.get(position);
 
         holder.medicinesName.setText(medicines.getMedicinesName());
-        if(medicines.getSpeciality().length() >= 30)
-        {
+        if (medicines.getSpeciality().length() >= 30) {
             s = medicines.getSpeciality().substring(0, 30);
-            holder.speciality.setText(s+" ...");
-        }
-        else
+            holder.speciality.setText(s + " ...");
+        } else
             holder.speciality.setText(medicines.getSpeciality());
 
-        if(medicines.getComposition().length() >= 30)
-        {
+        if (medicines.getComposition().length() >= 30) {
             s = medicines.getComposition().substring(0, 30);
-            holder.composition.setText(s+" ...");
-        }
-        else
+            holder.composition.setText(s + " ...");
+        } else
             holder.composition.setText(medicines.getComposition());
 
-        if(medicines.getFormOfTheDrag().length() >= 30)
-        {
+        if (medicines.getFormOfTheDrag().length() >= 30) {
             s = medicines.getFormOfTheDrag().substring(0, 30);
-            holder.formOfTheDrag.setText(s+" ...");
-        }
-        else
+            holder.formOfTheDrag.setText(s + " ...");
+        } else
             holder.formOfTheDrag.setText(medicines.getFormOfTheDrag());
 
     }
@@ -84,7 +79,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
         return medicinesList.size();
     }
 
-    class MedicinesViewHolder extends RecyclerView.ViewHolder{
+    class MedicinesViewHolder extends RecyclerView.ViewHolder {
         TextView medicinesName, speciality, composition, formOfTheDrag, ean;
 
         public MedicinesViewHolder(View itemView, final OnItemClickListener listener) {
@@ -97,9 +92,9 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(listener != null){
+                    if (listener != null) {
                         int position = getAdapterPosition();
-                        if(position != RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
                         }
                     }
