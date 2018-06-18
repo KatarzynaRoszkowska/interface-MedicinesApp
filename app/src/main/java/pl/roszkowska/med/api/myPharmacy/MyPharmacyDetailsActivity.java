@@ -35,6 +35,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
     private EditText MPvalidateDate, MPquantity;
     String MPvalidateDate1, MPquantity1,position;
     private CheckBox MPisTaken;
+    String check;
 
     Button button;
     private MedicinesService medicinesService;
@@ -58,7 +59,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         MPNameDetails.setText(getIntent().getExtras().getString("nazwaLeku"));
         MPvalidateDate.setText(getIntent().getExtras().getString("expirationDate"));
         MPquantity.setText(getIntent().getExtras().getString("howMany"));
-        String check = getIntent().getExtras().getString("isTaken");
+        check = getIntent().getExtras().getString("isTaken");
         token = getIntent().getExtras().getString("token");
         title.setTextSize(40);
         title.setTextColor(Color.WHITE);
@@ -67,10 +68,11 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
        downloadMedicinesById(Integer.parseInt(position));
 
         //TODO KASIA wciaz nie dziala
-        if(check == "true")
+        if(check.equals("true")) {
             MPisTaken.setChecked(true);
-        if(check == "false" || check == "null");
+        } else {
             MPisTaken.setChecked(false);
+        }
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +93,12 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
                 }
                 else if(MPvalidateDate.getText().toString().trim().length() == 0 || MPvalidateDate.getHint().toString() == "yyyy-mm-dd"){
                     MPvalidateDate.setError("Puste pole");
+                }
+
+                if(MPisTaken.isChecked()) {
+                    MPisTaken1 = "true";
+                } else {
+                    MPisTaken1 = "false";
                 }
 
                 updateMyMedicines(MPvalidateDate1, MPquantity1, MPisTaken1);
@@ -155,7 +163,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
 // add logging as last interceptor
         httpClient.addInterceptor(logging);  // <-- this is the important line!
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.122:8080") // Adres serwera
+                .baseUrl("http://192.168.0.31:8080") // Adres serwera
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();

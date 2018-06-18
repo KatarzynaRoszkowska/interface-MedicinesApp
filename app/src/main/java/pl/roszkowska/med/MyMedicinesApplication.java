@@ -146,7 +146,7 @@ public class MyMedicinesApplication extends Application {
 // add logging as last interceptor
         httpClient.addInterceptor(logging);  // <-- this is the important line!
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.122:8080") // Adres serwera
+                .baseUrl("http://192.168.0.31:8080") // Adres serwera
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();

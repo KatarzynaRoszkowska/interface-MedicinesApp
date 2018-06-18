@@ -42,11 +42,6 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private String token;
 
 
-    // TODO maciej czy ta metoda jest potrzebna??
-    public int getFinalPosition() {
-        return finalPosition;
-    }
-
     public MyPharmacyActivity getMyPharmacy() {
         return myPharmacy;
     }
@@ -79,16 +74,15 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         idList = myPharmacy.getIdList();
-//        myPharmacyDetailsActivity = new MyPharmacyDetailsActivity(this, this);
         MyPharmacyViewHolder myPharmacyViewHolder = (MyPharmacyViewHolder) holder;
         final MyPharmacyDB myPharmacyDB = myPharmacyDBList.get(position);
 
         myPharmacyViewHolder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
         myPharmacyViewHolder.howMany.setText("Ilość w opakowaniu : " + myPharmacyDB.getHowMany());
         myPharmacyViewHolder.validate.setText("Termin ważności: " + myPharmacyDB.getExpirationData());
-        if(myPharmacyDB.getIsTaken()=="true")
+        if (myPharmacyDB.getIsTaken() == "true")
             myPharmacyViewHolder.check.setImageResource(R.drawable.ic_check_box_black_24dp);
-        if(myPharmacyDB.getIsTaken()=="false" || myPharmacyDB.getIsTaken()== null)
+        if (myPharmacyDB.getIsTaken() == "false" || myPharmacyDB.getIsTaken() == null)
             myPharmacyViewHolder.check.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp);
 
 
@@ -98,7 +92,6 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
                 medicinesService = myMedicinesApplication.getMedicinesService();
                 Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), myPharmacyDBList.get(position).getId());
-//                final int finalPosition = position;
                 delete.enqueue(new Callback<MyPharmacyDB>() {
                     @Override
                     public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
@@ -145,13 +138,13 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 String finalPosition = myPharmacyDBList.get(position).getId();
 
                 myPharmacyDetailsIntent.putExtra("nazwaLeku", name);
-                myPharmacyDetailsIntent.putExtra("expirationDate",expirationDate);
+                myPharmacyDetailsIntent.putExtra("expirationDate", expirationDate);
                 myPharmacyDetailsIntent.putExtra("howMany", howMany);
                 myPharmacyDetailsIntent.putExtra("isTaken", isTaken);
                 myPharmacyDetailsIntent.putExtra("id", finalPosition);
                 myPharmacyDetailsIntent.putExtra("token", token);
 
-                startActivity(v.getContext(),myPharmacyDetailsIntent,null);
+                startActivity(v.getContext(), myPharmacyDetailsIntent, null);
 
             }
         });
