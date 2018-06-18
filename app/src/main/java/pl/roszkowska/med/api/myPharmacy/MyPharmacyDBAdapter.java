@@ -124,7 +124,6 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         myPharmacyViewHolder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "EDIT CLICKED", Toast.LENGTH_SHORT).show();
 
                 myPharmacyDetailsIntent = new Intent(v.getContext(), MyPharmacyDetailsActivity.class);
                 myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
