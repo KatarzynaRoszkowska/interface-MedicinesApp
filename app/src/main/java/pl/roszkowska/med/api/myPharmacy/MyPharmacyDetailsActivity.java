@@ -80,10 +80,13 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
                 MPvalidateDate1 = MPvalidateDate.getText().toString();
                 MPquantity1 = MPquantity.getText().toString();
                 MPisTaken1 = MPisTaken.getText().toString();
-                //TODO KASIA
-                /*
-                nie dziala sprawdzanie pól. Mozna ustawic isTaken i nie ustawiac daty ani dawki i aktualizacja jest robiona mimo ze pola sa puste.
-                 */
+
+                if (MPisTaken.isChecked()) {
+                    MPisTaken1 = "true";
+                } else {
+                    MPisTaken1 = "false";
+                }
+
                 if (MPquantity.getText().toString().trim().length() == 0
                         &&
                         (MPvalidateDate.getText().toString().trim().length() == 0 || MPvalidateDate.getHint().toString() == "yyyy-mm-dd")) {
@@ -94,14 +97,8 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
                 } else if (MPvalidateDate.getText().toString().trim().length() == 0 || MPvalidateDate.getHint().toString() == "yyyy-mm-dd") {
                     MPvalidateDate.setError("Puste pole");
                 }
-
-                if (MPisTaken.isChecked()) {
-                    MPisTaken1 = "true";
-                } else {
-                    MPisTaken1 = "false";
-                }
-
-                updateMyMedicines(MPvalidateDate1, MPquantity1, MPisTaken1);
+                else{
+                updateMyMedicines(MPvalidateDate1, MPquantity1, MPisTaken1);}
             }
         });
 
