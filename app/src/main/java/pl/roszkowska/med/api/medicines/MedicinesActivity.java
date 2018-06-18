@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+// The class responsible for displaying the drug database.
+// The possibility of adding the selected drug to your own first aid kit
 public class MedicinesActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     MedicinesAdapter medicinesAdapter;
@@ -111,7 +114,16 @@ public class MedicinesActivity extends AppCompatActivity {
                         }
                         medicines = response.body();
                         insertMedi();
+
+                        Context context = getApplicationContext();
+                        CharSequence text = "Dodano do mojej apteki!";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+
                         downloadMedicines();
+
                     }
 
                     @Override
@@ -160,7 +172,7 @@ public class MedicinesActivity extends AppCompatActivity {
     private void insertMedi() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
-        myPharmacyDB = new MyPharmacyDB("","","",medicines);
+        myPharmacyDB = new MyPharmacyDB("false","","",medicines);
         Call<MyPharmacyDB> addMed = medicinesService.addMedicines(myMedicinesApplication.getToken().getTokenID(), myPharmacyDB);
         addMed.enqueue(new Callback<MyPharmacyDB>() {
             @Override

@@ -1,5 +1,6 @@
 package pl.roszkowska.med.api.medicines;
 
+// A class that has all fields from the Medicines table from the database. It also provides setters and getters
 public class Medicines {
             Long id;
             String medicinesName;

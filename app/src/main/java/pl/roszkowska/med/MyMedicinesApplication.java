@@ -21,11 +21,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MyMedicinesApplication extends Application {
+    private static MyMedicinesApplication myMedicinesApplication;
     MedicinesService medicinesService;
     TokenCredentials token;
     Medicines medicines;
     ResponseAuthentication responseAuthentication;
-    private MyMedicinesApplication myMedicinesApplication;
 
     public ResponseAuthentication getResponseAuthentication() {
         return responseAuthentication;
@@ -50,28 +50,13 @@ public class MyMedicinesApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-// set your desired log level
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-// add your other interceptors …
 
-// add logging as last interceptor
-        httpClient.addInterceptor(logging);  // <-- this is the important line!
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.122:8080") // Adres serwera
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient.build())
-                .build();
-
-        medicinesService = retrofit.create(MedicinesService.class);
-
+        setMedicinesService();
         authenticateUser();
     }
 
-    private void authenticateUser() {
+    public TokenCredentials authenticateUser() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -124,6 +109,7 @@ public class MyMedicinesApplication extends Application {
         } catch (Exception exception) {
             Log.e("EA", "Exception: " + exception.toString());
         }
+        return token;
     }
 
     private void downloadMyMedicines() {
@@ -147,6 +133,31 @@ public class MyMedicinesApplication extends Application {
                 Log.d("ERROR", t.toString());
             }
         });
+    }
+
+    public MedicinesService setMedicinesService() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+// set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+// add your other interceptors …
+
+// add logging as last interceptor
+        httpClient.addInterceptor(logging);  // <-- this is the important line!
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.0.31:8080") // Adres serwera
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
+                .build();
+
+        medicinesService = retrofit.create(MedicinesService.class);
+
+        return medicinesService;
+    }
+
+    public static MyMedicinesApplication getIntent() {
+        return myMedicinesApplication;
     }
 
 }

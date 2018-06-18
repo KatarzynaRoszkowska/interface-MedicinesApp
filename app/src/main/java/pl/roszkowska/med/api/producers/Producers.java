@@ -1,5 +1,7 @@
 package pl.roszkowska.med.api.producers;
 
+// A class that has all fields from the Medicines table from the database. It also provides setters and getters
+
 public class Producers {
     String id;
     String producerName;

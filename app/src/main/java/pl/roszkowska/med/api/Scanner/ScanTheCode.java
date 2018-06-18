@@ -23,6 +23,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/// A class that allows you to view the information and the scanned medicine
+
 public class ScanTheCode extends AppCompatActivity {
     private TextView contentTxt, composition, formOfTheDrag, quantity, wayOfGiving, nameOfMedicine;
     private MyMedicinesApplication myMedicinesApplication;
@@ -34,12 +36,9 @@ public class ScanTheCode extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_scan_the_code);
 
         medicinesList = new ArrayList<>();
         medicinesAdapter = new MedicinesAdapter(this, medicinesList);
-
-
 
         downloadMedicines();
 
@@ -51,9 +50,6 @@ public class ScanTheCode extends AppCompatActivity {
         Bundle c = getIntent().getExtras();
         eanCode = c.getString("ean");
 
-        /*
-        Nie jest to dopracowany sposób ponieważ na ułamek sekundy pokazywany jest pusty CardView
-         */
         if(eanCode == null) {
             Intent intent = NavUtils.getParentActivityIntent(this);
             NavUtils.navigateUpTo(this, intent);
@@ -72,6 +68,7 @@ public class ScanTheCode extends AppCompatActivity {
                     public void onResponse(Call<Medicines> call, Response<Medicines> response) {
                         if(response.isSuccessful()) {
                             Log.d("IDe", response.body().toString());
+                            nameOfMedicine.setText(response.body().getMedicinesName());
                             contentTxt.setText(Html.fromHtml("<b>" + "Kod EAN: " + "</b>" + response.body().getEan()));
                             composition.setText(Html.fromHtml("<b>" + "Skład leku: " + "</b>" + response.body().getComposition()));
                             formOfTheDrag.setText(Html.fromHtml("<b>" + "Forma leku: " + "</b>" + response.body().getFormOfTheDrag()));

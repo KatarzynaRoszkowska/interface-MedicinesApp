@@ -28,6 +28,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+// The class displays all the medicines that the user has in his first aid kit
+
 public class MyPharmacyActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
@@ -47,7 +49,8 @@ public class MyPharmacyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_pharmacy);
 
 
-        //downloadMyMedicines();
+        downloadMyMedicines();
+
 
         myPharmacyDBList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -58,18 +61,11 @@ public class MyPharmacyActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(myPharmacyDBAdapter);
 
-        myPharmacyDBList.add(new MyPharmacyDB("yes","50","03-05-2010","Apap"));
-        myPharmacyDBList.add(new MyPharmacyDB("no","43","09-11-2017","Witamina C"));
-        myPharmacyDBList.add(new MyPharmacyDB("",null,"","faFSF"));
-        myPharmacyDBList.add(new MyPharmacyDB("no","23","03-05-2010","faFSF"));
-        myPharmacyDBList.add(new MyPharmacyDB("no","45","AsSc","faFSF"));
-        myPharmacyDBList.add(new MyPharmacyDB("yes","3","AsSc","faFSF"));
-
         myPharmacyDBList = myPharmacyDBAdapter.getMyPharmacyDBList();
 
     }
 
-    /*protected void downloadMyMedicines() {
+    protected void downloadMyMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();
         final Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(myMedicinesApplication.getToken().getTokenID());
@@ -93,6 +89,6 @@ public class MyPharmacyActivity extends AppCompatActivity {
                 Log.d("ERROR", t.toString());
             }
         });
-    }*/
+    }
 
 }

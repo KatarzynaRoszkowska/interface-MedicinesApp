@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import pl.roszkowska.med.R;
 
+// The class displays the details of the drug selected by the user
+
 public class ShowDetailsMedicinesActivity extends AppCompatActivity {
 
     private TextView detailsMedicinesName, detailsComposition, detailsFormOfTheDrag, detailsCategory, detailsSpeciality,

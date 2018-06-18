@@ -11,6 +11,9 @@ import android.widget.EditText;
 
 import pl.roszkowska.med.R;
 
+
+// A class that allows you to enter information about the user of the application, e.g. for what is allergic,
+// who to contact in the event of an accident
 public class SetUserInfoActivity extends AppCompatActivity {
 
     Button userInfo;

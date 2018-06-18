@@ -2,6 +2,7 @@ package pl.roszkowska.med.api.myPharmacy;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +24,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.support.v4.content.ContextCompat.startActivity;
 
+// The adapter class provides value transfer and inserts in the appropriate fields
 public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
@@ -34,7 +37,17 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     MyPharmacyActivity myPharmacy;
     private List<String> idList;
     private MyMedicinesApplication myMedicinesApplication;
-    private MyPharmacyDB myPharmacyDB;
+    private int finalPosition;
+    private MyPharmacyDetailsActivity myPharmacyDetailsActivity;
+    private String token;
+
+
+    public MyPharmacyActivity getMyPharmacy() {
+        return myPharmacy;
+    }
+
+    public MyPharmacyDBAdapter() {
+    }
 
     public MyPharmacyDBAdapter(MyPharmacyActivity myPharmacy) {
         this.myPharmacy = myPharmacy;
@@ -45,6 +58,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.context = context;
         this.myPharmacyDBList = myPharmacyDBList;
         myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
+
     }
 
     @Override
@@ -59,18 +73,16 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-
         idList = myPharmacy.getIdList();
         MyPharmacyViewHolder myPharmacyViewHolder = (MyPharmacyViewHolder) holder;
         final MyPharmacyDB myPharmacyDB = myPharmacyDBList.get(position);
 
         myPharmacyViewHolder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
-        //myPharmacyViewHolder.name.setText(myPharmacyDB.getNazwaLeku());
         myPharmacyViewHolder.howMany.setText("Ilość w opakowaniu : " + myPharmacyDB.getHowMany());
         myPharmacyViewHolder.validate.setText("Termin ważności: " + myPharmacyDB.getExpirationData());
-        if(myPharmacyDB.getIsTaken()=="yes")
+        if (myPharmacyDB.getIsTaken() == "true")
             myPharmacyViewHolder.check.setImageResource(R.drawable.ic_check_box_black_24dp);
-        if(myPharmacyDB.getIsTaken()=="no" || myPharmacyDB.getIsTaken()== "")
+        if (myPharmacyDB.getIsTaken() == "false" || myPharmacyDB.getIsTaken() == null)
             myPharmacyViewHolder.check.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp);
 
 
@@ -80,7 +92,6 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
                 medicinesService = myMedicinesApplication.getMedicinesService();
                 Call<MyPharmacyDB> delete = medicinesService.deleteMyPharmacie(myMedicinesApplication.getToken().getTokenID(), myPharmacyDBList.get(position).getId());
-//                final int finalPosition = position;
                 delete.enqueue(new Callback<MyPharmacyDB>() {
                     @Override
                     public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
@@ -117,22 +128,23 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Toast.makeText(v.getContext(), "EDIT CLICKED", Toast.LENGTH_SHORT).show();
 
                 myPharmacyDetailsIntent = new Intent(v.getContext(), MyPharmacyDetailsActivity.class);
-
-
+                myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
+                token = myMedicinesApplication.getToken().getTokenID();
+                medicinesService = myMedicinesApplication.getMedicinesService();
                 String name = myPharmacyDBList.get(position).getMedicines().getMedicinesName();
-               // String name = myPharmacyDBList.get(position).getNazwaLeku();
                 String howMany = myPharmacyDBList.get(position).getHowMany();
                 String isTaken = myPharmacyDBList.get(position).getIsTaken();
                 String expirationDate = myPharmacyDBList.get(position).getExpirationData();
+                String finalPosition = myPharmacyDBList.get(position).getId();
 
                 myPharmacyDetailsIntent.putExtra("nazwaLeku", name);
-                myPharmacyDetailsIntent.putExtra("expirationDate",expirationDate);
+                myPharmacyDetailsIntent.putExtra("expirationDate", expirationDate);
                 myPharmacyDetailsIntent.putExtra("howMany", howMany);
                 myPharmacyDetailsIntent.putExtra("isTaken", isTaken);
-                v.getContext().startActivity(myPharmacyDetailsIntent);
+                myPharmacyDetailsIntent.putExtra("id", finalPosition);
+                myPharmacyDetailsIntent.putExtra("token", token);
 
-                downloadMedicinesById(position);
-                //downloadMedicinesById(position,isTaken,expirationDate,howMany);
+                startActivity(v.getContext(), myPharmacyDetailsIntent, null);
 
             }
         });
@@ -175,12 +187,12 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void setMyPharmacyDBList(List<MyPharmacyDB> myPharmacyDBList) {
         this.myPharmacyDBList = myPharmacyDBList;
 
-        // odśwież RecyclerView
+        // refresh RecyclerView
         notifyDataSetChanged();
     }
 
     public List<MyPharmacyDB> getMyPharmacyDBList() {
-        // odśwież RecyclerView
+        // refresh RecyclerView
         notifyDataSetChanged();
         return myPharmacyDBList;
     }
@@ -188,6 +200,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     protected void downloadMyMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
         medicinesService = myMedicinesApplication.getMedicinesService();
+        token = myMedicinesApplication.getToken().getTokenID();
         final Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(myMedicinesApplication.getToken().getTokenID());
 
         repo.enqueue(new Callback<List<MyPharmacyDB>>() {
@@ -211,57 +224,5 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         });
     }
 
-//    protected void updateMyMedicines(final String isTaken, final String expirationDate, String howMany) {
-protected void updateMyMedicines() {
-        myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
-        medicinesService = myMedicinesApplication.getMedicinesService();
 
-       /* myPharmacyDB.setIsTaken(isTaken);
-        myPharmacyDB.setExpirationData(expirationDate);
-        myPharmacyDB.setHowMany(howMany);*/
-
-    myPharmacyDB.setIsTaken("yes");
-    myPharmacyDB.setExpirationData("04-04-2020");
-    myPharmacyDB.setHowMany("20");
-
-        final Call<MyPharmacyDB> repo = medicinesService.updateMyPharmacy(myMedicinesApplication.getToken().getTokenID(), myPharmacyDB);
-        repo.enqueue(new Callback<MyPharmacyDB>() {
-            @Override
-            public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
-                if(response.isSuccessful()) {
-                    Log.d("TAG", "Zaktualizowano poprawnie");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
-                    Log.d("ERROR", t.toString());
-
-            }
-        });
-    }
-
-    //protected void downloadMedicinesById(final int position, final String isTaken, final String expirationDate, final String howMany) {
-    protected void downloadMedicinesById(final int position) {
-        myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
-        medicinesService = myMedicinesApplication.getMedicinesService();
-        Call<MyPharmacyDB> repo = medicinesService.getMyMedicinesById(myMedicinesApplication.getToken().getTokenID(), idList.get(position));
-        repo.enqueue(new Callback<MyPharmacyDB>() {
-            @Override
-            public void onResponse(Call<MyPharmacyDB> call, Response<MyPharmacyDB> response) {
-                if(response.isSuccessful()) {
-                    Log.d("TAG", "Udalo sie");
-                }
-                myPharmacyDB = response.body();
-//                updateMyMedicines(isTaken,expirationDate,howMany);
-                updateMyMedicines();
-            }
-
-            @Override
-            public void onFailure(Call<MyPharmacyDB> call, Throwable t) {
-                Log.d("TAG", "Nie udalo sie");
-
-            }
-        });
-    }
 }
