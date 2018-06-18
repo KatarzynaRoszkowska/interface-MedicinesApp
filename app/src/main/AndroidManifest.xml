@@ -46,7 +46,7 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="Strona główna"
+            android:label="medicinesApp"
             android:theme="@style/AppTheme.NoActionBar" >
 
             <intent-filter>

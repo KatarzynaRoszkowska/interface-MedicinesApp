@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:textStyle="bold"
         android:text="@string/wersja_aplikacji_1_0" />
 
     </LinearLayout>
@@ -45,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
-
+            android:textStyle="bold"
             android:text="@string/autorzy"
             android:layout_gravity="left"/>
 
@@ -61,10 +62,11 @@
             android:id="@+id/imageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
+            android:background="@color/backgroundcolor"
             android:onClick="KateOnClicked"
-            android:src="@mipmap/github_image_foreground" />
+            android:src="@mipmap/kate_round" />
 
         <ImageButton
             android:id="@+id/imageButton2"
@@ -72,8 +74,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
+            android:background="@color/backgroundcolor"
             android:onClick="MaciekOnClicked"
-            android:src="@mipmap/github_image_foreground" />
+            android:src="@mipmap/maciek_round" />
     </LinearLayout>
 
 </LinearLayout>
