@@ -33,14 +33,14 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
 
     private TextView MPNameDetails, title;
     private EditText MPvalidateDate, MPquantity;
-    String MPvalidateDate1, MPquantity1,position;
+    String MPvalidateDate1, MPquantity1, position;
     private CheckBox MPisTaken;
     String check;
 
     Button button;
     private MedicinesService medicinesService;
     private MyPharmacyDB myPharmacyDB;
-    private String token,titleName, MPisTaken1;
+    private String token, titleName, MPisTaken1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         MPquantity = findViewById(R.id.MPquantity);
         MPisTaken = findViewById(R.id.MPisTaken);
         title = findViewById(R.id.title);
-        titleName=getIntent().getExtras().getString("nazwaLeku");
+        titleName = getIntent().getExtras().getString("nazwaLeku");
 
         position = getIntent().getExtras().getString("id");
         MPNameDetails.setText(getIntent().getExtras().getString("nazwaLeku"));
@@ -65,10 +65,9 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         title.setTextColor(Color.WHITE);
         title.setText(" " + String.valueOf(titleName.charAt(0)));
 
-       downloadMedicinesById(Integer.parseInt(position));
+        downloadMedicinesById(Integer.parseInt(position));
 
-        //TODO KASIA wciaz nie dziala
-        if(check.equals("true")) {
+        if (check.equals("true")) {
             MPisTaken.setChecked(true);
         } else {
             MPisTaken.setChecked(false);
@@ -82,27 +81,25 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
                 MPquantity1 = MPquantity.getText().toString();
                 MPisTaken1 = MPisTaken.getText().toString();
 
-                if (MPquantity.getText().toString().trim().length() == 0
-                        &&
-                        (MPvalidateDate.getText().toString().trim().length() == 0 || MPvalidateDate.getHint().toString() == "yyyy-mm-dd")) {
-                    MPquantity.setError("Puste pole");
-                    MPvalidateDate.setError("Puste pole");
-                }
-                else if(MPquantity.getText().toString().trim().length() == 0){
-                    MPquantity.setError("Puste pole");
-                }
-                else if(MPvalidateDate.getText().toString().trim().length() == 0 || MPvalidateDate.getHint().toString() == "yyyy-mm-dd"){
-                    MPvalidateDate.setError("Puste pole");
-                }
-
-                if(MPisTaken.isChecked()) {
+                if (MPisTaken.isChecked()) {
                     MPisTaken1 = "true";
                 } else {
                     MPisTaken1 = "false";
                 }
 
-                updateMyMedicines(MPvalidateDate1, MPquantity1, MPisTaken1);
+                if (MPquantity.getText().toString().trim().length() == 0
+                        &&
+                        (MPvalidateDate.getText().toString().trim().length() == 0 || MPvalidateDate.getHint().toString() == "yyyy-mm-dd")) {
+                    MPquantity.setError("Puste pole");
+                    MPvalidateDate.setError("Puste pole");
+                } else if (MPquantity.getText().toString().trim().length() == 0) {
+                    MPquantity.setError("Puste pole");
+                } else if (MPvalidateDate.getText().toString().trim().length() == 0 || MPvalidateDate.getHint().toString() == "yyyy-mm-dd") {
+                    MPvalidateDate.setError("Puste pole");
                 }
+                else{
+                updateMyMedicines(MPvalidateDate1, MPquantity1, MPisTaken1);}
+            }
         });
 
     }
@@ -151,17 +148,12 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
     }
 
 
-
     public MedicinesService setMedicinesService() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-// set your desired log level
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-// add your other interceptors …
-
-// add logging as last interceptor
-        httpClient.addInterceptor(logging);  // <-- this is the important line!
+        httpClient.addInterceptor(logging);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.0.31:8080") // Adres serwera
                 .addConverterFactory(GsonConverterFactory.create())

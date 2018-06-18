@@ -67,13 +67,11 @@ public class MyMedicinesApplication extends Application {
 
         Call<ResponseAuthentication> userCredentials = medicinesService.authenticate(loginResponseDto);
         try {
-//            userCredentials.execute();
             userCredentials.enqueue(new Callback<ResponseAuthentication>() {
                 @Override
                 public void onResponse(Call<ResponseAuthentication> call, Response<ResponseAuthentication> response) {
                     if (response.isSuccessful()) {
                         Log.d("EA", "Success: " + response.body().toString());
-//                    }
 
                         Context context = getApplicationContext();
                         CharSequence text = "Login Successful!";
@@ -91,8 +89,6 @@ public class MyMedicinesApplication extends Application {
 
                         Log.d("RES_A", token.tokenID);
                         Log.d("RES_A", responseAuthentication.getTokenID());
-//                        downloadMyMedicines();
-
                     }
                 }
 
@@ -110,29 +106,6 @@ public class MyMedicinesApplication extends Application {
             Log.e("EA", "Exception: " + exception.toString());
         }
         return token;
-    }
-
-    private void downloadMyMedicines() {
-        Call<List<MyPharmacyDB>> repo = medicinesService.getMyPharmacy(responseAuthentication.getTokenID());
-
-        repo.enqueue(new Callback<List<MyPharmacyDB>>() {
-            @Override
-            public void onResponse(Call<List<MyPharmacyDB>> call, Response<List<MyPharmacyDB>> response) {
-                if (response.isSuccessful()) {
-//                    myPharmacyDBAdapter.setMyPharmacyDBList(response.body());
-                    for (int i = 0; i < response.body().size(); i++) {
-//                        MyPharmacyDB myPharmacyDB = response.body().get(i);
-                        Log.d("TAG", response.body().get(i).toString());
-//                        Log.d("TAG", myPharmacyDB.toString());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<MyPharmacyDB>> call, Throwable t) {
-                Log.d("ERROR", t.toString());
-            }
-        });
     }
 
     public MedicinesService setMedicinesService() {

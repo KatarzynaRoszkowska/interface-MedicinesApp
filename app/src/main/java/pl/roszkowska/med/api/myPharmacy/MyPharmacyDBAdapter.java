@@ -37,7 +37,6 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     MyPharmacyActivity myPharmacy;
     private List<String> idList;
     private MyMedicinesApplication myMedicinesApplication;
-    private int finalPosition;
     private MyPharmacyDetailsActivity myPharmacyDetailsActivity;
     private String token;
 

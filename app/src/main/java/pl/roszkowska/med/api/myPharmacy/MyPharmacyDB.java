@@ -13,14 +13,9 @@ public class MyPharmacyDB {
     Medicines medicines;
     String nazwaLeku;
 
-    public String getNazwaLeku() {
-        return nazwaLeku;
-    }
-
     public Medicines getMedicines() {
         return medicines;
     }
-
 
     public String getId() {
         return id;
