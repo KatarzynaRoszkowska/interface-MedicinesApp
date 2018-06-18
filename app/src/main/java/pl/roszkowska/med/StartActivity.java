@@ -10,7 +10,7 @@ public class StartActivity extends AppCompatActivity {
     /*
     Cos trzeba z tym zrobic. Albo usunas w ogole albo jakies inny startActivity zrobic o ktorym mowil prowadzacy
      */
-    private static int SPLASH_TIME_OUT =1; // waiting time to start home acivity
+    /*private static int SPLASH_TIME_OUT =1; // waiting time to start home acivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,5 +24,5 @@ public class StartActivity extends AppCompatActivity {
                 finish();
             }
         },SPLASH_TIME_OUT);
-    }
+    }*/
 }
