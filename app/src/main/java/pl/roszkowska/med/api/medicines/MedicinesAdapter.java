@@ -48,6 +48,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
         return holder;
     }
 
+    // this method passes selected values to the appropriate fields and then placing them into the application
     @Override
     public void onBindViewHolder(@NonNull MedicinesViewHolder holder, int position) {
         medicines = medicinesList.get(position);

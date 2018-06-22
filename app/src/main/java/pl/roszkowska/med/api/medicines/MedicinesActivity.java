@@ -22,9 +22,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-// The class responsible for displaying the drug database.
-// The possibility of adding the selected drug to your own first aid kit
+/* The class responsible for displaying the drug database.
+ The possibility of adding the selected drug to your own first aid kit */
+
 public class MedicinesActivity extends AppCompatActivity {
+
     RecyclerView recyclerView;
     MedicinesAdapter medicinesAdapter;
     List<Medicines> medicinesList;

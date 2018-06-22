@@ -42,6 +42,8 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
     private MyPharmacyDB myPharmacyDB;
     private String token, titleName, MPisTaken1;
 
+
+    // the method that displays activity_my_pharmacy_details layout
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,8 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
         titleName = getIntent().getExtras().getString("nazwaLeku");
 
+
+        //set the values from previous Intent into fields
         position = getIntent().getExtras().getString("id");
         MPNameDetails.setText(getIntent().getExtras().getString("nazwaLeku"));
         MPvalidateDate.setText(getIntent().getExtras().getString("expirationDate"));
@@ -67,8 +71,11 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
 
         downloadMedicinesById(Integer.parseInt(position));
 
+        // if the user is taking the drug (myPharmacy activity), set the checkbox in the medicine details as true and let the user edit the value
         if (check.equals("true")) {
             MPisTaken.setChecked(true);
+
+            // if the user does not take the drug (myPharmacy activity), set the checkbox in the medicine details as false and let the user edit the value
         } else {
             MPisTaken.setChecked(false);
         }
@@ -77,6 +84,7 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                 // user set own values
                 MPvalidateDate1 = MPvalidateDate.getText().toString();
                 MPquantity1 = MPquantity.getText().toString();
                 MPisTaken1 = MPisTaken.getText().toString();

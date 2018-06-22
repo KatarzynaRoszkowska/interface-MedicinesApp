@@ -69,7 +69,7 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return new MyPharmacyViewHolder(view);
     }
 
-
+    // this method passes selected values to the appropriate fields and then placing them into the application
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         idList = myPharmacy.getIdList();
@@ -79,12 +79,16 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         myPharmacyViewHolder.name.setText(myPharmacyDB.getMedicines().getMedicinesName());
         myPharmacyViewHolder.howMany.setText("Ilość w opakowaniu : " + myPharmacyDB.getHowMany());
         myPharmacyViewHolder.validate.setText("Termin ważności: " + myPharmacyDB.getExpirationData());
+
+        // if you take medicine then show green checbox in application
         if (myPharmacyDB.getIsTaken() == "true")
             myPharmacyViewHolder.check.setImageResource(R.drawable.ic_check_box_black_24dp);
+
+        // if you do not take the medicine the show red checbox in application
         if (myPharmacyDB.getIsTaken() == "false" || myPharmacyDB.getIsTaken() == null)
             myPharmacyViewHolder.check.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp);
 
-
+        // delete selected medicines from myPharmacy
         myPharmacyViewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +125,8 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             }
         });
+
+        //edit selected medicine form MyPharmacy and set the values like expirationDate, howMany, isTaken
         myPharmacyViewHolder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,6 +160,8 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return myPharmacyDBList.size();
     }
 
+
+    // method that remove item from RecyclerView
     public void removeItem(int position) {
         myPharmacyDBList.remove(position);
         notifyItemRemoved(position);

@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity
         return service;
     }
 
+    // the method that displays activity_main layout
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity
         myPharm = findViewById(R.id.myPharmacy1);
         medicines = findViewById(R.id.listOfMedicines);
 
-        //listen for clicks
+        //listen for clicks scanBtn. After clicked the button, barcode scanning activity opens
         scanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //listen for clicks myPharm. After clicked the button, myPharmacy activity opens
         myPharm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //listen for clicks medicines. After clicked the button, medicines activity opens
         medicines.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,9 +135,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        // After item clicked aboutUser activity opens
         if (id == R.id.aboutUser) {
             Intent userIntent = new Intent(MainActivity.this, UserInformationActivity.class);
             MainActivity.this.startActivity(userIntent);
+
+            // After item clicked aboutApp activity opens
         } else if (id == R.id.aboutApp) {
             Intent appIntent = new Intent(MainActivity.this, AppInformationActivity.class);
             MainActivity.this.startActivity(appIntent);
