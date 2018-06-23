@@ -22,8 +22,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/* The class responsible for displaying the drug database.
- The possibility of adding the selected drug to your own first aid kit */
+/**
+ * The class responsible for displaying the drug database.
+ * The possibility of adding the selected drug to your own first aid kit
+ */
 
 public class MedicinesActivity extends AppCompatActivity {
 
@@ -39,6 +41,10 @@ public class MedicinesActivity extends AppCompatActivity {
     String idMed;
 
 
+    /**
+     * the method that displays activity_medicines layout
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +61,13 @@ public class MedicinesActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(medicinesAdapter);
 
+
         medicinesAdapter.setOnItemClickListener(new MedicinesAdapter.OnItemClickListener() {
+            /**
+             * The method passes parameters, retrieved from the database,
+             * which are displayed in the form of tiles in the application window
+             * @param position is the position of the medicines in recyclerView
+             */
             @Override
             public void onItemClick(int position) {
                 String medicinesName = medicinesAdapter.getMedicinesList().get(position).getMedicinesName();
@@ -72,6 +84,9 @@ public class MedicinesActivity extends AppCompatActivity {
 
                 medicinesAdapter.notifyItemChanged(position);
 
+                /**
+                 * start a new activity with addition of parameters
+                 */
                 Intent showDetailsMedicinesIntent = new Intent(MedicinesActivity.this, ShowDetailsMedicinesActivity.class);
 
                 showDetailsMedicinesIntent.putExtra("medicinesName", medicinesName);
@@ -100,6 +115,11 @@ public class MedicinesActivity extends AppCompatActivity {
                 return false;
             }
 
+            /**
+             * after selecting the appropriate drug, insert into the My Pharmacy table
+             * @param viewHolder
+             * @param direction the direction in which you can make a swipe on an recycler item
+             */
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();

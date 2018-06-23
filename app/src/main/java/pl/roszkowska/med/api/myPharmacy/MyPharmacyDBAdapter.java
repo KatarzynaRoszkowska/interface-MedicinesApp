@@ -26,7 +26,10 @@ import retrofit2.Response;
 
 import static android.support.v4.content.ContextCompat.startActivity;
 
-// The adapter class provides value transfer and inserts in the appropriate fields
+/**
+ * The adapter class provides value transfer and inserts in the appropriate fields
+ */
+
 public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
@@ -69,7 +72,10 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return new MyPharmacyViewHolder(view);
     }
 
-    // this method passes selected values to the appropriate fields and then placing them into the application
+    /**
+     * this method passes selected values to the appropriate fields and then placing them into the application
+     */
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         idList = myPharmacy.getIdList();
@@ -80,15 +86,24 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         myPharmacyViewHolder.howMany.setText("Ilość w opakowaniu : " + myPharmacyDB.getHowMany());
         myPharmacyViewHolder.validate.setText("Termin ważności: " + myPharmacyDB.getExpirationData());
 
-        // if you take medicine then show green checbox in application
+        /**
+         * if you take medicine then show green checbox in application
+         */
+
         if (myPharmacyDB.getIsTaken() == "true")
             myPharmacyViewHolder.check.setImageResource(R.drawable.ic_check_box_black_24dp);
 
-        // if you do not take the medicine the show red checbox in application
+        /**
+         * if you do not take the medicine the show red checbox in application
+         */
+
         if (myPharmacyDB.getIsTaken() == "false" || myPharmacyDB.getIsTaken() == null)
             myPharmacyViewHolder.check.setImageResource(R.drawable.ic_check_box_outline_blank_black_24dp);
 
-        // delete selected medicines from myPharmacy
+        /**
+         * delete selected medicines from myPharmacy
+         */
+
         myPharmacyViewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +129,9 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         //
                         notifyItemRemoved(position);
                         notifyDataSetChanged();
+                        /**
+                         * remove the item from recycler view
+                         */
                         removeItem(position);
                         downloadMyMedicines();
                         Log.d("DELETE", "Nie udało się usunąc leku");
@@ -121,12 +139,15 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 });
                 Toast.makeText(v.getContext(), "LEK USUNIĘTO", Toast.LENGTH_SHORT).show();
-                // remove the item from recycler view
+
 
             }
         });
 
-        //edit selected medicine form MyPharmacy and set the values like expirationDate, howMany, isTaken
+        /**
+         * edit selected medicine form MyPharmacy and set the values like expirationDate, howMany, isTaken
+         */
+
         myPharmacyViewHolder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,7 +182,10 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    // method that remove item from RecyclerView
+    /**
+     *  method that remove item from RecyclerView
+     */
+
     public void removeItem(int position) {
         myPharmacyDBList.remove(position);
         notifyItemRemoved(position);
@@ -193,12 +217,18 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void setMyPharmacyDBList(List<MyPharmacyDB> myPharmacyDBList) {
         this.myPharmacyDBList = myPharmacyDBList;
 
-        // refresh RecyclerView
+        /**
+         * refresh RecyclerView
+         */
+
         notifyDataSetChanged();
     }
 
     public List<MyPharmacyDB> getMyPharmacyDBList() {
-        // refresh RecyclerView
+        /**
+         * refresh RecyclerView
+         */
+
         notifyDataSetChanged();
         return myPharmacyDBList;
     }

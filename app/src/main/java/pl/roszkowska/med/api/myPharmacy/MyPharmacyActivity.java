@@ -44,7 +44,10 @@ public class MyPharmacyActivity extends AppCompatActivity {
         return idList;
     }
 
-    // the method that displays activity_my_pharmacy layout
+    /**
+     * the method that displays activity_my_pharmacy layout
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

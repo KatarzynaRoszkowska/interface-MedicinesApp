@@ -23,7 +23,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/// A class that allows you to view the information and the scanned medicine
+/**
+ * A class that allows you to view the information and the scanned medicine
+ */
+
 
 public class ScanTheCode extends AppCompatActivity {
     private TextView contentTxt, composition, formOfTheDrag, quantity, wayOfGiving, nameOfMedicine;

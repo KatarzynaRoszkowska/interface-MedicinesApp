@@ -7,13 +7,20 @@ import android.widget.TextView;
 
 import pl.roszkowska.med.R;
 
-// The class displays the details of the drug selected by the user
+/**
+ * The class displays the details of the drug selected by the user
+ */
+
 
 public class ShowDetailsMedicinesActivity extends AppCompatActivity {
 
     private TextView detailsMedicinesName, detailsComposition, detailsFormOfTheDrag, detailsCategory, detailsSpeciality,
             detailsActivity, detailsIndications, detailsWayOfGiving, detailsPossibleSideEffect, detailsDose, detailsIsPrescription;
 
+    /**
+     * the method that displays activity_show_details_medicines layout
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

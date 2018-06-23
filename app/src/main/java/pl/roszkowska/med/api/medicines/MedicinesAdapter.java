@@ -14,7 +14,10 @@ import java.util.List;
 import pl.roszkowska.med.R;
 
 
-// The adapter class provides value transfer and inserts in the appropriate fields
+/**
+ * The adapter class provides value transfer and inserts in the appropriate fields
+ */
+
 
 public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.MedicinesViewHolder> {
 
@@ -48,7 +51,9 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
         return holder;
     }
 
-    // this method passes selected values to the appropriate fields and then placing them into the application
+    /**
+     * this method passes selected values to the appropriate fields and then placing them into the application
+     */
     @Override
     public void onBindViewHolder(@NonNull MedicinesViewHolder holder, int position) {
         medicines = medicinesList.get(position);
@@ -74,6 +79,10 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
 
     }
 
+    /**
+     *
+     * @return the size of the medicinesList
+     */
     @Override
     public int getItemCount() {
 
@@ -81,7 +90,7 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
     }
 
     class MedicinesViewHolder extends RecyclerView.ViewHolder {
-        TextView medicinesName, speciality, composition, formOfTheDrag, ean;
+        TextView medicinesName, speciality, composition, formOfTheDrag;
 
         public MedicinesViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -109,10 +118,17 @@ public class MedicinesAdapter extends RecyclerView.Adapter<MedicinesAdapter.Medi
     public void setMedicinesList(List<Medicines> medicinesList) {
         this.medicinesList = medicinesList;
 
-        // refresh RecyclerView
+        /**
+         *  refresh RecyclerView
+         */
+
         notifyDataSetChanged();
     }
 
+    /**
+     *
+     * @return the list od Medicines
+     */
     public List<Medicines> getMedicinesList() {
         return medicinesList;
     }
