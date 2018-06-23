@@ -27,7 +27,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-// The class displays the selected drug by the user, allows you to enter your own data on the drug such as quantity, expiry date
+/**
+ * The class displays the selected drug by the user, allows you to enter your own data on the drug such as quantity, expiry date
+ */
+
 
 public class MyPharmacyDetailsActivity extends AppCompatActivity {
 
@@ -43,7 +46,10 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
     private String token, titleName, MPisTaken1;
 
 
-    // the method that displays activity_my_pharmacy_details layout
+    /**
+     * the method that displays activity_my_pharmacy_details layout
+     */
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +64,10 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         titleName = getIntent().getExtras().getString("nazwaLeku");
 
 
-        //set the values from previous Intent into fields
+        /**
+         * set the values from previous Intent into fields
+         */
+
         position = getIntent().getExtras().getString("id");
         MPNameDetails.setText(getIntent().getExtras().getString("nazwaLeku"));
         MPvalidateDate.setText(getIntent().getExtras().getString("expirationDate"));
@@ -71,12 +80,16 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
 
         downloadMedicinesById(Integer.parseInt(position));
 
-        // if the user is taking the drug (myPharmacy activity), set the checkbox in the medicine details as true and let the user edit the value
+        /**
+         * if the user is taking the drug (myPharmacy activity), set the checkbox in the medicine details as true and let the user edit the value
+         */
         if (check.equals("true")) {
             MPisTaken.setChecked(true);
 
-            // if the user does not take the drug (myPharmacy activity), set the checkbox in the medicine details as false and let the user edit the value
-        } else {
+            /**
+             * if the user does not take the drug (myPharmacy activity), set the checkbox in the medicine details as false and let the user edit the value
+             */
+             } else {
             MPisTaken.setChecked(false);
         }
 
@@ -84,7 +97,10 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                 // user set own values
+                /**
+                 *   user set own values
+                 */
+
                 MPvalidateDate1 = MPvalidateDate.getText().toString();
                 MPquantity1 = MPquantity.getText().toString();
                 MPisTaken1 = MPisTaken.getText().toString();
