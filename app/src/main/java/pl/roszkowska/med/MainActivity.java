@@ -26,6 +26,9 @@ import pl.roszkowska.med.api.service.MedicinesService;
 import pl.roszkowska.med.api.userInformation.UserInformationActivity;
 import retrofit2.Retrofit;
 
+/**
+ * This class is the main activity and display main content.
+ */
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -152,7 +155,12 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
+    /**
+     * This metod validates the results
+     * @param requestCode downloaded code
+     * @param resultCode processed
+     * @param intent These are the possible flags that can be used
+     */
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
         //pobranie wyniku za pomocą klasy IntentResult

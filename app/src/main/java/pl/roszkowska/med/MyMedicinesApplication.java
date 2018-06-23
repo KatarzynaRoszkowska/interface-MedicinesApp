@@ -20,6 +20,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * This class is created to initiate a connection to the server
+ */
 public class MyMedicinesApplication extends Application {
     private static MyMedicinesApplication myMedicinesApplication;
     MedicinesService medicinesService;
@@ -56,6 +59,10 @@ public class MyMedicinesApplication extends Application {
         authenticateUser();
     }
 
+    /**
+     * This method is used to do authentication user. In this case is it administation.
+     * @return token
+     */
     public TokenCredentials authenticateUser() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -108,6 +115,10 @@ public class MyMedicinesApplication extends Application {
         return token;
     }
 
+    /**
+     * This method sets the basic parameters to run the medicines service
+     * @return medicines service interface
+     */
     public MedicinesService setMedicinesService() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 // set your desired log level
@@ -116,7 +127,7 @@ public class MyMedicinesApplication extends Application {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 // add your other interceptors …
 
-// add logging as last interceptor
+//The Retrofit class generates an implementation of the MedicinesService interface.
         httpClient.addInterceptor(logging);  // <-- this is the important line!
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.0.122:8080") // Adres serwera

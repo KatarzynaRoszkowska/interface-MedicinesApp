@@ -3,6 +3,9 @@ package pl.roszkowska.med;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+/**
+ * This class create new Activity
+ */
 public class UserInformationActivity extends AppCompatActivity {
 
     @Override

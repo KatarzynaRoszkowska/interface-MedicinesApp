@@ -1,5 +1,8 @@
 package pl.roszkowska.med;
 
+/**
+ * This class stores token
+ */
 public class TokenCredentials {
     String tokenID;
 
