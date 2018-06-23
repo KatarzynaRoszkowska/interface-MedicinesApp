@@ -144,7 +144,9 @@ public class MedicinesActivity extends AppCompatActivity {
 
         downloadMedicines();
     }
-
+    /**
+     * the method is used to retrieve drug data from the server
+     */
     private void downloadMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
 
@@ -172,6 +174,9 @@ public class MedicinesActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * the method adds a drug from the pharmacy to my pharmacy
+     */
     private void insertMedi() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();

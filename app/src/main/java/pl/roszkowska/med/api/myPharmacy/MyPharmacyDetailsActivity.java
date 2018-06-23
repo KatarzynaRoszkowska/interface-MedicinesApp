@@ -112,6 +112,12 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * the method is used to ipdate drug data from the server
+     * @param Data expiration data of drugs
+     * @param Quantity number of drugs
+     * @param isTaken current taking of the drug
+     */
     protected void updateMyMedicines(String Data, String Quantity, String isTaken) {
         myPharmacyDB.setIsTaken(isTaken);
         myPharmacyDB.setExpirationData(Data);
@@ -135,6 +141,10 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * the method is used to retrieve drug data by ID from the server
+     * @param position
+     */
     protected void downloadMedicinesById(final int position) {
         medicinesService = setMedicinesService();
         Call<MyPharmacyDB> repo = medicinesService.getMyMedicinesById(token, String.valueOf(position));
@@ -155,7 +165,10 @@ public class MyPharmacyDetailsActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * This method sets the basic parameters to run the medicines service
+     * @return medicines service interface
+     */
     public MedicinesService setMedicinesService() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);

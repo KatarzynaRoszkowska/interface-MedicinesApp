@@ -67,6 +67,9 @@ public class MyPharmacyActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * the method is used to retrieve drug data from the server
+     */
     protected void downloadMyMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) getApplication();
         medicinesService = myMedicinesApplication.getMedicinesService();

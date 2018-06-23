@@ -203,6 +203,9 @@ public class MyPharmacyDBAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return myPharmacyDBList;
     }
 
+    /**
+     * the method is used to retrieve drug data from the server
+     */
     protected void downloadMyMedicines() {
         myMedicinesApplication = (MyMedicinesApplication) context.getApplicationContext();
         medicinesService = myMedicinesApplication.getMedicinesService();
